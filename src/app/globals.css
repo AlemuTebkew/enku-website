@@ -1,7 +1,9 @@
+/* Import Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom CSS variables and styles */
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -16,6 +18,7 @@
   }
 }
 
+/* Body styles using CSS variables */
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -26,6 +29,7 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* Custom utility */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
