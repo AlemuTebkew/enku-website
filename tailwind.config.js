@@ -19,10 +19,9 @@ module.exports = {
         secondary: '#FF92BB',
         text: '#333333', // Text color
         background: '#FFFFFF', // Background color
-        // Additional colors based on Enku Beauty's preferences
-        softPink: '#FFD9E6',
-        softPurple: '#B79BF2',
-        warmGray: '#E5E5E5',
+        tertiary: '#E2A1B0',
+        tertiary1: '#FFE3E3',
+        black: '#000000'
         // Add more colors as needed
       },
       maxWidth: {
