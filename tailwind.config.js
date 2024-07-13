@@ -11,8 +11,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#FF6B6B', // Primary color (pink)
-        secondary: '#6B46C1', // Secondary color (purple)
+        // primary: '#FF6B6B', // Primary color (pink)
+        primary: '#FC2779',
+        // primaryTemp: '#FC2779', // Primary color (pink)
+        // secondaryTemp: '#FF92BB', // Primary color (pink)
+        // secondary: '#6B46C1', // Secondary color (purple)
+        secondary: '#FF92BB',
         text: '#333333', // Text color
         background: '#FFFFFF', // Background color
         // Additional colors based on Enku Beauty's preferences
@@ -21,9 +25,17 @@ module.exports = {
         warmGray: '#E5E5E5',
         // Add more colors as needed
       },
+      maxWidth: {
+        "c-1390": "86.875rem",
+        "c-1315": "82.188rem",
+        "c-1280": "80rem",
+        "c-1235": "77.188rem",
+        "c-1154": "72.125rem",
+        "c-1016": "63.5rem",
+      },
       fontFamily: {
-        body: ['Roboto', 'sans-serif'], // Body font
-        heading: ['Montserrat', 'sans-serif'], // Heading font
+        body: ['Inter', 'sans-serif'], // Body font
+        heading: ['Inter', 'sans-serif'], // Heading font
       },
       fontSize: {
         // Custom font sizes based on Enku Beauty's design requirements
