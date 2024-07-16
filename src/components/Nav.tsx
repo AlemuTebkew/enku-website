@@ -1,10 +1,23 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { cn } from "@/lib/utils"
+// import { Icons } from "@/components/icons"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
 import SearchBar from './SearchBar'
 import { Button, Divider, Menu, MenuItem} from "@mui/material";
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Sidebar from './Sidebar';
+import Link from 'next/link'
+import ProductList from '@/features/products/pages/ProductList'
 
 
 const Nav = () => {
@@ -22,6 +35,70 @@ const Nav = () => {
     'Fragrance',
     'Lingerie & Accessories'
   ];
+
+  const components: { title: string; href: string; description: string }[] = [
+    {
+      title: "Alert Dialog",
+      href: "/docs/primitives/alert-dialog",
+      description:
+        "A modal dialog that interrupts the user with important content and expects a response.",
+    },
+    {
+      title: "Hover Card",
+      href: "/docs/primitives/hover-card",
+      description:
+        "For sighted users to preview content available behind a link.",
+    },
+    {
+      title: "Progress",
+      href: "/docs/primitives/progress",
+      description:
+        "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    },
+    {
+      title: "Scroll-area",
+      href: "/docs/primitives/scroll-area",
+      description: "Visually or semantically separates content.",
+    },
+    {
+      title: "Tabs",
+      href: "/docs/primitives/tabs",
+      description:
+        "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+    },
+    {
+      title: "Tooltip",
+      href: "/docs/primitives/tooltip",
+      description:
+        "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    },
+  ]
+
+  const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+  >(({ className, title, children, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "w-[1390px] h-screen z-50 block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              className
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+              {children}
+            </p>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    )
+  })
+  ListItem.displayName = "ListItem"
   
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +110,7 @@ const Nav = () => {
     if (window.scrollY >= 80) {
       setStickyMenu(true);
     } else {
-      setStickyMenu(false);
+      setStickyMenu(true);
     }
   };
 
@@ -47,9 +124,8 @@ const Nav = () => {
   const closeNavigation = () => {
     setNavigationOpen(false);
   };
-  
   return (
-    <div className={`w-full shadow-lg fixed z-99999 py-0 xl:py-7 ${
+    <div className={`fixed left-0 top-0 z-99999 w-full py-0 xl:py-7 shadow-lg ${
       stickyMenu ? "bg-white !py-4 shadow transition duration-100" : ""
     }`}>
       <div className='hidden xl:block'>
@@ -60,7 +136,50 @@ const Nav = () => {
               <path d="M386.477 725.219C484.133 725.219 561.77 694.62 619.387 633.422L643.801 666.137C600.507 725.056 535.891 762.979 449.953 779.906C422.935 785.44 394.94 788.207 365.969 788.207C309.654 788.207 258.872 778.441 213.625 758.91C168.378 739.053 129.966 712.361 98.3906 678.832C32.9609 609.496 0.246094 523.884 0.246094 421.996C0.246094 314.574 30.0312 221.964 89.6016 144.164C129.641 91.7552 181.236 54.9714 244.387 33.8125C276.288 23.3958 305.91 18.1875 333.254 18.1875C360.923 18.1875 381.268 19.0013 394.289 20.6289C407.635 22.2565 419.517 24.3724 429.934 26.9766C440.35 29.5807 449.628 32.5104 457.766 35.7656C466.229 38.6953 475.344 41.7878 485.109 45.043C511.802 54.1576 533.286 58.7148 549.562 58.7148C565.839 58.7148 583.579 45.3685 602.785 18.6758H649.66L584.719 277.465H538.332C539.96 252.4 540.773 234.822 540.773 224.73C540.773 203.246 538.169 184.366 532.961 168.09C528.078 151.488 519.615 137.328 507.57 125.609C495.526 113.891 481.203 103.962 464.602 95.8242C431.398 79.5482 394.777 71.4102 354.738 71.4102C315.025 71.4102 280.845 79.3854 252.199 95.3359C223.879 111.286 199.953 133.096 180.422 160.766C143.638 213.826 121.665 285.928 114.504 377.074H429.445L416.262 432.25H113.039C116.294 508.096 141.359 574.503 188.234 631.469C239.992 693.969 306.073 725.219 386.477 725.219ZM718.996 735.473L740.969 732.543C769.94 727.986 787.844 723.428 794.68 718.871C807.049 710.733 813.234 695.596 813.234 673.461V15.2578L854.738 0.609375L1335.21 605.102V147.582C1335.21 116.332 1328.7 95.987 1315.68 86.5469C1305.91 79.3854 1280.85 74.0143 1240.48 70.4336V28.9297H1498.29V70.4336C1481.04 72.3867 1466.72 74.3398 1455.32 76.293C1443.93 77.9206 1434.82 81.1758 1427.98 86.0586C1415.61 94.8477 1409.43 114.867 1409.43 146.117V787.719L1371.34 798.949L887.453 190.062V658.324C887.453 686.319 893.964 705.199 906.984 714.965C916.424 721.801 931.887 726.846 953.371 730.102C974.855 733.031 987.714 734.822 991.945 735.473V776H718.996V735.473ZM1974.86 71.4102V28.9297H2227.3V71.4102C2198.33 74.9909 2173.26 86.8724 2152.1 107.055C2144.94 113.891 2137.45 121.866 2129.64 130.98L1931.4 389.77L2318.61 895.141L2285.4 922.973L1812.75 422.484L2012.94 155.883C2035.73 129.841 2047.12 109.333 2047.12 94.3594C2047.12 79.0599 2023.03 71.4102 1974.86 71.4102ZM1578.86 735.473L1595.95 733.031C1625.57 729.125 1643.31 723.754 1649.17 716.918C1655.36 710.082 1659.26 701.456 1660.89 691.039C1662.52 680.297 1663.33 665.486 1663.33 646.605V157.348C1663.33 120.238 1659.43 98.1029 1651.61 90.9414C1644.13 83.7799 1634.69 79.2227 1623.29 77.2695C1612.23 74.9909 1597.41 73.0378 1578.86 71.4102V28.9297H1846.93V71.4102C1828.05 73.0378 1812.91 74.8281 1801.52 76.7812C1790.45 78.4089 1781.98 81.9896 1776.12 87.5234C1770.27 93.0573 1766.52 101.195 1764.89 111.938C1763.27 122.68 1762.45 137.816 1762.45 157.348V646.605C1762.45 683.064 1765.71 704.874 1772.22 712.035C1779.05 719.197 1787.19 723.917 1796.63 726.195C1806.4 728.148 1819.58 730.264 1836.18 732.543L1857.18 735.473V776H1578.86V735.473ZM2698.49 798.949C2614.83 751.749 2552.17 706.013 2510.5 661.742C2462 610.31 2427.17 546.833 2406.01 471.312C2384.52 394.164 2373.78 291.625 2373.78 163.695C2373.78 126.26 2371.18 103.637 2365.97 95.8242C2357.51 82.4779 2337.16 74.3398 2304.93 71.4102V28.9297H2555.42V71.4102C2522.54 74.6654 2501.06 81.8268 2490.97 92.8945C2481.53 102.986 2476.81 129.516 2476.81 172.484C2476.81 215.453 2477.62 258.259 2479.25 300.902C2480.88 343.22 2484.3 381.306 2489.5 415.16C2495.04 449.014 2502.69 479.451 2512.45 506.469C2522.22 533.161 2535.24 558.552 2551.52 582.641C2580.49 625.284 2629.48 674.112 2698.49 729.125C2765.55 674.438 2813.23 625.609 2841.55 582.641C2870.53 538.37 2889.73 482.868 2899.17 416.137C2906.01 366.332 2909.43 278.93 2909.43 153.93C2909.43 123.331 2905.68 103.962 2898.2 95.8242C2886.15 82.8034 2863.85 74.6654 2831.3 71.4102V28.9297H3080.81V71.4102C3049.56 75.3164 3030.19 82.6406 3022.71 93.3828C3015.87 103.148 3012.45 133.422 3012.45 184.203C3012.45 234.984 3009.85 285.603 3004.64 336.059C2999.76 386.514 2991.95 431.599 2981.2 471.312C2970.46 511.026 2956.63 546.345 2939.7 577.27C2923.1 608.194 2903.24 636.352 2880.13 661.742C2840.42 705.688 2779.87 751.423 2698.49 798.949Z" fill="#FC2779"/>
               </svg>
             </div>
-            <ul className='flex gap-10 items-center flex-1 '>
+            <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <Link href="/docs" legacyBehavior passHref>
+                  <NavigationMenuLink className={`font-medium font-body hover:text-primary cursor-pointer ${navigationMenuTriggerStyle()}`}>
+                    <p className='font-medium font-body hover:text-primary cursor-pointer'>Categories</p>
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Brands</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {components.map((component) => (
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        href={component.href}
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Beauty Advice</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {components.map((component) => (
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        href={component.href}
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+            </NavigationMenu>
+            {/* <ul className='flex gap-10 items-center flex-1 '>
               <li>
                 <p className='font-medium font-body hover:text-primary cursor-pointer'>Categories</p>
               </li>
@@ -120,7 +239,7 @@ const Nav = () => {
               <li>
                 <p className='font-medium font-body hover:text-primary cursor-pointer'>Beauty Advice</p>
               </li>
-            </ul>
+            </ul> */}
           </div>
           <div className='flex flex-1 w-full gap-4 items-center'>
             <SearchBar/>
@@ -132,33 +251,54 @@ const Nav = () => {
           </div>
         </div>
         <Divider className='mt-2'/>
-        <ul className='mx-auto max-w-c-1390 flex items-center gap-8 py-4 relative lg:px-12 2xl:px-0'>
-          {categories.map((category, index) => (
-            <li
-              key={index}
-              onMouseEnter={() => setHoveredCategory(category)}
-              onMouseLeave={() => setHoveredCategory(null)}
-              className=''
-            >
-              <p
-                className='font-body text-sm hover:text-primary cursor-pointer'
-              >
-                {category}
-                {hoveredCategory === category && (
-                  <div className="absolute left-0 top-full w-full bg-white shadow-lg z-10">
-                    <div className="grid grid-cols-4 gap-4 p-4">
-                      <h3 className="font-semibold mb-2">{category}</h3>
-                      <ul>
-                        <li><a href="#" className="block py-1">Item 1</a></li>
-                        <li><a href="#" className="block py-1">Item 2</a></li>
-                        <li><a href="#" className="block py-1">Item 3</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                )}
-              </p>
-            </li>
+        <ul className='mx-auto max-w-c-1390 flex items-center gap-8 py-4 relative lg:px-12 2xl:px-0 z-0'>
+          <NavigationMenu>
+            <NavigationMenuList>
+            {categories.map((category, index) => (
+            <NavigationMenuItem>
+            <NavigationMenuTrigger>{category}</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                {components.map((component) => (
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+            // <li
+            //   key={index}
+            //   onMouseEnter={() => setHoveredCategory(category)}
+            //   onMouseLeave={() => setHoveredCategory(null)}
+            //   className=''
+            // >
+            //   <p
+            //     className='font-body text-sm hover:text-primary cursor-pointer'
+            //   >
+            //     {category}
+            //     {hoveredCategory === category && (
+            //       <div className="absolute left-0 top-full w-full bg-white shadow-lg z-10">
+            //         <div className="grid grid-cols-4 gap-4 p-4">
+            //           <h3 className="font-semibold mb-2">{category}</h3>
+            //           <ul>
+            //             <li><a href="#" className="block py-1">Item 1</a></li>
+            //             <li><a href="#" className="block py-1">Item 2</a></li>
+            //             <li><a href="#" className="block py-1">Item 3</a></li>
+            //           </ul>
+            //         </div>
+            //       </div>
+            //     )}
+            //   </p>
+            // </li>
           ))}
+            </NavigationMenuList>
+          </NavigationMenu>
+         
         <li className='bg-tertiary text-background px-4 py-1 rounded'>
             Offers
           </li>

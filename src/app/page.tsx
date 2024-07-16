@@ -1,12 +1,10 @@
-import Header from '@/components/Header';
-import Nav from '@/components/Nav';
+import ProductDetail from '@/features/products/pages/ProductDetail';
 
 
 export default function Home() {
   return (
-    <>
-      <Header/>
-      <Nav/>
-    </>
+    <main className='mt-40'>
+      <ProductDetail/>
+    </main>
   );
 }
