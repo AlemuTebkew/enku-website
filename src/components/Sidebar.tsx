@@ -28,6 +28,30 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
           <li className='text-background'>Men</li>
           <li className='text-background'>Fragrance</li>
           <li className='text-background'>Lingerie & Accessories</li>
+          <li className='text-background'>Home</li>
+          <li className='text-background'>Makeup</li>
+          <li className='text-background'>Skin</li>
+          <li className='text-background'>Hair</li>
+          <li className='text-background'>Appliances</li>
+          <li className='text-background'>Bath & Body</li>
+          <li className='text-background'>Natural</li>
+          <li className='text-background'>Mom & Baby</li>
+          <li className='text-background'>Health & Wellness</li>
+          <li className='text-background'>Men</li>
+          <li className='text-background'>Fragrance</li>
+          <li className='text-background'>Lingerie & Accessories</li>
+          <li className='text-background'>Home</li>
+          <li className='text-background'>Makeup</li>
+          <li className='text-background'>Skin</li>
+          <li className='text-background'>Hair</li>
+          <li className='text-background'>Appliances</li>
+          <li className='text-background'>Bath & Body</li>
+          <li className='text-background'>Natural</li>
+          <li className='text-background'>Mom & Baby</li>
+          <li className='text-background'>Health & Wellness</li>
+          <li className='text-background'>Men</li>
+          <li className='text-background'>Fragrance</li>
+          <li className='text-background'>Lingerie & Accessories</li>
         </ul>
       </nav>
     </div>

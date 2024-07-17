@@ -125,7 +125,7 @@ const Nav = () => {
     setNavigationOpen(false);
   };
   return (
-    <div className={`fixed left-0 top-0 z-99999 w-full py-0 xl:py-7 shadow-lg ${
+    <div className={`fixed left-0 top-0 z-50 w-full py-0 xl:py-7 shadow-lg ${
       stickyMenu ? "bg-white !py-4 shadow transition duration-100" : ""
     }`}>
       <div className='hidden xl:block'>
@@ -248,29 +248,50 @@ const Nav = () => {
             >
               Sign in
             </Button>
+            <button type="button" id="header-bag-icon" className="css-qksfuv">
+              <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="24px"
+              height="24px"
+              viewBox="0 0 23 20">
+                  <path className="text-primaryT" fill="#fff" stroke="currentColor" d="M11.4967297,19.0021565 C12.1501607,18.4744665 15.7313591,16.1461023 16.6556949,15.4660553 C20.4639993,12.6642314 22.5,9.83806845 22.500204,6.31427989 C22.4080534,3.08900922 19.7336922,0.5 16.5,0.5 C14.6798666,0.5 13.0132876,1.30878098 11.8904344,2.71234752 L11.5,3.20039053 L11.1095656,2.71234752 C9.98671236,1.30878098 8.32013337,0.5 6.5,0.5 C3.16873226,0.5 0.5,3.08355995 0.5,6.3 C0.5,9.87466924 2.55294628,12.7216506 6.38828771,15.5301224 C7.34346545,16.229562 10.7334347,18.4195137 11.4967297,19.0021565 Z"></path>
+              </svg>
+            </button>
+            <button type="button" id="header-bag-icon" className="css-qksfuv">
+              <svg 
+              width="24px" 
+              height="24px" 
+              viewBox="0 0 24 24" 
+              version="1.1" 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="css-7zhfhb"
+              >
+                <g id="ic-bag" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="ic_bag" transform="translate(2.000000, 2.000000)"><path d="M18.5,6.15 L18.5,14.48 C18.5,15.4550796 18.1119716,16.3900771 17.4215488,17.0786238 C16.7311259,17.7671705 15.795076,18.1526569 14.82,18.1500136 L5.18,18.1500136 C4.20492401,18.1526569 3.26887407,17.7671705 2.57845124,17.0786238 C1.8880284,16.3900771 1.5,15.4550796 1.5,14.48 L1.5,6.15 L18.5,6.15 M19,4.65 L1,4.65 C0.44771525,4.65 0,5.09771525 0,5.65 L0,14.48 C0,15.8529036 0.546064795,17.1694311 1.51779176,18.1392821 C2.48951873,19.1091332 3.80709895,19.6526555 5.18,19.65 L14.82,19.65 C16.1929011,19.6526555 17.5104813,19.1091332 18.4822082,18.1392821 C19.4539352,17.1694311 20,15.8529036 20,14.48 L20,5.65 C20,5.09771525 19.5522847,4.65 19,4.65 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path><path d="M6.4,8.86 L6.4,4.19 C6.33821865,2.13719693 7.94748296,0.420648332 10,0.35 L10,0.35 C10.989402,0.378747467 11.9268069,0.799576623 12.6057792,1.51981235 C13.2847514,2.24004808 13.6496079,3.20062335 13.62,4.19 L13.62,8.86" id="Path" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><circle id="Oval" fill="#000000" fill-rule="nonzero" cx="13.6" cy="8.97" r="1.1"></circle><circle id="Oval" fill="#000000" fill-rule="nonzero" cx="6.4" cy="8.97" r="1.1"></circle></g></g>
+              </svg>
+            </button>
           </div>
         </div>
         <Divider className='mt-2'/>
-        <ul className='mx-auto max-w-c-1390 flex items-center gap-8 py-4 relative lg:px-12 2xl:px-0 z-0'>
+        <div className='mx-auto max-w-c-1390 flex items-center gap-8 py-1 relative lg:px-12 2xl:px-0 z-0'>
           <NavigationMenu>
             <NavigationMenuList>
             {categories.map((category, index) => (
             <NavigationMenuItem>
-            <NavigationMenuTrigger>{category}</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                {components.map((component) => (
-                  <ListItem
-                    key={component.title}
-                    title={component.title}
-                    href={component.href}
-                  >
-                    {component.description}
-                  </ListItem>
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+              <NavigationMenuTrigger>{category}</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                  {components.map((component) => (
+                    <ListItem
+                      key={component.title}
+                      title={component.title}
+                      href={component.href}
+                    >
+                      {component.description}
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
             // <li
             //   key={index}
             //   onMouseEnter={() => setHoveredCategory(category)}
@@ -299,10 +320,10 @@ const Nav = () => {
             </NavigationMenuList>
           </NavigationMenu>
          
-        <li className='bg-tertiary text-background px-4 py-1 rounded'>
+          <Button className='bg-tertiary text-background px-4 py-1 rounded'>
             Offers
-          </li>
-        </ul>
+          </Button>
+        </div>
       </div>
       
       {/* <!-- Hamburger Toggle BTN --> */}
