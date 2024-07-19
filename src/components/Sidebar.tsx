@@ -70,29 +70,31 @@ const Sidebar = ({ isOpen, setIsOpen,categories }: SidebarProps) => {
             />
           </Tabs>
         </Box>
-        <Accordion type="single">
-        {categories.map((category) => (
-          <AccordionItem key={category.id} value={category.id}>
-              <AccordionTrigger><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}`}><p>{category.name}</p></Link></AccordionTrigger>
-              <AccordionContent>
-                <Accordion type="multiple">
-                  {category.subCategories.map((subCategory) => (
-                    <AccordionItem key={subCategory.id} value={subCategory.id}>
-                      <AccordionTrigger><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}&&subCategory=${subCategory.name}`}><p className='font-normal'>{subCategory.name}</p></Link></AccordionTrigger>
-                      <AccordionContent>
-                        <ul>
-                          {subCategory.subSubCategories.map((subSubCategory) => (
-                            <li key={subSubCategory.id}><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal'>{subSubCategory.name}</p></Link></li>
-                          ))}
-                        </ul>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <div className='h-screen overflow-y-auto pr-2' style={{ maxHeight: 'calc(100vh - 120px)'}}>
+          <Accordion type="multiple">
+          {categories.map((category) => (
+            <AccordionItem key={category.id} value={category.id}>
+                <AccordionTrigger><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}`}><p>{category.name}</p></Link></AccordionTrigger>
+                <AccordionContent>
+                  <Accordion type="multiple">
+                    {category.subCategories.map((subCategory) => (
+                      <AccordionItem key={subCategory.id} value={subCategory.id}>
+                        <AccordionTrigger><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}&&subCategory=${subCategory.name}`}><p className='font-normal'>{subCategory.name}</p></Link></AccordionTrigger>
+                        <AccordionContent>
+                          <ul>
+                            {subCategory.subSubCategories.map((subSubCategory) => (
+                              <li key={subSubCategory.id}><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal'>{subSubCategory.name}</p></Link></li>
+                            ))}
+                          </ul>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </Box>
       </nav>
     </div>
