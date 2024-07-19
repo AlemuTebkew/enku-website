@@ -23,8 +23,8 @@ const ProductCard = () => {
           Love Beauty & Planet Bond Repair Shampoo With Olive Oil
         </p>
         <p>
-          <span className='text-md mr-2 line-through'>4000 ETB</span>
-          3000 ETB
+          <span className='text-md mr-2 line-through'>ETB 4000</span>
+          ETB 3000
           <span className='text-primaryT ml-2'>25% Off</span>
         </p>
       </CardContent>

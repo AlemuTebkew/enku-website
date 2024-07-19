@@ -9,21 +9,47 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ProductCard from '../components/ProductCard';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+
+interface ProductListProps {
+  category: string | null,
+  subCategory: string | null,
+  subSubCategory: string | null
+}
 
 const ProductList = () => {
-  const router = useRouter();
+
   const searchParams = useSearchParams();
-  const category = searchParams.get('category') || 'all';
-  const page = searchParams.get('page') || 1;
-  const sort = searchParams.get('sort') || 'popularity';
-  const brandFilter = searchParams.get('brand_filter') || '';
+  const category = searchParams.get('category');
+  const subCategory = searchParams.get('subCategory');
+  const subSubCategory = searchParams.get('subSubCategory');
 
   return (
-    <div className='mx-auto max-w-c-1390 py-2 w-full lg:px-12 2xl:px-0'>
-      <p>Home ❯ Hair ❯ Hair Care ❯ Shampoo</p>
+    <div className='mx-auto max-w-c-1390 mt-32 py-2 w-full px-4 lg:px-12 2xl:px-0 xl:mt-40'>
+      <div className='flex gap-2'>
+        {
+          category && <div className='flex gap-2'>
+            <p>{category}</p>
+            {subCategory && <NavigateNextIcon/> }
+            
+          </div>
+        }
+        {
+          subCategory && <div className='flex gap-2'>
+            <p>{subCategory}</p>
+            {subSubCategory && <NavigateNextIcon/> }
+          </div>
+        }
+        {
+          subSubCategory && <div className='flex gap-2'>
+            <p>{subSubCategory}</p>
+          </div>
+        }
+      </div>
+      {/* <p>Home ❯ Hair ❯ Hair Care ❯ Shampoo</p> */}
       <p className='text-center'>All Products</p>
-      <div className='grid grid-cols-4 gap-8 mt-10'>
-        <div className='col-span-1 flex flex-col gap-2'>
+      <div className='grid grid-cols-1 xl:grid-cols-4 gap-8 mt-10'>
+        <div className='hidden xl:col-span-1 xl:flex xl:flex-col xl:gap-2'>
           {/* First column content */}
           <div className='bg-background px-4 rounded-md'>
             <Accordion type="single" collapsible className="w-full">
@@ -124,7 +150,7 @@ const ProductList = () => {
             </Accordion>
           </div>
         </div>
-        <div className='col-span-3 grid grid-cols-3 gap-8'>
+        <div className='w-full grid grid-cols-1 xl:grid-cols-3 gap-8 xl:col-span-3'>
           {/* Second column content */}
           <ProductCard />
           <ProductCard />

@@ -1,5 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { cn } from "@/lib/utils"
 // import { Icons } from "@/components/icons"
 import {
@@ -12,29 +14,18 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import SearchBar from './SearchBar'
-import { Button, Divider, Menu, MenuItem} from "@mui/material";
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { Button, Divider} from "@mui/material";
 import Sidebar from './Sidebar';
 import Link from 'next/link'
-import ProductList from '@/features/products/pages/ProductList'
+import { Category } from '../models/category'
 
 
-const Nav = () => {
+interface NavProps {
+  categories: Category[];
+}
 
-  const categories = [
-    'Makeup',
-    'Skin',
-    'Hair',
-    'Appliances',
-    'Bath & Body',
-    'Natural',
-    'Mom & Baby',
-    'Health & Wellness',
-    'Men',
-    'Fragrance',
-    'Lingerie & Accessories'
-  ];
+
+const Nav: React.FC<NavProps> = ({ categories }) => {
 
   const components: { title: string; href: string; description: string }[] = [
     {
@@ -74,36 +65,8 @@ const Nav = () => {
     },
   ]
 
-  const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
-  >(({ className, title, children, ...props }, ref) => {
-    return (
-      <li>
-        <NavigationMenuLink asChild>
-          <a
-            ref={ref}
-            className={cn(
-              "w-[1390px] h-screen z-50 block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              {children}
-            </p>
-          </a>
-        </NavigationMenuLink>
-      </li>
-    )
-  })
-  ListItem.displayName = "ListItem"
   
   const [navigationOpen, setNavigationOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [catOpen, setCatOpen] = useState(false);
-  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [stickyMenu, setStickyMenu] = useState(true);
 
   const handleStickyMenu = () => {
@@ -121,11 +84,8 @@ const Nav = () => {
     };
   }, []);
 
-  const closeNavigation = () => {
-    setNavigationOpen(false);
-  };
   return (
-    <div className={`fixed left-0 top-0 z-50 w-full py-0 xl:py-7 shadow-lg ${
+    <div className={`fixed left-0 top-0 z-50 w-full py-4 xl:py-7 shadow-lg ${
       stickyMenu ? "bg-white !py-4 shadow transition duration-100" : ""
     }`}>
       <div className='hidden xl:block'>
@@ -139,7 +99,7 @@ const Nav = () => {
             <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link href="/docs" legacyBehavior passHref>
+                <Link href="#" legacyBehavior>
                   <NavigationMenuLink className={`font-medium font-body hover:text-primary cursor-pointer ${navigationMenuTriggerStyle()}`}>
                     <p className='font-medium font-body hover:text-primary cursor-pointer'>Categories</p>
                   </NavigationMenuLink>
@@ -148,98 +108,21 @@ const Nav = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Brands</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                    {components.map((component) => (
-                      <ListItem
-                        key={component.title}
-                        title={component.title}
-                        href={component.href}
-                      >
-                        {component.description}
-                      </ListItem>
-                    ))}
+                  <ul className="w-[80rem] bg-background p-4 grid grid-cols-4 gap-4">
+                    
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Beauty Advice</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                    {components.map((component) => (
-                      <ListItem
-                        key={component.title}
-                        title={component.title}
-                        href={component.href}
-                      >
-                        {component.description}
-                      </ListItem>
-                    ))}
+                  <ul className="w-[80rem] bg-background p-4 grid grid-cols-4 gap-4">
+                   
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
             </NavigationMenu>
-            {/* <ul className='flex gap-10 items-center flex-1 '>
-              <li>
-                <p className='font-medium font-body hover:text-primary cursor-pointer'>Categories</p>
-              </li>
-              <li
-                onMouseEnter={() => setIsOpen(true)}
-                onMouseLeave={() => setIsOpen(false)}
-                
-              >
-                <p className='font-medium font-body hover:text-primary cursor-pointer'>Brands</p>
-                {isOpen && (
-                  <div className="absolute left-0 top-full w-auto bg-white shadow-lg zIndex-1 mx-12">
-                    <div className="grid grid-cols-4 gap-4 p-4">
-                      <div>
-                        <h3 className="font-semibold mb-2">Category 1</h3>
-                        <ul>
-                          <li><a href="#" className="block py-1">Item 1</a></li>
-                          <li><a href="#" className="block py-1">Item 2</a></li>
-                          <li><a href="#" className="block py-1">Item 3</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold mb-2">Category 1</h3>
-                        <ul>
-                          <li><a href="#" className="block py-1">Item 1</a></li>
-                          <li><a href="#" className="block py-1">Item 2</a></li>
-                          <li><a href="#" className="block py-1">Item 3</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold mb-2">Category 2</h3>
-                        <ul>
-                          <li><a href="#" className="block py-1">Item 1</a></li>
-                          <li><a href="#" className="block py-1">Item 2</a></li>
-                          <li><a href="#" className="block py-1">Item 3</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold mb-2">Category 3</h3>
-                        <ul>
-                          <li><a href="#" className="block py-1">Item 1</a></li>
-                          <li><a href="#" className="block py-1">Item 2</a></li>
-                          <li><a href="#" className="block py-1">Item 3</a></li>
-                        </ul>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold mb-2">Category 4</h3>
-                        <ul>
-                          <li><a href="#" className="block py-1">Item 1</a></li>
-                          <li><a href="#" className="block py-1">Item 2</a></li>
-                          <li><a href="#" className="block py-1">Item 3</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </li>
-              <li>
-                <p className='font-medium font-body hover:text-primary cursor-pointer'>Beauty Advice</p>
-              </li>
-            </ul> */}
           </div>
           <div className='flex flex-1 w-full gap-4 items-center'>
             <SearchBar/>
@@ -272,50 +155,31 @@ const Nav = () => {
           </div>
         </div>
         <Divider className='mt-2'/>
-        <div className='mx-auto max-w-c-1390 flex items-center gap-8 py-1 relative lg:px-12 2xl:px-0 z-0'>
+        <div className='mx-auto max-w-c-1390 py-2 relative lg:px-12 2xl:px-0 z-0 flex'>
           <NavigationMenu>
             <NavigationMenuList>
             {categories.map((category, index) => (
             <NavigationMenuItem>
-              <NavigationMenuTrigger>{category}</NavigationMenuTrigger>
+              <NavigationMenuTrigger className='bg-background hover:bg-background hover:text-primaryT'><Link target='_blank' href={`/products?category=${category.name}`}>{category.name}</Link></NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
+              <ul className="w-[80rem] bg-background p-4 grid grid-cols-4 gap-4">
+                {category.subCategories.map((subCategory) => (
+                  <li key={subCategory.id}>
+                    <Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}&&subCategory=${subCategory.name}`}><h4 className="font-semibold mb-2">{subCategory.name}</h4></Link>
+                    {subCategory.subSubCategories.length > 0 && (
+                      <ul className="">
+                        {subCategory.subSubCategories.map((subSubCategory) => (
+                          <li key={subSubCategory.id} className="py-1 hover:text-primaryT">
+                            <Link target='_blank' href={`/products?category=${category.name}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}>{subSubCategory.name}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            // <li
-            //   key={index}
-            //   onMouseEnter={() => setHoveredCategory(category)}
-            //   onMouseLeave={() => setHoveredCategory(null)}
-            //   className=''
-            // >
-            //   <p
-            //     className='font-body text-sm hover:text-primary cursor-pointer'
-            //   >
-            //     {category}
-            //     {hoveredCategory === category && (
-            //       <div className="absolute left-0 top-full w-full bg-white shadow-lg z-10">
-            //         <div className="grid grid-cols-4 gap-4 p-4">
-            //           <h3 className="font-semibold mb-2">{category}</h3>
-            //           <ul>
-            //             <li><a href="#" className="block py-1">Item 1</a></li>
-            //             <li><a href="#" className="block py-1">Item 2</a></li>
-            //             <li><a href="#" className="block py-1">Item 3</a></li>
-            //           </ul>
-            //         </div>
-            //       </div>
-            //     )}
-            //   </p>
-            // </li>
           ))}
             </NavigationMenuList>
           </NavigationMenu>
@@ -387,7 +251,7 @@ const Nav = () => {
       <div className='flex items-center mx-4 mt-2 xl:hidden'>
         <SearchBar/>
       </div>
-      <Sidebar isOpen={navigationOpen} setIsOpen={setNavigationOpen}/>
+      <Sidebar isOpen={navigationOpen} setIsOpen={setNavigationOpen} categories={categories}/>
           {/* <!-- Hamburger Toggle BTN --> */}
     </div>
   )
