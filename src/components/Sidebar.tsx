@@ -70,7 +70,7 @@ const Sidebar = ({ isOpen, setIsOpen,categories }: SidebarProps) => {
             />
           </Tabs>
         </Box>
-        <Accordion type="multiple">
+        <Accordion type="single">
         {categories.map((category) => (
           <AccordionItem key={category.id} value={category.id}>
               <AccordionTrigger><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}`}><p>{category.name}</p></Link></AccordionTrigger>
