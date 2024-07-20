@@ -1,13 +1,11 @@
 import {Suspense} from 'react'
 import type { Metadata } from "next";;
-import axios from 'axios';
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import ProductList from "@/features/products/pages/ProductList";
-import {Category} from '../models/category'
-import { Brand } from "@/models/brand";
+import { fetchCategoriesAndBrands } from '@/utils/fetchData';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,21 +15,6 @@ export const metadata: Metadata = {
 };
 
 // const dynamicData = await fetch(`https://...`, { cache: "no-store" });
-async function fetchCategoriesAndBrands() {
-  const [categoriesRes, brandsRes] = await Promise.all([
-    fetch('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/categories', { cache: "no-store" }),
-    fetch('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/admin/brands', { cache: "no-store" })
-  ]);
-
-  if (!categoriesRes.ok || !brandsRes.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  const categories: Category[] = await categoriesRes.json();
-  const brands: Brand[] = await brandsRes.json();
-
-  return { categories, brands };
-}
 
 export default async function RootLayout({
   children,
