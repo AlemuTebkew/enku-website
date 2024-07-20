@@ -152,31 +152,32 @@ const Sidebar = ({ isOpen, setIsOpen,categories, brands }: SidebarProps) => {
                 <Separator/>
                 
                 <div className='flex justify-between mb-8 px-4'>
-                  <ul className="w-full overflow-y-auto" style={{ maxHeight: 'calc(100vh - 100px)' }}>
-                  {Object.keys(filteredBrands).map(letter => (
-                  <div key={letter} ref={el => scrollRefs.current[letter] = el}>
-                    <h3 className="font-bold text-lg">{letter}</h3>
-                    <ul>
-                      {filteredBrands[letter].map(brand => (
-                        <li key={brand.id}>
-                          <Link target='_blank' className='hover:text-primaryT' href={`/brands/${brand.id}`}>
-                            <p className='font-normal'>{brand.name}</p>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>))}
-                  </ul>
+                <div className="overflow-y-auto" style={{ maxHeight: 'calc(100vh - 250px)' }}>
+                  {alphabet.map(letter => (
+                    <div key={letter} ref={el => { scrollRefs.current[letter] = el; }}>
+                      <h3 className="font-bold text-lg">{letter}</h3>
+                      <ul>
+                        {filteredBrands[letter]?.map((brand) => (
+                          <li key={brand.id}>
+                            <Link target='_blank' className='hover:text-primaryT' href={`/brands/${brand.id}`}>
+                              <p className='font-normal'>{brand.name}</p>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
                   <div className="flex flex-col mb-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 0px)' }}>
-                    {alphabet.map(letter => (
-                      <button
-                        key={letter}
-                        onClick={() => handleLetterClick(letter)}
-                        className={`px-2 ${selectedLetter === letter ? 'text-primaryT font-bold' : 'text-secondaryT'}`}
-                      >
-                        {letter}
-                      </button>
-                    ))}
+                  {alphabet.map(letter => (
+                    <button
+                      key={letter}
+                      onClick={() => handleLetterClick(letter)}
+                      className={`p-2 ${scrollRefs.current[letter] ? 'text-primaryT font-bold' : 'text-secondaryT'}`}
+                    >
+                      {letter}
+                    </button>
+                  ))}
                   </div>
                 </div>
               </div>

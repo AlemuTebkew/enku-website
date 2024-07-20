@@ -3,13 +3,6 @@
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from '@/components/ui/button';
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-  } from "@/components/ui/carousel"
 import { Card, CardContent } from '@/components/ui/card';
   
 
@@ -55,7 +48,7 @@ const ProductDetail = () => {
                             <div className='hidden xl:flex xl:flex-col xl:gap-2'>
                                 {
                                     productdetail.images.map((image, index) => (
-                                        <div className={`border-2 ${selectedImage === index ? 'border-secondaryT' : ''}`} onMouseEnter={() => setSelectedImage(index)} onClick={() => setSelectedImage(index)}>
+                                        <div key={index} className={`border-2 ${selectedImage === index ? 'border-secondaryT' : ''}`} onMouseEnter={() => setSelectedImage(index)} onClick={() => setSelectedImage(index)}>
                                             <img src={image} className='h-[50px] w-auto' alt=''/>
                                         </div>
                                     ))
@@ -63,23 +56,6 @@ const ProductDetail = () => {
                             </div>
                             <div className='w-3/4 flex-1'>
                                 <img src={productdetail.images[selectedImage]} className='hidden xl:block w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-125' alt=''/>
-                                <Carousel className="w-full max-w-xs xl:hidden">
-                                <CarouselContent>
-                                    {productdetail.images.map((image, index) => (
-                                    <CarouselItem key={index}>
-                                        <div className="p-1">
-                                            <Card>
-                                                <CardContent className="w-full flex aspect-square items-center justify-center p-6">
-                                                <img src={image} className='w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-125' alt=''/>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    </CarouselItem>
-                                    ))}
-                                </CarouselContent>
-                                <CarouselPrevious />
-                                <CarouselNext />
-                                </Carousel>
                             </div>
                         </div>
                     </div>
