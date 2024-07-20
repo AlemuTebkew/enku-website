@@ -1,3 +1,4 @@
+import {Suspense} from 'react'
 import type { Metadata } from "next";;
 import axios from 'axios';
 import { Inter } from "next/font/google";
@@ -25,8 +26,10 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-[#f3f3f3]`}>
         {/* <Header/> */}
+        <Suspense fallback={<div>Loading...</div>}>
          <Nav categories={categories} brands={brands}/>
-        {children}
+         {children}
+        </Suspense>
         </body>
     </html>
   );
