@@ -18,54 +18,17 @@ import { Button, Divider} from "@mui/material";
 import Sidebar from './Sidebar';
 import Link from 'next/link'
 import { Category } from '../models/category'
+import { Brand } from '@/models/brand';
 
 
 interface NavProps {
   categories: Category[];
+  brands: Brand[];
 }
 
 
-const Nav: React.FC<NavProps> = ({ categories }) => {
-
-  const components: { title: string; href: string; description: string }[] = [
-    {
-      title: "Alert Dialog",
-      href: "/docs/primitives/alert-dialog",
-      description:
-        "A modal dialog that interrupts the user with important content and expects a response.",
-    },
-    {
-      title: "Hover Card",
-      href: "/docs/primitives/hover-card",
-      description:
-        "For sighted users to preview content available behind a link.",
-    },
-    {
-      title: "Progress",
-      href: "/docs/primitives/progress",
-      description:
-        "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-    {
-      title: "Scroll-area",
-      href: "/docs/primitives/scroll-area",
-      description: "Visually or semantically separates content.",
-    },
-    {
-      title: "Tabs",
-      href: "/docs/primitives/tabs",
-      description:
-        "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-      title: "Tooltip",
-      href: "/docs/primitives/tooltip",
-      description:
-        "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    },
-  ]
-
-  
+const Nav: React.FC<NavProps> = ({ categories, brands }) => {
+ 
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(true);
 
@@ -159,7 +122,7 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
           <NavigationMenu>
             <NavigationMenuList>
             {categories.map((category, index) => (
-            <NavigationMenuItem>
+            <NavigationMenuItem key={category.id}>
               <NavigationMenuTrigger className='bg-background hover:bg-background hover:text-primaryT'><Link target='_blank' href={`/products?category=${category.name}`}>{category.name}</Link></NavigationMenuTrigger>
               <NavigationMenuContent>
               <ul className="w-[80rem] bg-background p-4 grid grid-cols-4 gap-4">
@@ -251,7 +214,7 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
       <div className='flex items-center mx-4 mt-2 xl:hidden'>
         <SearchBar/>
       </div>
-      <Sidebar isOpen={navigationOpen} setIsOpen={setNavigationOpen} categories={categories}/>
+      <Sidebar isOpen={navigationOpen} setIsOpen={setNavigationOpen} categories={categories} brands={brands}/>
           {/* <!-- Hamburger Toggle BTN --> */}
     </div>
   )

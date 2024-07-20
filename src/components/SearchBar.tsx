@@ -16,7 +16,7 @@ export default function SearchBar(props:{search?:any}): JSX.Element {
           </IconButton>
           <InputBase 
           className="w-full ml-1 flexGrow-1"          
-        //   onKeyUp={(event: any) =>props?.search(event.target.value)} 
+          onKeyUp={(event: any) =>props?.search(event.target.value)} 
           placeholder="Search..." />
         </Box>
       </Paper>

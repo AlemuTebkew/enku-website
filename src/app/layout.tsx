@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import ProductList from "@/features/products/pages/ProductList";
 import {Category} from '../models/category'
+import { Brand } from "@/models/brand";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +20,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const categories = await getData()
+  const {categories, brands} = await getData()
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#f3f3f3]`}>
         {/* <Header/> */}
-         <Nav categories={categories.categories}/>
+         <Nav categories={categories} brands={brands}/>
         {children}
         </body>
     </html>
@@ -35,22 +36,23 @@ export default async function RootLayout({
 
 async function getData() {
   let categories:Category[] = [];
-  let brands = [];
+  let brands: Brand[] = [];
 
   try {
     const categoriesResponse = await axios.get('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/categories')
-    // const brandsResponse = await axios.get('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/categories')
+    const brandsResponse = await axios.get('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/admin/brands')
 
     categories = categoriesResponse.data.data
-    // brands = brandsResponse.data;
+    brands = brandsResponse.data.data;
 
-    console.log(categoriesResponse)
+    console.log(brandsResponse)
 
   } catch (error) {
     console.error('Error fetching data:', error);
   }
 
   return {
-    categories
+    categories,
+    brands
 }
 }
