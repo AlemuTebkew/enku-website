@@ -25,4 +25,31 @@ export async function fetchCategoriesAndBrands() {
         brands: [],
       };
     }
+}
+
+// utils/fetchProducts.ts
+export async function fetchProducts(searchParams: { [key: string]: string | string[] }) {
+  // Convert searchParams to query string
+  const query = Object.entries(searchParams)
+    .map(([key, value]) => {
+      if (Array.isArray(value)) {
+        return value.map(v => `${key}=${encodeURIComponent(v)}`).join('&');
+      }
+      return `${key}=${encodeURIComponent(value)}`;
+    })
+    .join('&');
+
+  try {
+    const response = await fetch(`http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/products?${query}`,{ cache: "no-store" });
+    const result = await response.json();
+
+    if (result.status) {
+      return result.data;
+    } else {
+      throw new Error(result.message || 'Failed to fetch products');
+    }
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return null;
   }
+}

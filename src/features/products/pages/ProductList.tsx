@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import ProductCard from '../components/ProductCard';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Product } from '@/models/product';
 
 interface ProductListProps {
   category: string | null,
@@ -17,7 +18,8 @@ interface ProductListProps {
   subSubCategory: string | null
 }
 
-const ProductList = () => {
+// const ProductList: React.FC<ProductListProps>
+const ProductList:React.FC<{products: Product[]}> = ({products}) => {
 
   const searchParams = useSearchParams();
   const category = searchParams.get('category');
@@ -32,7 +34,6 @@ const ProductList = () => {
             category && <div className='flex gap-2'>
               <p>{category}</p>
               {subCategory && <NavigateNextIcon/> }
-              
             </div>
           }
           {
@@ -50,7 +51,7 @@ const ProductList = () => {
         {/* <p>Home ❯ Hair ❯ Hair Care ❯ Shampoo</p> */}
         <p className='text-center'>All Products</p>
         <div className='grid grid-cols-1 xl:grid-cols-4 gap-8 mt-10'>
-          <div className='hidden xl:col-span-1 xl:flex xl:flex-col xl:gap-2'>
+          <div className='hidden xl:col-span-1 xl:flex xl:flex-col xl:gap-2 sticky h-screen'>
             {/* First column content */}
             <div className='bg-background px-4 rounded-md'>
               <Accordion type="single" collapsible className="w-full">
@@ -153,17 +154,17 @@ const ProductList = () => {
           </div>
           <div className='w-full grid grid-cols-1 xl:grid-cols-3 gap-8 xl:col-span-3'>
             {/* Second column content */}
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {
+              products.map((product, index) => (
+                <ProductCard product={product}/>
+              ))
+            }
           </div>
         </div>
       </div>
     </Suspense>
   );
+
 };
 
 export default ProductList;
