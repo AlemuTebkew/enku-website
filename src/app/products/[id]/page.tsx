@@ -1,14 +1,12 @@
 import axios from 'axios'
 import { Metadata } from 'next';
 import ProductDetail from '@/features/products/pages/ProductDetail';
+import { fetchProductDetail } from '@/utils/fetchData';
 
-interface Product {
-  images: string[];
-  title: string;
-  variant: string[];
-  description: string;
-  ingredient: string;
-  howToUse: string;
+interface ProductPageProps {
+  params: {
+    id: string;
+  };
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
@@ -20,13 +18,19 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
+const ProductDetailPage = async ({ params }: ProductPageProps) => {
+  const { id } = params;
+  try {
+    const product = await fetchProductDetail(id);
 
-  return (
-    <>
-        <ProductDetail/>
-    </>
-  );
+    return (
+      <>
+          <ProductDetail product={product}/>
+      </>
+    );
+  }catch (error) {
+    return <div>Error loading product details</div>;
+  }
 };
 
 export default ProductDetailPage;

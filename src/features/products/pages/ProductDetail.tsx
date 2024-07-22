@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Product } from '@/models/product';
   
 
-const ProductDetail = () => {
+const ProductDetail: React.FC<{product: Product}> = ({product}) => {
 
   const [selectedImage, setSelectedImage] = useState<number>(0)
 
@@ -29,7 +30,7 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className='mx-auto max-w-c-1390 py-2 w-full lg:px-12 2xl:px-0'>
+    <div className='mx-auto max-w-c-1390 py-40 w-full lg:px-12 2xl:px-0'>
         <div className='w-full'>
             <div className='mx-0 xl:mx-12'>
                 <p>Home ❯ Hair ❯ Hair Care ❯ Shampoo</p>
@@ -47,7 +48,7 @@ const ProductDetail = () => {
                         <div className='flex gap-4'>
                             <div className='hidden xl:flex xl:flex-col xl:gap-2'>
                                 {
-                                    productdetail.images.map((image, index) => (
+                                    product.images && product.images.map((image, index) => (
                                         <div key={index} className={`border-2 ${selectedImage === index ? 'border-secondaryT' : ''}`} onMouseEnter={() => setSelectedImage(index)} onClick={() => setSelectedImage(index)}>
                                             <img src={image} className='h-[50px] w-auto' alt=''/>
                                         </div>
@@ -55,16 +56,16 @@ const ProductDetail = () => {
                                 }
                             </div>
                             <div className='w-3/4 flex-1'>
-                                <img src={productdetail.images[selectedImage]} className='hidden xl:block w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-125' alt=''/>
+                                <img src={product?.images?.[selectedImage]} className='hidden xl:block w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-125' alt=''/>
                             </div>
                         </div>
                     </div>
                     <div className='col-span-3'>
-                        <p className='text-[20px] font-medium'>{productdetail.title}</p>
-                        <p className='mt-2'>({productdetail.variant[0]})</p>
+                        <p className='text-[20px] font-medium'>{product.name}</p>
+                        {/* <p className='mt-2'>({product.variant[0]})</p> */}
                         <p className='mt-2'>
                         <span className='text-md mr-2 line-through'>4000 ETB</span>
-                        3000 ETB
+                        {product.price}
                         <span className='text-primaryT ml-2'>25% Off</span>
                         </p>
                         <Button className='hidden xl:block mt-4'>Add to Bag</Button>

@@ -14,11 +14,12 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import SearchBar from './SearchBar'
-import { Button, Divider} from "@mui/material";
+import { Divider} from "@mui/material";
 import Sidebar from './Sidebar';
 import Link from 'next/link'
 import { Category } from '../models/category'
 import { Brand } from '@/models/brand';
+import { Button } from './ui/button';
 
 
 interface NavProps {
@@ -73,14 +74,6 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
                 <NavigationMenuContent>
                   <ul className="w-[80rem] bg-background p-4 grid grid-cols-4 gap-4">
                     
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Beauty Advice</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="w-[80rem] bg-background p-4 grid grid-cols-4 gap-4">
-                   
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -147,7 +140,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
             </NavigationMenuList>
           </NavigationMenu>
          
-          <Button className='bg-tertiary text-background px-4 py-1 rounded'>
+          <Button variant={"secondary"} className='px-4 py-1 rounded'>
             Offers
           </Button>
         </div>

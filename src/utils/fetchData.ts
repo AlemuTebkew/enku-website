@@ -53,3 +53,21 @@ export async function fetchProducts(searchParams: { [key: string]: string | stri
     return null;
   }
 }
+
+export async function fetchProductDetail(id: string) {
+  const res = await fetch(`http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/products/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      // Add other headers if necessary
+    },
+    cache: "no-store"
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch product details');
+  }
+
+  const data = await res.json();
+  return data.data; // Adjust this based on your API response structure
+}
