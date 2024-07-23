@@ -4,8 +4,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
-import ProductList from "@/features/products/pages/ProductList";
 import { fetchCategoriesAndBrands } from '@/utils/fetchData';
+import StoreProvider from './providers';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,35 +27,12 @@ export default async function RootLayout({
       <body className={`${inter.className} bg-[#f3f3f3]`}>
         {/* <Header/> */}
         <Suspense fallback={<div>Loading...</div>}>
+        <StoreProvider>
          <Nav categories={categories} brands={brands}/>
          {children}
+        </StoreProvider>
         </Suspense>
         </body>
     </html>
   );
 }
-
-
-
-// async function getData() {
-//   let categories:Category[] = [];
-//   let brands: Brand[] = [];
-
-//   try {
-//     const categoriesResponse = await axios.get('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/categories')
-//     const brandsResponse = await axios.get('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/admin/brands')
-
-//     categories = categoriesResponse.data.data
-//     brands = brandsResponse.data.data;
-
-//     console.log(brandsResponse)
-
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//   }
-
-//   return {
-//     categories,
-//     brands
-// }
-// }
