@@ -156,7 +156,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
             {/* Second column content */}
             {
               products && products.map((product, index) => (
-                <ProductCard product={product}/>
+                <ProductCard key={index} product={product}/>
               ))
             }
           </div>
