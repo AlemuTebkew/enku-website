@@ -28,7 +28,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <div className='mx-auto max-w-c-1390 mt-32 py-2 w-full px-4 lg:px-12 2xl:px-0 xl:mt-40'>
+      <div className='mx-auto max-w-c-1390 py-2 w-full px-4 lg:px-12 2xl:px-0 mt-2'>
         <div className='flex gap-2'>
           {
             category && <div className='flex gap-2'>
@@ -49,7 +49,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
           }
         </div>
         {/* <p>Home ❯ Hair ❯ Hair Care ❯ Shampoo</p> */}
-        <p className='text-center'>All Products</p>
+        <p className='text-center font-semibold text-3xl mt-10'>All Products</p>
         <div className='grid grid-cols-1 xl:grid-cols-4 gap-8 mt-10'>
           <div className='hidden xl:col-span-1 xl:flex xl:flex-col xl:gap-2 sticky h-screen'>
             {/* First column content */}
@@ -155,7 +155,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
           <div className='w-full grid grid-cols-1 xl:grid-cols-3 gap-8 xl:col-span-3'>
             {/* Second column content */}
             {
-              products.map((product, index) => (
+              products && products.map((product, index) => (
                 <ProductCard product={product}/>
               ))
             }
