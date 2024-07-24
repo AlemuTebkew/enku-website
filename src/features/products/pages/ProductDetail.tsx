@@ -11,24 +11,6 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
 
   const [selectedImage, setSelectedImage] = useState<number>(0)
 
-  const productdetail = {
-    images: [
-        "/images/1.avif",
-        "/images/2.avif",
-        "/images/1.avif",
-        "/images/2.avif",
-        "/images/1.avif",
-    ],
-    title: "Lakme Peach Milk Ultra Light Gel Moisturizer with Vitamin E & Peach Milk Extract 24HR Moisture Lock",
-    variant: [
-        "100g",
-        "50g"
-    ],
-    description: "",
-    ingredient: "",
-    howToUse: ""
-  }
-
   return (
     <div className='mx-auto max-w-c-1390 py-40 w-full lg:px-12 2xl:px-0'>
         <div className='w-full'>
@@ -50,7 +32,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                 {
                                     product.images && product.images.map((image, index) => (
                                         <div key={index} className={`border-2 ${selectedImage === index ? 'border-secondaryT' : ''}`} onMouseEnter={() => setSelectedImage(index)} onClick={() => setSelectedImage(index)}>
-                                            <img src={image} className='h-[50px] w-auto' alt=''/>
+                                            <img key={index} src={image} className='h-[50px] w-auto' alt=''/>
                                         </div>
                                     ))
                                 }

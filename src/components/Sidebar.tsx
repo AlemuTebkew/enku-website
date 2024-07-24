@@ -131,8 +131,8 @@ const Sidebar = ({ isOpen, setIsOpen,categories, brands }: SidebarProps) => {
                           <AccordionContent>
                             <ul className='flex flex-col gap-2 bg-secondary'>
                               
-                                {subCategory.subSubCategories.map((subSubCategory) => (
-                                  <div className='w-full flex flex-col'>
+                                {subCategory.subSubCategories.map((subSubCategory, index) => (
+                                  <div key={index} className='w-full flex flex-col'>
                                     <li key={subSubCategory.id}><Link target='_blank' className='hover:text-primaryT p-2' href={`/products?category=${category.name}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal p-2'>{subSubCategory.name}</p></Link></li>
                                     <Separator/>
                                   </div>

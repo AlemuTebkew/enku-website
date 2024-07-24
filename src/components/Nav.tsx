@@ -171,7 +171,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
             </svg>
           </div>
         </div>
-        <div className='flex gap-4'>
+        <div className='flex gap-8'>
           <button onClick={toggleDrawer} type="button" id="header-bag-icon" className="relative">
             <svg 
             width="24px" 
