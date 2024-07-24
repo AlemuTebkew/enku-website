@@ -88,7 +88,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                       <p className="text-3xl font-bold">Your Enku Bag is Empty</p>
                       <p className="text-lg">Use our beauty guide to find your perfect match.</p>
                       <div className="mt-4">
-                        <Button className="px-20 py-6 text-lg">Discover Now</Button>
+                        <Button className="px-14 py-6 text-lg">Discover Your Beauty</Button>
                       </div>
                     </div>
                   </div>
