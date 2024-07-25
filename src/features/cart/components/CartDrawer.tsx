@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/store/app-store-hooks';
 import { RootState } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
 import { clearCart, removeItem } from '../store/cart-slice';
+import CartItem from './CartItem';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -29,17 +30,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g opacity="0.92"><path d="M21.51 11.2108H5.42L10.93 5.71079C11.0237 5.61783 11.0981 5.50723 11.1489 5.38537C11.1997 5.26351 11.2258 5.1328 11.2258 5.00079C11.2258 4.86878 11.1997 4.73808 11.1489 4.61622C11.0981 4.49436 11.0237 4.38376 10.93 4.29079C10.7426 4.10454 10.4892 4 10.225 4C9.96081 4 9.70736 4.10454 9.52 4.29079L2.3 11.5008C2.20551 11.5934 2.13034 11.7039 2.07885 11.8257C2.02735 11.9476 2.00055 12.0785 2 12.2108C2.00055 12.3431 2.02735 12.474 2.07885 12.5959C2.13034 12.7177 2.20551 12.8282 2.3 12.9208L9.51 20.1308C9.6983 20.3191 9.9537 20.4249 10.22 20.4249C10.4863 20.4249 10.7417 20.3191 10.93 20.1308C11.1183 19.9425 11.2241 19.6871 11.2241 19.4208C11.2241 19.1545 11.1183 18.8991 10.93 18.7108L5.43 13.2108H21.51C21.7752 13.2108 22.0296 13.1054 22.2171 12.9179C22.4046 12.7304 22.51 12.476 22.51 12.2108C22.51 11.9456 22.4046 11.6912 22.2171 11.5037C22.0296 11.3161 21.7752 11.2108 21.51 11.2108Z" fill="black"></path></g></svg>
           </IconButton>
           <h2 className="text-lg font-bold leading-relaxed tracking-widest">Bag</h2>
+          {items.length > 0 && (
+            <p>{`${items.length} items`}</p>
+          )}
         </div>
-        <div className="p-4 flex-1 overflow-auto">
+        <div className="px-4 py-4 flex-1 overflow-auto flex flex-col gap-2">
           {items.length > 0 ? (
-            items.map((item) => (
-              <div key={item.id} className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-sm font-bold">{item.name}</h3>
-                  <p className="text-sm">{item.quantity} x ${item.price}</p>
-                </div>
-                <Button onClick={() => dispatch(removeItem(item.id))}>Remove</Button>
-              </div>
+            items.map((item, index) => (
+              <CartItem key={index} item={item}/>
             ))
           ) : (
             <div className="flex items-center justify-center mx-10">
@@ -98,9 +96,12 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
           )}
         </div>
         {items.length > 0 && (
-          <div className="p-4 border-t border-gray-200">
+          <div className="flex justify-between items-center p-4 border-t border-gray-200">
+            <div>
+              <p>{`ETB ${items.reduce((acc, current) => acc + (current.price*current.quantity), 0)}`}</p>
+            </div>
             <Button variant="default" color="primary" onClick={() => dispatch(clearCart())}>
-              Clear Cart
+              Checkout
             </Button>
           </div>
         )}

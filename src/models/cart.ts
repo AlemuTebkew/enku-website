@@ -1,7 +1,9 @@
 import { Product } from "./product";
 
-export interface CartItem {
-    productId: string;
+export interface CartItemModel {
+    id: string;
+    name: string;
     quantity: number;
-    product: Product; // Reference to the product details
+    price: number,
+    image: string
 }

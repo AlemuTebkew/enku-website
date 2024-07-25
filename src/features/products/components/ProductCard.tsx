@@ -48,7 +48,8 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
               id: product.id,
               name: product.name,
               quantity: 1,
-              price: +product.price
+              price: +product.price,
+              image: product.imageUrl
             }));
           }}
         >
