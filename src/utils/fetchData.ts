@@ -66,6 +66,7 @@ export async function fetchProductDetail(id: string) {
 
   if (!res.ok) {
     throw new Error('Failed to fetch product details');
+    
   }
 
   const data = await res.json();

@@ -2,7 +2,7 @@ export interface Product {
     id: string;
     name: string;
     description: string;
-    price: string;
+    price: number;
     imageUrl: string;
     category?: Category;
     subCategory?: SubCategory,
@@ -12,6 +12,8 @@ export interface Product {
     expiryDate?: string,
     variations?: Variation[],
     images?: string[];
+    howToUse: string;
+    ingredients: string
 }
 
 interface SubSubCategory {
