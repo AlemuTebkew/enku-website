@@ -35,3 +35,33 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* carousel.css */
+.carousel .control-dots .dot {
+  background-color: #FF92BB !important;/* Default dot color */
+}
+
+.carousel .control-dots .dot.selected,
+.carousel .control-dots .dot:hover {
+  background-color: #FC2779; /* Enku Beauty primary color */
+}
+
+.carousel .carousel-status {
+  color: #FC2779; /* Enku Beauty primary color for status text */
+}
+
+.carousel .control-arrow {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.carousel .control-next.control-arrow:before,
+.carousel .control-prev.control-arrow:before {
+  border-top-color: #FC2779;
+  border-right-color: #FC2779;
+}
+
+.carousel .control-next.control-arrow:after,
+.carousel .control-prev.control-arrow:after {
+  border-bottom-color: #FC2779;
+  border-left-color: #FC2779;
+}
