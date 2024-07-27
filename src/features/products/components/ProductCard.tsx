@@ -25,7 +25,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <Link target='_blank' href={`/products/${product.id}`}>
           <div className='relative flex flex-col items-center w-full gap-8'>
           <Image 
-            src={`http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/uploads/${product.imageUrl}`} 
+            src={`http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/files/${product.imageUrl}`} 
             width={200} 
             height={200} // Adjusted height for better display
             alt={product.name} // Added alt text for better accessibility
