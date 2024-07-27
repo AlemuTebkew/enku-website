@@ -29,21 +29,21 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className='mx-auto max-w-c-1390 py-2 w-full px-4 lg:px-12 2xl:px-0 mt-2'>
-        <div className='flex gap-2'>
+        <div className='flex'>
           {
-            category && <div className='flex gap-2'>
+            category && <div className='flex'>
               <p>{category}</p>
               {subCategory && <NavigateNextIcon/> }
             </div>
           }
           {
-            subCategory && <div className='flex gap-2'>
+            subCategory && <div className='flex'>
               <p>{subCategory}</p>
               {subSubCategory && <NavigateNextIcon/> }
             </div>
           }
           {
-            subSubCategory && <div className='flex gap-2'>
+            subSubCategory && <div className='flex'>
               <p>{subSubCategory}</p>
             </div>
           }

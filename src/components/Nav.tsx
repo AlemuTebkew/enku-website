@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -19,6 +19,7 @@ import { Button } from './ui/button';
 import CartDrawer from '../features/cart/components/CartDrawer';
 import { useAppSelector } from '@/store/app-store-hooks';
 import { RootState } from '@/store/app-store';
+import { Separator } from './ui/separator';
 
 
 interface NavProps {
@@ -26,11 +27,14 @@ interface NavProps {
   brands: Brand[];
 }
 
-
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const Nav: React.FC<NavProps> = ({ categories, brands }) => {
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
+  const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const items = useAppSelector((state: RootState) => state.cart.items);
 
@@ -45,6 +49,36 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
       setStickyMenu(false);
     }
   };
+
+
+  const handleSearch = (searchQuery: string) => {
+    setSearchTerm(searchQuery);
+    setSelectedLetter(null); // Reset selected letter when searching
+  };
+
+  const handleLetterClick = (letter: string) => {
+    const element = scrollRefs.current[letter];
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const groupedBrands = brands.reduce((acc: { [key: string]: Brand[] }, brand) => {
+    const firstLetter = brand.name[0].toUpperCase();
+    if (!acc[firstLetter]) {
+      acc[firstLetter] = [];
+    }
+    acc[firstLetter].push(brand);
+    return acc;
+  }, {});
+
+  const filteredBrands = Object.keys(groupedBrands).reduce((acc: { [key: string]: Brand[] }, letter) => {
+    if (groupedBrands[letter].some(brand => brand.name.toLowerCase().includes(searchTerm.toLowerCase()))) {
+      acc[letter] = groupedBrands[letter].filter(brand => brand.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    return acc;
+  }, {});
+
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
@@ -77,8 +111,45 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className={`font-medium font-body hover:text-primary hover:bg-background cursor-pointer text-md`}>Brands</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="w-[60rem] bg-background p-4 grid grid-cols-4 gap-4">
-                      
+                    <ul className="w-[60rem] bg-background p-4">
+                      <div className='w-full flex flex-col gap-4'>
+                        <div className='w-full pt-4 px-4'>
+                          <SearchBar 
+                          search={handleSearch}
+                          />
+                        </div>
+                        <Separator/>
+                        
+                        <div className='flex justify-between mb-8 px-4'>
+                          <div className="overflow-y-auto" style={{ maxHeight: 'calc(100vh - 250px)' }}>
+                            {alphabet.map(letter => (
+                              <div key={letter} ref={el => { scrollRefs.current[letter] = el; }}>
+                                <h3 className="font-bold text-lg">{letter}</h3>
+                                <ul>
+                                  {filteredBrands[letter]?.map((brand) => (
+                                    <li key={brand.id}>
+                                      <Link target='_blank' className='hover:text-primaryT' href={`/products?brand=${brand.name}`}>
+                                        <p className='font-normal'>{brand.name}</p>
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="flex flex-col mb-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 0px)' }}>
+                          {alphabet.map(letter => (
+                            <button
+                              key={letter}
+                              onClick={() => handleLetterClick(letter)}
+                              className={`p-2 ${scrollRefs.current[letter] ? 'text-primaryT font-bold' : 'text-secondaryT'}`}
+                            >
+                              {letter}
+                            </button>
+                          ))}
+                          </div>
+                        </div>
+                      </div>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>

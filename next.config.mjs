@@ -9,6 +9,11 @@ const nextConfig = {
         hostname: 'images-static.nykaa.com',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'ec2-3-91-23-59.compute-1.amazonaws.com',
+        pathname: '/**'
+      }
     ],
   },
 };

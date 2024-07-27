@@ -48,13 +48,6 @@ const Sidebar = ({ isOpen, setIsOpen,categories, brands }: SidebarProps) => {
     }
   };
 
-  // const filteredBrands = brands.filter(brand => {
-  //   if (selectedLetter) {
-  //     return brand.name.startsWith(selectedLetter);
-  //   }
-  //   return brand.name.toLowerCase().includes(searchTerm.toLowerCase());
-  // });
-
   const groupedBrands = brands.reduce((acc: { [key: string]: Brand[] }, brand) => {
     const firstLetter = brand.name[0].toUpperCase();
     if (!acc[firstLetter]) {
@@ -163,7 +156,7 @@ const Sidebar = ({ isOpen, setIsOpen,categories, brands }: SidebarProps) => {
                       <ul>
                         {filteredBrands[letter]?.map((brand) => (
                           <li key={brand.id}>
-                            <Link target='_blank' className='hover:text-primaryT' href={`/brands/${brand.id}`}>
+                            <Link target='_blank' className='hover:text-primaryT' href={`/products?brand=${brand.name}`}>
                               <p className='font-normal'>{brand.name}</p>
                             </Link>
                           </li>

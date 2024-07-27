@@ -22,6 +22,7 @@ return {
 
 const page = async ({ searchParams }: ProductsPageProps) => {
     const products = await fetchProducts(searchParams);
+    console.log(products)
     return (
         <div>
             <ProductList products={products}/>
