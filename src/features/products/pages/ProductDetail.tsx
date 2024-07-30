@@ -36,25 +36,25 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
   };
 
   return (
-    <div className='mx-auto max-w-c-1390 py-4 w-full lg:px-12 2xl:px-0'>
+    <div className='mx-auto max-w-c-1390 py-0 w-full lg:px-12 2xl:px-0'>
         <div className='w-full'>
             {/* header */}
             <div className='mx-0 lg:mx-12'>
-                <div className='flex py-4 px-4 lg:px-0'>
+                <div className='flex py-6 px-4 lg:px-0'>
                     <div className='flex'>
                         <p>{"Home"}</p>
                         <NavigateNextIcon/>
                     </div>
                     <div className='flex'>
-                        <p>{product.category?.name}</p>
+                        <p>{"Face"}</p>
                         <NavigateNextIcon/>
                     </div>
                     <div className='flex'>
-                        <p>{product.subCategory?.name}</p>
+                        <p>{"Makeup"}</p>
                         <NavigateNextIcon/>
                     </div>
                     <div className='flex'>
-                        <p>{product.subSubCategory?.name}</p>
+                        <p>{"Foundation"}</p>
                     </div>
                 </div>
                 <div className='grid grid-cols-1 lg:grid-cols-5 lg:gap-0 bg-background rounded-md'>
@@ -73,7 +73,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                 {/* Desktop Thumbnails */}
                                 <div className='hidden lg:flex lg:flex-col lg:gap-2'>
                                     {product.variations[selectedVariant].images.map((image, index) => (
-                                    <div 
+                                    <div
                                         key={index} 
                                         className={`border-2 ${selectedImage === index ? 'border-secondaryT' : ''}`} 
                                         onMouseEnter={() => setSelectedImage(index)} 
@@ -82,6 +82,15 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                         <img src={image.url} className='h-[50px] w-auto' alt=''/>
                                     </div>
                                     ))}
+                                </div>
+
+                                {/* Selected Image for Desktop */}
+                                <div className='w-full hidden lg:block '>
+                                    <img 
+                                    src={product?.variations[selectedVariant].images[selectedImage].url} 
+                                    className='w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-125' 
+                                    alt='' 
+                                    />
                                 </div>
 
                                 {/* Mobile Carousel */}
@@ -102,23 +111,18 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                     </Carousel>
                                 </div>
 
-                                {/* Selected Image for Desktop */}
-                                <div className='w-full hidden lg:block '>
-                                    <img 
-                                    src={product?.variations[selectedVariant].images[selectedImage].url} 
-                                    className='w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-125' 
-                                    alt='' 
-                                    />
-                                </div>
                             </div>
                         </div>
                         <Separator className='hidden lg:block' orientation='vertical'/>
                     </div>
-                    <div className='col-span-3 relative my-8 lg:mt-8 lg:mb-0'>
-                        <div className='mx-4 flex flex-col gap-4 lg:ml-8'>
+
+                    { /* product variant section */}
+                    <div className='col-span-3 relative my-4 lg:mt-8 lg:mb-0'>
+                        <div className='mx-4 flex flex-col gap-2 lg:ml-8'>
+                            <p className='font-bold underline lg:hidden'>Kay Beauty Illuminating</p>
                             <p className='text-lg font-normal lg:text-[23px] lg:font-medium lg:leading-relaxed'>{product?.variations[selectedVariant].title}</p>
-                            <p className='text-2xl font-semibold lg:text-3xl lg:font-semibold'>{`ETB ${product?.variations[selectedVariant].price}`}</p>
-                            <p>Select size</p>
+                            <p className='my-2 text-2xl font-semibold lg:text-3xl lg:font-semibold'>{`ETB ${product?.variations[selectedVariant].price}`}</p>
+                            <p className='hidden lg:block'>Select size</p>
                             <select
                             defaultValue={selectedVariant}
                             onChange={(e) => {
@@ -126,7 +130,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                 setSelectedVariant(+e.target.value)
                             }}
                             value={selectedVariant}
-                            className='border-2 py-2 bg-background rounded-md px-2'
+                            className='hidden border-2 py-2 bg-background rounded-md px-2 lg:block'
                             >
                                 {
                                     product.variations.map((variation, index) => (
@@ -136,7 +140,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                     ))
                                 }
                             </select>
-                            <div className='flex flex-row gap-2'>
+                            <div className='hidden flex flex-row gap-2 mt-4 lg:block'>
                                 {
                                     product.variations.map((variation, index) => (
                                         <div className='w-min cursor-pointer' onClick={() => {
@@ -151,28 +155,10 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                     ))
                                 }
                             </div>
-
-
-                            <Select defaultValue={selectedVariant.toString()} value={selectedVariant.toString()} onValueChange={(e) => {
-                                setSelectedImage(0)
-                                setSelectedVariant(+e)
-                            }}>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        {
-                                            product.variations.map((variation, index) => (
-                                                <SelectItem value={index.toString()}>
-                                                    {variation.sku}
-                                                </SelectItem>
-                                            ))
-                                        }
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
                             <Button className='hidden lg:block mt-4 w-min'>Add to Bag</Button>
                         </div>
                         <div className='hidden absolute bottom-0 left-0 w-full bg-background lg:block'>
-                            <div className='hidden lg:flex lg: gap-2 lg:w-full lg:mt-0 lg:p-4'>
+                            <div className='hidden lg:flex lg: gap-2 lg:w-full lg:mt-0 lg:px-4'>
                                 <div className='flex items-center gap-2 p-2 border-2 flex-1 rounded-sm'>
                                     <div className='w-[32px] h-[32px]'>
                                     <svg viewBox="0 0 24 24">
@@ -198,11 +184,24 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
-            { /* product variant section */}
-            <div className='w-full mt-8 flex gap-2 p-4 bg-background lg:hidden'>
+            <div className='w-full mt-4 p-4 flex flex-col gap-2 bg-background lg:hidden'>
+                <p className='text-lg'>Select Size</p>
+                <div className='flex gap-2'>
+                    {
+                        product.variations.map((variation, index) => (
+                            <div className={`py-1 px-2 w-min rounded-md cursor-pointer border-[1.5px] ${index === selectedVariant && 'bg-[#FDEBF4] border-secondary text-black'} ${index !== selectedVariant && 'bg-background text-black'}`} onClick={() => {
+                                setSelectedImage(0)
+                                setSelectedVariant(index)
+                                }}>
+                                   <p className=''>{variation.sku}</p> 
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+            <div className='w-full mt-4 flex gap-2 p-4 bg-background lg:hidden'>
                 <div className='flex items-center gap-2 p-2 border-2 flex-1 rounded-sm'>
                     <div className='w-[24px] h-[24px]'>
                         <svg viewBox="0 0 24 24">
@@ -228,6 +227,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                     </div>
                 </div>
             </div>
+            
             { /* product description section */ }
             <div className='lg:mx-12 mt-8'>
                 <p className='text-xl font-semibold mb-4 mx-4 lg:mx-0'>Product Description</p>

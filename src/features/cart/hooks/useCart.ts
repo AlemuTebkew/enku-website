@@ -2,9 +2,9 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { setLocalStorageItem, getLocalStorageItem, generateSessionId } from '../../../utils/storage';
-import { useGetCartQuery, useSaveCartMutation } from '../api/CartApi';
+import { useGetCartQuery, useSaveCartMutation, useGetCartItemsCountQuery } from '../api/CartApi';
 
-import { CartItemModel } from '../../../models/cart';
+import { AddCartItemModel, CartItemModel } from '../../../models/cart';
 import { RootState } from '@/store/app-store';
 
 export const useCart = () => {
@@ -18,15 +18,17 @@ export const useCart = () => {
   }, [sessionId]);
 
   const { data: items, refetch } = useGetCartQuery({userId, sessionId});
+  const { data: itemCount } = useGetCartItemsCountQuery({ sessionId, userId });
+
   const [saveCart] = useSaveCartMutation();
 
-  const addToCart = (item: CartItemModel) => {
-    const updatedItems = items ? [...items, item] : [item];
-    saveCart({ sessionId, userId, cart: updatedItems });
+  const addToCart = (item: AddCartItemModel) => {
+    saveCart({ sessionId, userId, cart: item });
   };
 
   return {
     items,
+    itemCount,
     addToCart,
     refetch,
   };

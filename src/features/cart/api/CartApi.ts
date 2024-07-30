@@ -1,6 +1,6 @@
 // src/api/cartApi.ts
 
-import { CartItemModel } from "@/models/cart";
+import { AddCartItemModel, CartItemModel } from "@/models/cart";
 import { appApi } from "@/store/app-api";
 
 
@@ -12,7 +12,12 @@ interface GetCartParams {
 interface SaveCartParams {
   userId: string | null; // Optional
   sessionId: string; // Required
-  cart: CartItemModel[];
+  cart: AddCartItemModel;
+}
+
+interface GetCartItemsCountParams {
+  sessionId: string;
+  userId: string | null;
 }
 
 const extendedCartApi = appApi.injectEndpoints({
@@ -31,7 +36,7 @@ const extendedCartApi = appApi.injectEndpoints({
         },
       }),
     }),
-    getCart: builder.query<CartItemModel[], { sessionId: string; userId: string | null }>({
+    getCart: builder.query<CartItemModel[], GetCartItemsCountParams>({
       query: ({ sessionId, userId }) => ({
         url: '/cart',
         method: 'GET',
@@ -40,6 +45,17 @@ const extendedCartApi = appApi.injectEndpoints({
           ...(userId !== null && { Authorization: `Bearer ${userId}` }),
         },
       }),
+    }),
+    getCartItemsCount: builder.query<number, GetCartItemsCountParams>({
+      query: ({ sessionId, userId }) => ({
+        url: '/cart/count',
+        method: 'GET',
+        headers: {
+          'sessionId': sessionId, // Use sessionId in the headers
+          ...(userId !== null && { Authorization: `Bearer ${userId}` }), // Conditionally add Authorization header
+        },
+      }),
+      transformResponse: (response: { status: boolean; message: string; data: { count: number }; meta: any }) => response.data.count, // Extract count from response
     }),
     deleteCart: builder.mutation<void, GetCartParams>({
       query: (params) => ({
@@ -54,5 +70,5 @@ const extendedCartApi = appApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetCartQuery, useSaveCartMutation, useDeleteCartMutation } = extendedCartApi;
+export const { useGetCartQuery, useSaveCartMutation, useGetCartItemsCountQuery, useDeleteCartMutation } = extendedCartApi;
 export default extendedCartApi;
