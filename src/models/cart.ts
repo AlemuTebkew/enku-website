@@ -7,3 +7,9 @@ export interface CartItemModel {
     price: number,
     image: string
 }
+
+export interface AddCartItemModel {
+    productId: string,
+    variationId: string,
+    quantity: number
+}

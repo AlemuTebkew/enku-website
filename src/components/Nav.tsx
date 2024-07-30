@@ -20,6 +20,7 @@ import CartDrawer from '../features/cart/components/CartDrawer';
 import { useAppSelector } from '@/store/app-store-hooks';
 import { RootState } from '@/store/app-store';
 import { Separator } from './ui/separator';
+import { CartItemModel } from '@/models/cart';
 
 
 interface NavProps {
@@ -36,7 +37,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  const items = useAppSelector((state: RootState) => state.cart.items);
+  const items:CartItemModel[] = []
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -44,7 +45,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
 
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) {
-      setStickyMenu(true);
+      setStickyMenu(false);
     } else {
       setStickyMenu(false);
     }

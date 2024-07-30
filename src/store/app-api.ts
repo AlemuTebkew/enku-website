@@ -10,7 +10,7 @@ const createAppApi = () => {
     baseQuery,
     endpoints: (builder) => ({}), // Start with an empty object for endpoints
     tagTypes: [
-        
+        "Cart"
     ]
   });
 };

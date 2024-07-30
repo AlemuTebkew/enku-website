@@ -7,6 +7,7 @@ import { RootState } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
 import { clearCart, removeItem } from '../store/cart-slice';
 import CartItem from './CartItem';
+import { CartItemModel } from '@/models/cart';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -14,7 +15,7 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  const items = useAppSelector((state: RootState) => state.cart.items);
+  const items:CartItemModel[] = []
   const dispatch = useAppDispatch();
 
  return (
