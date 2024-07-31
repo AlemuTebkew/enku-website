@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 
 // Define a base query function
-const baseQuery: BaseQueryFn = fetchBaseQuery({ baseUrl: '/api' });
+const baseQuery: BaseQueryFn = fetchBaseQuery({ baseUrl: 'http://192.168.1.9:5000/user' });
 
 // Define a function to create an API with dynamic endpoints
 const createAppApi = () => {

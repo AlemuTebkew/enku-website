@@ -2,8 +2,8 @@
 export async function fetchCategoriesAndBrands() {
     try {
       const [categoriesRes, brandsRes] = await Promise.all([
-        fetch('http://192.168.110.156:5000/user/categories', { cache: "no-store" }),
-        fetch('http://192.168.110.156:5000/admin/brands', { cache: "no-store" })
+        fetch('http://192.168.1.9:5000/user/categories', { cache: "no-store" }),
+        fetch('http://192.168.1.9:5000/admin/brands', { cache: "no-store" })
       ]);
   
       const categories = await categoriesRes.json();
@@ -40,7 +40,7 @@ export async function fetchProducts(searchParams: { [key: string]: string | stri
     .join('&');
 
   try {
-    const response = await fetch(`http://192.168.110.156:5000/user/products?${query}`,{ cache: "no-store" });
+    const response = await fetch(`http://192.168.1.9:5000/user/products?${query}`,{ cache: "no-store" });
     const result = await response.json();
 
     if (result.status) {
@@ -55,7 +55,7 @@ export async function fetchProducts(searchParams: { [key: string]: string | stri
 }
 
 export async function fetchProductDetail(id: string) {
-  const res = await fetch(`http://192.168.110.156:5000/user/products/${id}`, {
+  const res = await fetch(`http://192.168.1.9:5000/user/products/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

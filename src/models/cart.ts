@@ -11,5 +11,5 @@ export interface CartItemModel {
 export interface AddCartItemModel {
     productId: string,
     variationId: string,
-    quantity: number
+    quantity: number,
 }

@@ -1,7 +1,44 @@
 // src/api/cartApi.ts
 
-import { AddCartItemModel, CartItemModel } from "@/models/cart";
+import { AddCartItemModel } from "@/models/cart";
 import { appApi } from "@/store/app-api";
+
+interface CartItemVariation {
+  id: string;
+  sku: string;
+  title: string;
+  color: string | null;
+  isFeatured: boolean | null;
+  price: string;
+  quantity: number;
+  images: { id: string; url: string }[];
+  optionValues: {
+    id: string;
+    value: string;
+    option: {
+      id: string;
+      name: string;
+    };
+  }[];
+}
+
+export interface CartItemModel {
+  id: string;
+  quantity: number;
+  variation: CartItemVariation;
+}
+
+interface CartData {
+  cartId: string;
+  items: CartItemModel[];
+}
+
+interface FetchCartResponse {
+  status: boolean;
+  message: string;
+  data: CartData;
+  meta: Record<string, any>;
+}
 
 
 interface GetCartParams {
@@ -15,6 +52,12 @@ interface SaveCartParams {
   cart: AddCartItemModel;
 }
 
+interface DeleteCartItemParams {
+  userId: string | null; // Optional
+  sessionId: string; // Required
+  cartItemId: string;
+}
+
 interface GetCartItemsCountParams {
   sessionId: string;
   userId: string | null;
@@ -24,7 +67,7 @@ const extendedCartApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     saveCart: builder.mutation<void, SaveCartParams>({
       query: ({ userId, sessionId, cart }) => ({
-        url: '/cart',
+        url: '/carts',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,23 +75,26 @@ const extendedCartApi = appApi.injectEndpoints({
           'sessionId': sessionId, // Send sessionId or empty string if null
         },
         body: {
-          cart, // Only include cart in the body
+          ...cart, // Only include cart in the body
         },
       }),
+      invalidatesTags: ['Cart'],
     }),
-    getCart: builder.query<CartItemModel[], GetCartItemsCountParams>({
+    getCartItems: builder.query<CartData, GetCartParams>({
       query: ({ sessionId, userId }) => ({
-        url: '/cart',
+        url: '/carts',
         method: 'GET',
         headers: {
           'sessionId': sessionId, // Use sessionId in the headers
-          ...(userId !== null && { Authorization: `Bearer ${userId}` }),
+          ...(userId !== null && { Authorization: `Bearer ${userId}` }), // Conditionally add Authorization header
         },
       }),
+      transformResponse: (response: FetchCartResponse) => response.data,
+      providesTags: ['Cart'],
     }),
     getCartItemsCount: builder.query<number, GetCartItemsCountParams>({
       query: ({ sessionId, userId }) => ({
-        url: '/cart/count',
+        url: '/carts/item-count',
         method: 'GET',
         headers: {
           'sessionId': sessionId, // Use sessionId in the headers
@@ -56,12 +102,17 @@ const extendedCartApi = appApi.injectEndpoints({
         },
       }),
       transformResponse: (response: { status: boolean; message: string; data: { count: number }; meta: any }) => response.data.count, // Extract count from response
+      providesTags: ['Cart'],
     }),
-    deleteCart: builder.mutation<void, GetCartParams>({
-      query: (params) => ({
-        url: 'delete-cart',
-        method: 'POST',
-        body: params,
+    deleteCart: builder.mutation<void, DeleteCartItemParams>({
+      query: ({userId, sessionId, cartItemId}) => ({
+        url: `/carts/${cartItemId}`,
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(userId !== null && { Authorization: `Bearer ${userId}` }),
+          'sessionId': sessionId, // Send sessionId or empty string if null
+        },
       }),
       invalidatesTags: ['Cart'],
     }),
@@ -70,5 +121,5 @@ const extendedCartApi = appApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetCartQuery, useSaveCartMutation, useGetCartItemsCountQuery, useDeleteCartMutation } = extendedCartApi;
+export const { useGetCartItemsQuery, useSaveCartMutation, useGetCartItemsCountQuery, useDeleteCartMutation } = extendedCartApi;
 export default extendedCartApi;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -13,6 +13,8 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 
+import { toast } from "sonner"
+
 import { Product } from '@/models/product';
 import { Separator } from '@/components/ui/separator';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -23,17 +25,31 @@ import Chip from '@mui/material/Chip';
 import Image from 'next/image';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import useCart from '@/features/cart/hooks/useCart';
+import CustomButton from '@/components/Button';
   
 
 const ProductDetail: React.FC<{product: Product}> = ({product}) => {
-
+  const { addToCart, isSaveCartLoading, isSaveCartSuccess, isSaveCartError } = useCart()
   const [selectedImage, setSelectedImage] = useState<number>(0)
   const [value, setValue] = useState(0);
-  const [selectedVariant, setSelectedVariant] = useState<number>(product.variations?.findIndex(p => p.isDefault === true) ?? 0)
+  const [selectedVariant, setSelectedVariant] = useState<number>(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    if(isSaveCartSuccess) {
+        toast("Product Added to Cart!", {
+            // description: "Sunday, December 03, 2023 at 9:00 AM",
+            action: {
+              label: "View Bag",
+              onClick: () => console.log("View Bag"),
+            },
+          })
+    }
+  },[isSaveCartSuccess])
 
   return (
     <div className='mx-auto max-w-c-1390 py-0 w-full lg:px-12 2xl:px-0'>
@@ -312,10 +328,15 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                         <path className="text-primaryT self-end" fill="#fff" stroke="currentColor" d="M11.4967297,19.0021565 C12.1501607,18.4744665 15.7313591,16.1461023 16.6556949,15.4660553 C20.4639993,12.6642314 22.5,9.83806845 22.500204,6.31427989 C22.4080534,3.08900922 19.7336922,0.5 16.5,0.5 C14.6798666,0.5 13.0132876,1.30878098 11.8904344,2.71234752 L11.5,3.20039053 L11.1095656,2.71234752 C9.98671236,1.30878098 8.32013337,0.5 6.5,0.5 C3.16873226,0.5 0.5,3.08355995 0.5,6.3 C0.5,9.87466924 2.55294628,12.7216506 6.38828771,15.5301224 C7.34346545,16.229562 10.7334347,18.4195137 11.4967297,19.0021565 Z"></path>
                     </svg>
                 </Button>
-                <Button className='w-full flex gap-2 items-center'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20"><g fill="none" fill-rule="evenodd"><path d="M21 23H-3V-1h24z"></path><path fill="#fff" fill-rule="nonzero" d="M9.348 0A4.355 4.355 0 0 0 5 4.348v.87a.435.435 0 1 0 .87 0v-.87A3.472 3.472 0 0 1 9.348.87a3.472 3.472 0 0 1 3.478 3.478v.87a.435.435 0 1 0 .87 0v-.87A4.355 4.355 0 0 0 9.348 0zM5.22 6a.87.87 0 0 0-.87.87H2.179a.435.435 0 0 0-.435.367L.004 18.976a.454.454 0 0 0 .109.353c.082.095.2.15.326.15h1.304v.434h1.305v-.435H15.22v.435h1.305v-.435h1.304a.428.428 0 0 0 .326-.15.453.453 0 0 0 .109-.352l-1.74-11.74a.436.436 0 0 0-.434-.366h-2.174a.87.87 0 1 0-1.739 0H6.091a.87.87 0 0 0-.87-.87z"></path></g></svg>
-                    Add to Bag
-                </Button>
+                <CustomButton 
+                onClick={() => addToCart({productId: product.id, variationId: product.variations[selectedVariant].id, quantity: 1})} 
+                isLoading={isSaveCartLoading} className='w-full'
+                >
+                    <div className='w-full flex gap-2 items-center'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20"><g fill="none" fill-rule="evenodd"><path d="M21 23H-3V-1h24z"></path><path fill="#fff" fill-rule="nonzero" d="M9.348 0A4.355 4.355 0 0 0 5 4.348v.87a.435.435 0 1 0 .87 0v-.87A3.472 3.472 0 0 1 9.348.87a3.472 3.472 0 0 1 3.478 3.478v.87a.435.435 0 1 0 .87 0v-.87A4.355 4.355 0 0 0 9.348 0zM5.22 6a.87.87 0 0 0-.87.87H2.179a.435.435 0 0 0-.435.367L.004 18.976a.454.454 0 0 0 .109.353c.082.095.2.15.326.15h1.304v.434h1.305v-.435H15.22v.435h1.305v-.435h1.304a.428.428 0 0 0 .326-.15.453.453 0 0 0 .109-.352l-1.74-11.74a.436.436 0 0 0-.434-.366h-2.174a.87.87 0 1 0-1.739 0H6.091a.87.87 0 0 0-.87-.87z"></path></g></svg>
+                        Add to Bag
+                    </div>
+                </CustomButton>
             </div>
         </div>
         
