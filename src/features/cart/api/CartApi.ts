@@ -71,7 +71,7 @@ const extendedCartApi = appApi.injectEndpoints({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(userId !== null && { Authorization: `Bearer ${userId}` }),
+          ...(userId !== null && { userId: userId }),
           'sessionId': sessionId, // Send sessionId or empty string if null
         },
         body: {
@@ -86,7 +86,7 @@ const extendedCartApi = appApi.injectEndpoints({
         method: 'GET',
         headers: {
           'sessionId': sessionId, // Use sessionId in the headers
-          ...(userId !== null && { Authorization: `Bearer ${userId}` }), // Conditionally add Authorization header
+          ...(userId !== null && { userId: userId }), // Conditionally add Authorization header
         },
       }),
       transformResponse: (response: FetchCartResponse) => response.data,
@@ -98,7 +98,7 @@ const extendedCartApi = appApi.injectEndpoints({
         method: 'GET',
         headers: {
           'sessionId': sessionId, // Use sessionId in the headers
-          ...(userId !== null && { Authorization: `Bearer ${userId}` }), // Conditionally add Authorization header
+          ...(userId !== null && { userId: userId }), // Conditionally add Authorization header
         },
       }),
       transformResponse: (response: { status: boolean; message: string; data: { count: number }; meta: any }) => response.data.count, // Extract count from response
@@ -110,7 +110,7 @@ const extendedCartApi = appApi.injectEndpoints({
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          ...(userId !== null && { Authorization: `Bearer ${userId}` }),
+          ...(userId !== null && { userId: userId }),
           'sessionId': sessionId, // Send sessionId or empty string if null
         },
       }),

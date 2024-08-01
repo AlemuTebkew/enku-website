@@ -1,27 +1,45 @@
-// src/slices/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { authApi } from '../api/authApi';
 
 interface AuthState {
-  userId: string | null;
+  token: string | null;
+  customer: {
+    id: string;
+    phoneNumber: string;
+    name?: string;
+    email?: string;
+  } | null;
 }
 
 const initialState: AuthState = {
-  userId: null,
+  token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
+  customer: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('customer') || 'null') : null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{ userId: string }>) => {
-      state.userId = action.payload.userId;
-    },
     logout: (state) => {
-      state.userId = null;
+      state.token = null;
+      state.customer = null;
+      localStorage.removeItem('token');
+      localStorage.removeItem('customer');
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      authApi.endpoints.loginOrRegister.matchFulfilled,
+      (state, action: PayloadAction<{ token: string; customer: AuthState['customer'] }>) => {
+        const { token, customer } = action.payload;
+        state.token = token;
+        state.customer = customer;
+        localStorage.setItem('token', token);
+        localStorage.setItem('customer', JSON.stringify(customer));
+      }
+    );
   },
 });
 
-export const { login, logout } = authSlice.actions;
-
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
