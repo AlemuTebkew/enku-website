@@ -2,22 +2,7 @@ import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/r
 import { RootState } from './app-store';
 
 // Define a base query function
-const baseQuery: BaseQueryFn = fetchBaseQuery(
-  { 
-    baseUrl: 'http://192.168.1.9:5000/user',
-    prepareHeaders: (headers, { getState }) => {
-      // Get the auth token from the state
-      const token = (getState() as RootState).auth.token;
-      
-      // If we have a token, include it in the headers
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      
-      return headers;
-    }, 
-  }
-);
+const baseQuery: BaseQueryFn = fetchBaseQuery({ baseUrl: 'http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user'});
 
 // Define a function to create an API with dynamic endpoints
 const createAppApi = () => {
@@ -27,7 +12,8 @@ const createAppApi = () => {
     endpoints: (builder) => ({}), // Start with an empty object for endpoints
     tagTypes: [
         "Cart",
-        "Auth"
+        "Auth",
+        "Order"
     ]
   });
 };

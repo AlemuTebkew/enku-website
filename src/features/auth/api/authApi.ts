@@ -1,11 +1,11 @@
 import { appApi } from '../../../store/app-api';  // Import your base appApi
 
-interface LoginRequest {
-  phoneNumber: string;
-  password?: string;
+export interface LoginRequest {
+  loginInfo: LoginInfo
+  sessionId: string
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   token: string;
   customer: {
     id: string;
@@ -15,19 +15,32 @@ interface AuthResponse {
   } | null;
 }
 
+export interface LoginInfo {
+  phoneNumber: string;
+  password?: string;
+}
+
 export const authApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     loginOrRegister: builder.mutation<AuthResponse, LoginRequest>({
       query: (credentials) => ({
         url: '/auth/login',  // Replace with your actual login endpoint
         method: 'POST',
-        body: credentials,
+        body: {...credentials.loginInfo},
+        headers: {
+          'Content-Type': 'application/json',
+          'sessionId': credentials.sessionId, // Send sessionId or empty string if null
+        }
       }),
       invalidatesTags: ['Auth'],
     }),
-    fetchProfile: builder.query<AuthResponse['customer'], void>({
-      query: () => ({
+    fetchProfile: builder.query<AuthResponse['customer'], string>({
+      query: (token) => ({
         url: '/auth/me',  // Replace with your actual profile endpoint
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
       }),
       providesTags: ['Auth'],
     }),

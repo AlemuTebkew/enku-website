@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { clearCart, removeItem } from '../store/cart-slice';
 import CartItem from './CartItem';
 import useCart from '../hooks/useCart';
+import { useRouter } from 'next/navigation';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -15,7 +16,7 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
-  
+  const router = useRouter()
   const { cartData, isFetchCartItemLoading,  } = useCart()
   // const items:CartItemModel[] = []
   const dispatch = useAppDispatch();
@@ -103,7 +104,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <div>
               <p>{`ETB ${cartData.items.reduce((acc, current) => acc + (+current.variation.price*current.quantity), 0)}`}</p>
             </div>
-            <Button variant="default" color="primary" onClick={() => dispatch(clearCart())}>
+            <Button variant="default" color="primary" onClick={() => router.push(`/checkout/${cartData.cartId}`)}>
               Checkout
             </Button>
           </div>

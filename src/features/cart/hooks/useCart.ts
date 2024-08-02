@@ -8,7 +8,7 @@ import { AddCartItemModel, CartItemModel } from '../../../models/cart';
 import { RootState } from '@/store/app-store';
 
 export const useCart = () => {
-  const { token, customer } = useSelector((state: RootState) => state.auth);
+  const { token, userId } = useSelector((state: RootState) => state.auth);
   const sessionId = getLocalStorageItem('sessionId') || generateSessionId();
 
   useEffect(() => {
@@ -17,18 +17,18 @@ export const useCart = () => {
     }
   }, [sessionId]);
 
-  const { data: cartData, isLoading: isFetchCartItemLoading, refetch } = useGetCartItemsQuery({userId:customer?.id ?? null, sessionId});
-  const { data: itemCount } = useGetCartItemsCountQuery({ sessionId, userId:customer?.id ?? null });
+  const { data: cartData, isLoading: isFetchCartItemLoading, refetch } = useGetCartItemsQuery({userId:token ?? null, sessionId});
+  const { data: itemCount } = useGetCartItemsCountQuery({ sessionId, userId:token ?? null });
 
   const [saveCart, {isLoading: isSaveCartLoading, isError: isSaveCartError, isSuccess: isSaveCartSuccess}] = useSaveCartMutation();
   const [deleteCartItem, {isLoading: isDeleteCartItemLoading, isError: isDeleteCartItemError, isSuccess: isDeleteCartItemSuccess}] = useDeleteCartMutation();
 
-  const addToCart = (item: AddCartItemModel) => {
-    saveCart({ sessionId, userId:customer?.id ?? null, cart: item });
+  const addToCart = async (item: AddCartItemModel) => {
+    await saveCart({ sessionId, userId:token?? null, cart: item });
   };
 
   const deleteCart = (itemId: string) => {
-    deleteCartItem({ sessionId, userId:customer?.id ?? null, cartItemId: itemId });
+    deleteCartItem({ sessionId, userId:token ?? null, cartItemId: itemId });
   };
 
   return {

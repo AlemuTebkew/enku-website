@@ -22,7 +22,7 @@ import { RootState } from '@/store/app-store';
 import { Separator } from './ui/separator';
 import { CartItemModel } from '@/models/cart';
 import useCart from '@/features/cart/hooks/useCart';
-
+import { useRouter } from 'next/navigation';
 
 interface NavProps {
   categories: Category[];
@@ -30,7 +30,11 @@ interface NavProps {
 }
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 const Nav: React.FC<NavProps> = ({ categories, brands }) => {
+  const router = useRouter()
+  const { token, userId } = useAppSelector((state: RootState) => state.auth);
+  console.log("token","token"+token)
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -51,7 +55,6 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
       setStickyMenu(false);
     }
   };
-
 
   const handleSearch = (searchQuery: string) => {
     setSearchTerm(searchQuery);
@@ -80,7 +83,6 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
     }
     return acc;
   }, {});
-
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
@@ -160,11 +162,16 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
           </div>
           <div className='flex gap-4 items-center flex-1'>
             <SearchBar/>
-            <Button 
-            className='w-32 py-[10px] px-4 bg-primary text-background rounded-md font-semibold hover:bg-secondary'
-            >
-              Sign in
-            </Button>
+            {
+              token === null || token === 'undefined' && (
+                <Button
+                onClick={() => router.push('/login')}
+                className='w-32 py-[10px] px-4 bg-primary text-background rounded-md font-semibold hover:bg-secondary'
+                >
+                  Sign in
+                </Button>
+              )
+            }
             <button type="button" id="header-bag-icon" className="">
               <svg 
               xmlns="http://www.w3.org/2000/svg" 

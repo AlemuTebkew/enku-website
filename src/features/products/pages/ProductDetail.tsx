@@ -150,7 +150,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                             >
                                 {
                                     product.variations.map((variation, index) => (
-                                        <option value={index}>
+                                        <option key={index} value={index}>
                                             {variation.sku}
                                         </option>
                                     ))
@@ -159,7 +159,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                             <div className='hidden flex flex-row gap-2 mt-4 lg:block'>
                                 {
                                     product.variations.map((variation, index) => (
-                                        <div className='w-min cursor-pointer' onClick={() => {
+                                        <div key={index} className='w-min cursor-pointer' onClick={() => {
                                             setSelectedImage(0)
                                             setSelectedVariant(index)
                                             }}>
@@ -207,7 +207,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                 <div className='flex gap-2'>
                     {
                         product.variations.map((variation, index) => (
-                            <div className={`py-1 px-2 w-min rounded-md cursor-pointer border-[1.5px] ${index === selectedVariant && 'bg-[#FDEBF4] border-secondary text-black'} ${index !== selectedVariant && 'bg-background text-black'}`} onClick={() => {
+                            <div key={index} className={`py-1 px-2 w-min rounded-md cursor-pointer border-[1.5px] ${index === selectedVariant && 'bg-[#FDEBF4] border-secondary text-black'} ${index !== selectedVariant && 'bg-background text-black'}`} onClick={() => {
                                 setSelectedImage(0)
                                 setSelectedVariant(index)
                                 }}>

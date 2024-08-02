@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authApi } from '../api/authApi';
 
-interface AuthState {
-  token: string | null;
+interface Customer {
   customer: {
     id: string;
     phoneNumber: string;
@@ -11,9 +10,14 @@ interface AuthState {
   } | null;
 }
 
+interface AuthState {
+  token: string | null;
+  userId: string | null
+}
+
 const initialState: AuthState = {
   token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
-  customer: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('customer') || 'null') : null,
+  userId: typeof window !== 'undefined' ? localStorage.getItem('userId') : null,
 };
 
 const authSlice = createSlice({
@@ -22,20 +26,20 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.token = null;
-      state.customer = null;
+      state.userId = null;
       localStorage.removeItem('token');
-      localStorage.removeItem('customer');
+      localStorage.removeItem('userId');
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       authApi.endpoints.loginOrRegister.matchFulfilled,
-      (state, action: PayloadAction<{ token: string; customer: AuthState['customer'] }>) => {
+      (state, action: PayloadAction<{ token: string; customer: Customer['customer']}>) => {
         const { token, customer } = action.payload;
         state.token = token;
-        state.customer = customer;
+        state.userId = customer?.id ?? null;
         localStorage.setItem('token', token);
-        localStorage.setItem('customer', JSON.stringify(customer));
+        customer?.id && localStorage.setItem('userId', customer.id);
       }
     );
   },
