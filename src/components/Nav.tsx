@@ -9,6 +9,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import SearchBar from './SearchBar'
 import { Divider} from "@mui/material";
 import Sidebar from './Sidebar';
@@ -23,6 +24,7 @@ import { Separator } from './ui/separator';
 import { CartItemModel } from '@/models/cart';
 import useCart from '@/features/cart/hooks/useCart';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/features/auth/hooks/useAuth'
 
 interface NavProps {
   categories: Category[];
@@ -33,7 +35,7 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 const Nav: React.FC<NavProps> = ({ categories, brands }) => {
   const router = useRouter()
-  const { token, userId } = useAppSelector((state: RootState) => state.auth);
+  const {token} = useAuth()
   console.log("token","token"+token)
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
@@ -163,13 +165,19 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
           <div className='flex gap-4 items-center flex-1'>
             <SearchBar/>
             {
-              token === null || token === 'undefined' && (
+              (token === null || token === 'undefined') ? (
                 <Button
                 onClick={() => router.push('/login')}
                 className='w-32 py-[10px] px-4 bg-primary text-background rounded-md font-semibold hover:bg-secondary'
                 >
                   Sign in
                 </Button>
+              ) :
+              (
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
               )
             }
             <button type="button" id="header-bag-icon" className="">

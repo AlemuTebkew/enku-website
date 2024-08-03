@@ -8,15 +8,8 @@ import { AddCartItemModel, CartItemModel } from '../../../models/cart';
 import { RootState } from '@/store/app-store';
 
 export const useCart = () => {
-  const { token, userId } = useSelector((state: RootState) => state.auth);
-  const sessionId = getLocalStorageItem('sessionId') || generateSessionId();
-
-  useEffect(() => {
-    if (!getLocalStorageItem('sessionId')) {
-      setLocalStorageItem('sessionId', sessionId);
-    }
-  }, [sessionId]);
-
+  const { token, userId,sessionId } = useSelector((state: RootState) => state.auth);
+  
   const { data: cartData, isLoading: isFetchCartItemLoading, refetch } = useGetCartItemsQuery({userId:token ?? null, sessionId});
   const { data: itemCount } = useGetCartItemsCountQuery({ sessionId, userId:token ?? null });
 

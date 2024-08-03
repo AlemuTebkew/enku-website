@@ -17,8 +17,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { z } from "zod";
-import useAuth from '../hooks/useAuth';
 import CustomButton from '@/components/Button';
+import { useAuth } from '../hooks/useAuth';
+import { getSessionId } from '@/utils/getLocalStorageData';
  
 const FormSchema = z.object({
   phone: z
@@ -27,7 +28,8 @@ const FormSchema = z.object({
 });
 
 const LoginPage = () => {
-  const {login, isLoginSuccess, isLoginLoading, isLoginError} = useAuth()
+  const {submitLoginRequest, selectIsLoading} = useAuth()
+  
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -36,8 +38,11 @@ const LoginPage = () => {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    login({
-      phoneNumber: data.phone
+    submitLoginRequest({
+      loginInfo: {
+        phoneNumber: data.phone
+      },
+      sessionId: getSessionId()
     })
 
     toast({
@@ -77,7 +82,7 @@ const LoginPage = () => {
                   )}
                 />
                 {/* <Button type="submit">Submit</Button> */}
-                <CustomButton isLoading={isLoginLoading} type='submit' className="w-full bg-pink-600 text-white py-3 rounded-lg hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 flex justify-center items-center mb-6">
+                <CustomButton isLoading={selectIsLoading} type='submit' className="w-full bg-pink-600 text-white py-3 rounded-lg hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 flex justify-center items-center mb-6">
                   Sign in with Mobile Number
                   <svg className="ml-2" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9.66667 0.166992L8.41667 1.41699L12.2253 5.22559H0.5V6.89225H12.2253L8.41667 10.7008L9.66667 11.9508L15.5586 6.05892L9.66667 0.166992Z" fill="#FFF"></path>

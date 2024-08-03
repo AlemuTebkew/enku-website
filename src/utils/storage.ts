@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const setLocalStorageItem = (key: string, value: string) => {
   if (typeof window !== 'undefined') {
-    localStorage.setItem(key, value);
+    window.localStorage.setItem(key, value);
   }
 };
 

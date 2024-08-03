@@ -2,7 +2,7 @@ import { appApi } from '../../../store/app-api';  // Import your base appApi
 
 export interface LoginRequest {
   loginInfo: LoginInfo
-  sessionId: string
+  sessionId: string | null
 }
 
 export interface AuthResponse {
@@ -29,7 +29,7 @@ export const authApi = appApi.injectEndpoints({
         body: {...credentials.loginInfo},
         headers: {
           'Content-Type': 'application/json',
-          'sessionId': credentials.sessionId, // Send sessionId or empty string if null
+          ...(credentials.sessionId !== null && { 'sessionId': credentials.sessionId })
         }
       }),
       invalidatesTags: ['Auth'],
