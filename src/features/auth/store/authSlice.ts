@@ -14,17 +14,25 @@ interface Customer {
 }
 
 interface AuthState {
-  token: string | null
-  userId: string | null,
-  sessionId: string,
-  isLoading: boolean
+  token: string | null;
+  userId: string | null;
+  sessionId: string;
+  isLoading: boolean;
+  cartDrawerOpen: boolean;
+  mobileNavBarOpen: boolean;
+  afterLoginRedirect: string;
+  loginSuccess: boolean; // Add this line
 }
 
 const initialState: AuthState = {
   token: getCurrentToken(),
   userId: getCurrentUserId(),
   sessionId: getSessionId(),
-  isLoading: false
+  isLoading: false,
+  cartDrawerOpen: false,
+  mobileNavBarOpen: false,
+  afterLoginRedirect: "/",
+  loginSuccess: false, // Add this line
 };
 
 const authSlice = createSlice({
@@ -32,13 +40,23 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setSession: (state, action: PayloadAction<AuthResponse>) => {
-      localStorage.setItem("token", JSON.stringify(action.payload));
-      localStorage.setItem("userId", JSON.stringify(action.payload));
+      localStorage.setItem("token", action.payload.token);
+      action.payload.customer && localStorage.setItem("userId", action.payload.customer?.id);
       state.token = action.payload.token;
-      action.payload.customer && (state.userId = action.payload.customer.id)
+      action.payload.customer && (state.userId = action.payload.customer.id);
+      state.loginSuccess = true;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    setCartDrawerOpen: (state, action: PayloadAction<boolean>) => {
+      state.cartDrawerOpen = action.payload
+    },
+    setMobileNavbarOpen: (state, action: PayloadAction<boolean>) => {
+      state.mobileNavBarOpen = action.payload
+    },
+    setAfterLoginRedirect: (state, action: PayloadAction<string>) => {
+      state.afterLoginRedirect = action.payload
     },
     logOut: (state) => {
       state.token = null;
@@ -66,7 +84,7 @@ export function logIn(request: LoginRequest) {
         }
       );
       
-      dispatch(setSession({ token: response.data.token, customer: response.data.customer }));
+      dispatch(setSession({ token: response.data.data.token, customer: response.data.data.customer }));
  
     } catch (error: any) {}
     finally {
@@ -75,13 +93,17 @@ export function logIn(request: LoginRequest) {
   };
 }
 
-export const { setSession, logOut,setLoading } = authSlice.actions;
+export const { setSession, logOut,setLoading, setCartDrawerOpen, setMobileNavbarOpen, setAfterLoginRedirect } = authSlice.actions;
 
 
 export const selectToken = (state: RootState) => state.auth.token;
 export const selectUserId = (state: RootState) => state.auth.userId;
 export const selectSessionId = (state: RootState) => state.auth.sessionId;
 export const selectIsLoading = (state: RootState):boolean => state.auth.isLoading;
+export const selectCartDrawerOpen = (state: RootState):boolean => state.auth.cartDrawerOpen;
+export const selectMobileNavBarOpen = (state: RootState):boolean => state.auth.mobileNavBarOpen;
+export const selectAfterLoginRedirect = (state: RootState):string => state.auth.afterLoginRedirect;
+export const selectLoginSuccess = (state: RootState):boolean => state.auth.loginSuccess;
 export default authSlice.reducer;
 
 

@@ -9,6 +9,8 @@ import { clearCart, removeItem } from '../store/cart-slice';
 import CartItem from './CartItem';
 import useCart from '../hooks/useCart';
 import { useRouter } from 'next/navigation';
+import { CartItemModel } from '../api/CartApi';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -18,8 +20,82 @@ interface CartDrawerProps {
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const router = useRouter()
   const { cartData, isFetchCartItemLoading,  } = useCart()
+  const { setCartDrawerOpen, setMobileNavbarOpen } = useAuth()
   // const items:CartItemModel[] = []
   const dispatch = useAppDispatch();
+
+  const orderItems: CartItemModel[] = [
+    {
+      "id": "item1",
+      "quantity": 2,
+      "variation": {
+        "id": "var1",
+        "sku": "SKU12345",
+        "title": "Luxury Face Cream Foundation",
+        "color": "Beige",
+        "isFeatured": true,
+        "price": "49.99",
+        "quantity": 10,
+        "images": [
+          {
+            "id": "img1",
+            "url": "https://images-static.nykaa.com/media/catalog/product/6/5/654bc788809738312872.jpg"
+          },
+          {
+            "id": "img2",
+            "url": "https://images-static.nykaa.com/media/catalog/product/6/5/654bc788809738312872.jpg"
+          }
+        ],
+        "optionValues": [
+          {
+            "id": "opt1",
+            "value": "50ml",
+            "option": {
+              "id": "size",
+              "name": "Size"
+            }
+          },
+          {
+            "id": "opt2",
+            "value": "Normal",
+            "option": {
+              "id": "skin-type",
+              "name": "Skin Type"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "item2",
+      "quantity": 1,
+      "variation": {
+        "id": "var2",
+        "sku": "SKU67890",
+        "title": "Radiant Glow Serum Foundation",
+        "color": null,
+        "isFeatured": false,
+        "price": "29.99",
+        "quantity": 5,
+        "images": [
+          {
+            "id": "img3",
+            "url": "https://images-static.nykaa.com/media/catalog/product/6/5/654bc788809738312872.jpg"
+          }
+        ],
+        "optionValues": [
+          {
+            "id": "opt3",
+            "value": "30ml",
+            "option": {
+              "id": "size",
+              "name": "Size"
+            }
+          }
+        ]
+      }
+    }
+  ]
 
  return (
     <Drawer
@@ -34,13 +110,13 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g opacity="0.92"><path d="M21.51 11.2108H5.42L10.93 5.71079C11.0237 5.61783 11.0981 5.50723 11.1489 5.38537C11.1997 5.26351 11.2258 5.1328 11.2258 5.00079C11.2258 4.86878 11.1997 4.73808 11.1489 4.61622C11.0981 4.49436 11.0237 4.38376 10.93 4.29079C10.7426 4.10454 10.4892 4 10.225 4C9.96081 4 9.70736 4.10454 9.52 4.29079L2.3 11.5008C2.20551 11.5934 2.13034 11.7039 2.07885 11.8257C2.02735 11.9476 2.00055 12.0785 2 12.2108C2.00055 12.3431 2.02735 12.474 2.07885 12.5959C2.13034 12.7177 2.20551 12.8282 2.3 12.9208L9.51 20.1308C9.6983 20.3191 9.9537 20.4249 10.22 20.4249C10.4863 20.4249 10.7417 20.3191 10.93 20.1308C11.1183 19.9425 11.2241 19.6871 11.2241 19.4208C11.2241 19.1545 11.1183 18.8991 10.93 18.7108L5.43 13.2108H21.51C21.7752 13.2108 22.0296 13.1054 22.2171 12.9179C22.4046 12.7304 22.51 12.476 22.51 12.2108C22.51 11.9456 22.4046 11.6912 22.2171 11.5037C22.0296 11.3161 21.7752 11.2108 21.51 11.2108Z" fill="black"></path></g></svg>
           </IconButton>
           <h2 className="text-lg font-bold leading-relaxed tracking-widest">Bag</h2>
-          {cartData && cartData.items.length > 0 && (
-            <p className='mx-2'>{`${cartData.items.reduce((acc, current) => acc + current.quantity, 0)} items`}</p>
+          {orderItems && orderItems.length > 0 && (
+            <p className='mx-2'>{`${orderItems.reduce((acc, current) => acc + current.quantity, 0)} items`}</p>
           )}
         </div>
-        <div className="px-4 py-4 flex-1 overflow-auto flex flex-col gap-2">
-          {cartData && cartData.items.length > 0 ? (
-            cartData.items.map((item, index) => (
+        <div className="px-4 py-4 flex-1 overflow-auto flex flex-col gap-4">
+          {orderItems && orderItems.length > 0 ? (
+            orderItems.map((item, index) => (
               <CartItem key={index} item={item}/>
             ))
           ) : (
@@ -99,12 +175,17 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             </div>
           )}
         </div>
-        {cartData && cartData.items.length > 0 && (
+        {orderItems && orderItems.length > 0 && (
           <div className="flex justify-between items-center p-4 border-t border-gray-200">
             <div>
-              <p>{`ETB ${cartData.items.reduce((acc, current) => acc + (+current.variation.price*current.quantity), 0)}`}</p>
+              <p>{`ETB ${orderItems.reduce((acc, current) => acc + (+current.variation.price*current.quantity), 0)}`}</p>
             </div>
-            <Button variant="default" color="primary" onClick={() => router.push(`/checkout/${cartData.cartId}`)}>
+            <Button variant="default" color="primary" onClick={() => {
+              setCartDrawerOpen(false)
+              setMobileNavbarOpen(false)
+              router.push(`/checkout`)
+            }
+              }>
               Checkout
             </Button>
           </div>

@@ -3,7 +3,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div>
+    <div className='absolute w-full h-screen top-0 left-0 bg-background z-50 pt-4'>
       <CheckoutPage/>
     </div>
   )

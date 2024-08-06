@@ -1,6 +1,7 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -28,7 +29,10 @@ const FormSchema = z.object({
 });
 
 const LoginPage = () => {
-  const {submitLoginRequest, selectIsLoading} = useAuth()
+  const {submitLoginRequest, selectIsLoading, token} = useAuth()
+  const router = useRouter();
+  const searchParams = new URLSearchParams(window.location.search);
+  const redirectPath = searchParams.get('redirect') || '/';
   
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -54,6 +58,13 @@ const LoginPage = () => {
       ),
     });
   }
+
+
+  useEffect(() => {
+    if (token) {
+      router.push(redirectPath);
+    }
+  }, [token, redirectPath, router]);
       
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-pink-50">

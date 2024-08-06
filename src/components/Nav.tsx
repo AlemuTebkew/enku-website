@@ -35,7 +35,7 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 const Nav: React.FC<NavProps> = ({ categories, brands }) => {
   const router = useRouter()
-  const {token} = useAuth()
+  const {token, setCartDrawerOpen, setMobileNavbarOpen, cartDrawerOpen, mobileNavBarOpen} = useAuth()
   console.log("token","token"+token)
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
@@ -47,7 +47,10 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
   const { itemCount } = useCart()
 
   const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
+    setCartDrawerOpen(!cartDrawerOpen);
+  };
+  const toggleNavDrawer = () => {
+    setMobileNavbarOpen(!mobileNavBarOpen);
   };
 
   const handleStickyMenu = () => {
@@ -204,7 +207,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
                 {itemCount}
               </span>
             </button>
-            <CartDrawer isOpen={isDrawerOpen} onClose={toggleDrawer} />
+            <CartDrawer isOpen={cartDrawerOpen} onClose={toggleDrawer} />
           </div>
         </div>
         <Divider className='mt-2'/>
@@ -293,7 +296,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
       <div className='flex items-center mx-4 mt-2 lg:hidden'>
         <SearchBar/>
       </div>
-      <Sidebar isOpen={navigationOpen} setIsOpen={setNavigationOpen} categories={categories} brands={brands}/>
+      <Sidebar isOpen={mobileNavBarOpen} setIsOpen={toggleNavDrawer} categories={categories} brands={brands}/>
           {/* <!-- Hamburger Toggle BTN --> */}
     </div>
   )
