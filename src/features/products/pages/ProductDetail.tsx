@@ -156,7 +156,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                     ))
                                 }
                             </select>
-                            <div className='hidden flex flex-row gap-2 mt-4 lg:block'>
+                            <div className='hidden lg:flex lg:flex-row lg:gap-2 lg:mt-4'>
                                 {
                                     product.variations.map((variation, index) => (
                                         <div key={index} className='w-min cursor-pointer' onClick={() => {
@@ -171,7 +171,16 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                                     ))
                                 }
                             </div>
-                            <Button className='hidden lg:block mt-4 w-min'>Add to Bag</Button>
+                            <CustomButton 
+                            onClick={() => addToCart({productId: product.id, variationId: product.variations[selectedVariant].id, quantity: 1})} 
+                            isLoading={isSaveCartLoading} className='hidden w-min my-4 lg:flex'
+                            >
+                                <div className='w-full flex gap-2 items-center'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 18 20"><g fill="none" fill-rule="evenodd"><path d="M21 23H-3V-1h24z"></path><path fill="#fff" fill-rule="nonzero" d="M9.348 0A4.355 4.355 0 0 0 5 4.348v.87a.435.435 0 1 0 .87 0v-.87A3.472 3.472 0 0 1 9.348.87a3.472 3.472 0 0 1 3.478 3.478v.87a.435.435 0 1 0 .87 0v-.87A4.355 4.355 0 0 0 9.348 0zM5.22 6a.87.87 0 0 0-.87.87H2.179a.435.435 0 0 0-.435.367L.004 18.976a.454.454 0 0 0 .109.353c.082.095.2.15.326.15h1.304v.434h1.305v-.435H15.22v.435h1.305v-.435h1.304a.428.428 0 0 0 .326-.15.453.453 0 0 0 .109-.352l-1.74-11.74a.436.436 0 0 0-.434-.366h-2.174a.87.87 0 1 0-1.739 0H6.091a.87.87 0 0 0-.87-.87z"></path></g></svg>
+                                    Add to Bag
+                                </div>
+                            </CustomButton>
+                            {/* <Button className='hidden lg:block mt-4 w-min'>Add to Bag</Button> */}
                         </div>
                         <div className='hidden absolute bottom-0 left-0 w-full bg-background lg:block'>
                             <div className='hidden lg:flex lg: gap-2 lg:w-full lg:mt-0 lg:px-4'>
@@ -243,7 +252,6 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                     </div>
                 </div>
             </div>
-            
             { /* product description section */ }
             <div className='lg:mx-12 mt-8'>
                 <p className='text-xl font-semibold mb-4 mx-4 lg:mx-0'>Product Description</p>
@@ -313,13 +321,21 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                         </div>
                         <p className='text-md text-center font-normal mb-2'>{product.name}</p>
                         <p className='text-lg text-center font-semibold text-primary mb-4'>{`ETB ${product.price}`}</p>
-                        <button className='bg-primary text-white py-2 px-4 rounded'>Add to Bag</button>
+                        <CustomButton 
+                        onClick={() => addToCart({productId: product.id, variationId: product.variations[selectedVariant].id, quantity: 1})} 
+                        isLoading={isSaveCartLoading} className='w-min'
+                        >
+                            <div className='w-full flex gap-2 items-center'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20"><g fill="none" fill-rule="evenodd"><path d="M21 23H-3V-1h24z"></path><path fill="#fff" fill-rule="nonzero" d="M9.348 0A4.355 4.355 0 0 0 5 4.348v.87a.435.435 0 1 0 .87 0v-.87A3.472 3.472 0 0 1 9.348.87a3.472 3.472 0 0 1 3.478 3.478v.87a.435.435 0 1 0 .87 0v-.87A4.355 4.355 0 0 0 9.348 0zM5.22 6a.87.87 0 0 0-.87.87H2.179a.435.435 0 0 0-.435.367L.004 18.976a.454.454 0 0 0 .109.353c.082.095.2.15.326.15h1.304v.434h1.305v-.435H15.22v.435h1.305v-.435h1.304a.428.428 0 0 0 .326-.15.453.453 0 0 0 .109-.352l-1.74-11.74a.436.436 0 0 0-.434-.366h-2.174a.87.87 0 1 0-1.739 0H6.091a.87.87 0 0 0-.87-.87z"></path></g></svg>
+                                Add to Bag
+                            </div>
+                        </CustomButton>
                     </div>
                 </div>
             </div>
             { /* add to cart section */}
-            <div className='flex bg-background rounded-md p-4 gap-4 mt-8 xl:hidden sticky bottom-0 shadow-soft'>
-                <Button variant={'outline'} className='w-1/4'>
+            <div className='flex bg-background rounded-md p-4 gap-4 mt-8 xl:hidden sticky bottom-0 shadow-soft z-50'>
+                <Button variant={'outline'} className='w-1/4 h-auto'>
                     <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     width="24"
@@ -330,11 +346,11 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                 </Button>
                 <CustomButton 
                 onClick={() => addToCart({productId: product.id, variationId: product.variations[selectedVariant].id, quantity: 1})} 
-                isLoading={isSaveCartLoading} className='w-full'
+                isLoading={isSaveCartLoading} className='w-full flex items-center h-auto'
                 >
-                    <div className='w-full flex gap-2 items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20"><g fill="none" fill-rule="evenodd"><path d="M21 23H-3V-1h24z"></path><path fill="#fff" fill-rule="nonzero" d="M9.348 0A4.355 4.355 0 0 0 5 4.348v.87a.435.435 0 1 0 .87 0v-.87A3.472 3.472 0 0 1 9.348.87a3.472 3.472 0 0 1 3.478 3.478v.87a.435.435 0 1 0 .87 0v-.87A4.355 4.355 0 0 0 9.348 0zM5.22 6a.87.87 0 0 0-.87.87H2.179a.435.435 0 0 0-.435.367L.004 18.976a.454.454 0 0 0 .109.353c.082.095.2.15.326.15h1.304v.434h1.305v-.435H15.22v.435h1.305v-.435h1.304a.428.428 0 0 0 .326-.15.453.453 0 0 0 .109-.352l-1.74-11.74a.436.436 0 0 0-.434-.366h-2.174a.87.87 0 1 0-1.739 0H6.091a.87.87 0 0 0-.87-.87z"></path></g></svg>
-                        Add to Bag
+                    <div className='flex gap-2 items-center py-1'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 18 20"><g fill="none" fill-rule="evenodd"><path d="M21 23H-3V-1h24z"></path><path fill="#fff" fill-rule="nonzero" d="M9.348 0A4.355 4.355 0 0 0 5 4.348v.87a.435.435 0 1 0 .87 0v-.87A3.472 3.472 0 0 1 9.348.87a3.472 3.472 0 0 1 3.478 3.478v.87a.435.435 0 1 0 .87 0v-.87A4.355 4.355 0 0 0 9.348 0zM5.22 6a.87.87 0 0 0-.87.87H2.179a.435.435 0 0 0-.435.367L.004 18.976a.454.454 0 0 0 .109.353c.082.095.2.15.326.15h1.304v.434h1.305v-.435H15.22v.435h1.305v-.435h1.304a.428.428 0 0 0 .326-.15.453.453 0 0 0 .109-.352l-1.74-11.74a.436.436 0 0 0-.434-.366h-2.174a.87.87 0 1 0-1.739 0H6.091a.87.87 0 0 0-.87-.87z"></path></g></svg>
+                        <p className='text-lg font-bold'>Add to Bag</p>
                     </div>
                 </CustomButton>
             </div>

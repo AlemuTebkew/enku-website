@@ -168,7 +168,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
           <div className='flex gap-4 items-center flex-1'>
             <SearchBar/>
             {
-              (token === null || token === 'undefined') ? (
+              (token === null || token === undefined) ? (
                 <Button
                 onClick={() => router.push('/login')}
                 className='w-32 py-[10px] px-4 bg-primary text-background rounded-md font-semibold hover:bg-secondary'
@@ -245,7 +245,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
       {/* <!-- Hamburger Toggle BTN --> */}
       <div className='mx-4 flex lg:hidden justify-between items-center'>
         <div className='flex gap-4 items-center'>
-          <button onClick={() => setNavigationOpen(true)} type="button" className="h-[40px]" aria-label="hamburger menu">
+          <button onClick={() => setMobileNavbarOpen(true)} type="button" className="h-[40px]" aria-label="hamburger menu">
             <svg 
             width="24px" 
             height="24px" 

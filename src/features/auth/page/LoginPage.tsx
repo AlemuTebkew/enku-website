@@ -31,8 +31,6 @@ const FormSchema = z.object({
 const LoginPage = () => {
   const {submitLoginRequest, selectIsLoading, token} = useAuth()
   const router = useRouter();
-  const searchParams = new URLSearchParams(window.location.search);
-  const redirectPath = searchParams.get('redirect') || '/';
   
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -61,10 +59,12 @@ const LoginPage = () => {
 
 
   useEffect(() => {
-    if (token) {
+    if ((token !== null || token !== undefined) && typeof(window) !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectPath = searchParams.get('redirect') || '/';
       router.push(redirectPath);
     }
-  }, [token, redirectPath, router]);
+  }, [token, router]);
       
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-pink-50">

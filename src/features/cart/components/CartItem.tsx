@@ -19,7 +19,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         <div className="flex flex-col gap-2 border-[0.1px] p-4 rounded-md">
             <div className="flex justify-between gap-2 items-start">
                 <div className="relative w-20 h-20">
-                    <Image 
+                    <Image
                         src={item.variation.images[0].url}
                         layout="fill"
                         objectFit="cover"
@@ -31,14 +31,14 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
                     <p className="text-lg font-medium">{item.variation.title}</p>
                     <div className="mt-2 flex gap-4">
                     {item.variation.optionValues.map((optionValue) => (
-                        <p key={optionValue.id} className="text-sm text-gray-500">
+                        <p key={optionValue.id} className="text-sm text-gray-500 capitalize">
                         {optionValue.option.name}: {optionValue.value}
                         </p>
                     ))}
                     </div>
                 </div>
                 <div className="flex items-center" onClick={() => deleteCart(item.id)}>
-                    <DeleteForeverIcon className="text-black-100 cursor-pointer" />
+                    <DeleteForeverIcon className="text-black-100 cursor-pointer hover:text-primary" />
                 </div>
             </div>
             <Separator className='h-[0.1px]'/>

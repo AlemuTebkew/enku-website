@@ -33,6 +33,7 @@ import useOrder from "../hooks/useOrder";
 import { CartItemModel } from "@/features/cart/api/CartApi";
 import OrderItem from "../components/OrderItem";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import useCart from "@/features/cart/hooks/useCart";
 
 
   const FormSchema = z.object({
@@ -48,6 +49,7 @@ const CheckoutPage: React.FC = () => {
     const router = useRouter()
     const { checkoutOrder, isOrderCheckoutLoading, isOrderCheckoutSuccess, isOrderCheckoutError} = useOrder()
     const { token } = useAuth()
+    const { cartData, isFetchCartItemLoading,  } = useCart()
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -192,7 +194,7 @@ const CheckoutPage: React.FC = () => {
                             <AccordionContent>
                                 <div className="flex flex-col gap-2">
                                     {
-                                        orderItems.map((order, index) => (
+                                        cartData && cartData.items.map((order, index) => (
                                             <OrderItem key={index} item={order} onRemoveItem={(items) => {}} onUpdateQuantity={(item) => {}}/>
                                         ))
                                     }
