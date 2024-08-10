@@ -16,6 +16,7 @@ import CustomButton from '@/components/Button';
 import { Button } from '@/components/ui/button';
 import FilterDrawer from '../components/FilterDrawer';
 import { FilterModel, useLazyGetFilterByCategoryIdQuery } from '../api/productApi';
+import useCart from '@/features/cart/hooks/useCart';
 
 interface ProductListProps {
   category: string | null,
@@ -35,7 +36,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
   const [filter, setFilter] = useState(false)
   const [selectedFilters, setSelectedFilters] = useState<number[]>([]);
   const [getFiltersByCategory, { data: filtersData, isLoading: isGetFiltersLoading, isSuccess: isGetFiltersSuccess, isError: isGetFiltersError}] = useLazyGetFilterByCategoryIdQuery()
-
+  console.log("filtesss", filtersData)
   useEffect(() => {
     if(categoryId !== null && categoryId !== undefined) {
       getFiltersByCategory(categoryId)
@@ -170,7 +171,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
               <div className='bg-background px-4'>
               <Accordion type="single" collapsible className="w-full">
                 {
-                  filters && filters.map((filter) => (
+                  (filtersData !== null && filtersData !== undefined) && filtersData.map((filter) => (
                     <AccordionItem value={filter.name} key={filter.name}>
                       <AccordionTrigger className='text-lg font-medium capitalize'>{filter.name}</AccordionTrigger>
                       <AccordionContent className='flex flex-col gap-4'>
@@ -205,19 +206,19 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
             </div>
           </div>
         </div>
-        <div className='w-full flex justify-between bg-background rounded-md py-4 gap-2 mt-8 lg:hidden sticky bottom-0 shadow-soft'>
-                <Button variant={'outline'} className='w-full h-auto flex gap-2 '>
+        <div className='w-full flex justify-between bg-background rounded-md px-2 py-4 gap-6 mt-8 lg:hidden sticky bottom-0 shadow-soft'>
+                <Button variant={'outline'} className='w-full h-auto flex gap-2 hover:text-background hover:bg-primary border-tertiary1'>
                   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-                  <defs><filter id="579yu3ce3a" width="105.8%" height="143.8%" x="-2.9%" y="-21.9%" filterUnits="objectBoundingBox"><feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"></feGaussianBlur><feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g fill="none" fill-rule="evenodd" opacity=".54"><g fill="#001325" fill-rule="nonzero"><g filter="url(#579yu3ce3a)" transform="translate(-45 -685) translate(0 672)"><g><g><g><g><path d="M5.05 13.551V2.224c0-.373-.307-.68-.679-.68-.372 0-.68.307-.68.68V13.55l-2.513-2.834c-.272-.271-.68-.307-.95-.069-.272.271-.308.68-.07.95l3.704 4.144c.277.343.97.29 1.188 0v-2.19zM12.074 4.398L8.404.255c-.327-.33-.937-.35-1.221 0V13.74c0 .373.307.68.679.68.372 0 .679-.271.679-.647V2.45l2.514 2.834c.271.271.68.307.95.069.271-.274.307-.683.069-.954z" transform="translate(33 6) translate(12) translate(0 7) translate(6 4)"></path></g></g></g></g></g></g></g>
+                  <defs><filter id="579yu3ce3a" width="105.8%" height="143.8%" x="-2.9%" y="-21.9%" filterUnits="objectBoundingBox"><feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"></feGaussianBlur><feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g fill="none" fill-rule="evenodd" opacity=".54"><g fill="currentColor" fill-rule="nonzero"><g filter="url(#579yu3ce3a)" transform="translate(-45 -685) translate(0 672)"><g><g><g><g><path d="M5.05 13.551V2.224c0-.373-.307-.68-.679-.68-.372 0-.68.307-.68.68V13.55l-2.513-2.834c-.272-.271-.68-.307-.95-.069-.272.271-.308.68-.07.95l3.704 4.144c.277.343.97.29 1.188 0v-2.19zM12.074 4.398L8.404.255c-.327-.33-.937-.35-1.221 0V13.74c0 .373.307.68.679.68.372 0 .679-.271.679-.647V2.45l2.514 2.834c.271.271.68.307.95.069.271-.274.307-.683.069-.954z" transform="translate(33 6) translate(12) translate(0 7) translate(6 4)"></path></g></g></g></g></g></g></g>
                   </svg>
                   <div className='flex flex-col items-start'>
                     <p className='font-bold'>Sort</p>
                     <p className=''>By Popularity</p>
                   </div>
                 </Button>
-                <Button variant={'outline'} className='w-full h-auto flex gap-2' onClick={() => setFilter(true)}>
+                <Button variant={'outline'} className='w-full h-auto flex gap-2 hover:text-background hover:bg-primary border-tertiary1' onClick={() => setFilter(true)}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
-                  <defs><filter id="565v74wosa" width="105.8%" height="143.8%" x="-2.9%" y="-21.9%" filterUnits="objectBoundingBox"><feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"></feGaussianBlur><feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g fill="none" fill-rule="evenodd" opacity=".54"><g fill="#001325" fill-rule="nonzero"><g filter="url(#565v74wosa)" transform="translate(-207 -685) translate(0 672)"><g><g><g><path d="M18.533 5c.567 0 1.028.46 1.028 1.028 0 .247-.089.485-.25.672l-4.98 5.773v5.193c0 .332-.16.643-.43.836L11.9 19.935c-.462.33-1.104.224-1.435-.237-.125-.175-.192-.384-.192-.599v-6.625l-5.02-5.771c-.372-.429-.327-1.078.101-1.45C5.541 5.09 5.78 5 6.028 5h12.505zm-5.468 7.841h-1.528v5.797l1.528-1.094V12.84zm4.95-6.576H6.548l4.688 5.39h2.127l4.65-5.39z" transform="translate(195 6) translate(12) translate(0 7)"></path></g></g></g></g></g></g>
+                  <defs><filter id="565v74wosa" width="105.8%" height="143.8%" x="-2.9%" y="-21.9%" filterUnits="objectBoundingBox"><feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"></feGaussianBlur><feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g fill="none" fill-rule="evenodd" opacity=".54"><g fill="currentColor" fill-rule="nonzero"><g filter="url(#565v74wosa)" transform="translate(-207 -685) translate(0 672)"><g><g><g><path d="M18.533 5c.567 0 1.028.46 1.028 1.028 0 .247-.089.485-.25.672l-4.98 5.773v5.193c0 .332-.16.643-.43.836L11.9 19.935c-.462.33-1.104.224-1.435-.237-.125-.175-.192-.384-.192-.599v-6.625l-5.02-5.771c-.372-.429-.327-1.078.101-1.45C5.541 5.09 5.78 5 6.028 5h12.505zm-5.468 7.841h-1.528v5.797l1.528-1.094V12.84zm4.95-6.576H6.548l4.688 5.39h2.127l4.65-5.39z" transform="translate(195 6) translate(12) translate(0 7)"></path></g></g></g></g></g></g>
                   </svg>
                   <div className='flex flex-col items-start'>
                     <p className='font-bold'>Filter</p>
@@ -228,7 +229,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
       </div>
       {/* <div className='w-full h-screen absolute'>
       </div> */}
-      <FilterDrawer isOpen={filter} onClose={setFilter} onItemSelected={handleFilterChange} filters={filters}/>
+      <FilterDrawer isOpen={filter} onClose={setFilter} onItemSelected={handleFilterChange} filters={filtersData} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters}/>
     </Suspense>
   );
 

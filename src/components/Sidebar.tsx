@@ -96,7 +96,7 @@ const Sidebar = ({ isOpen, setIsOpen,categories, brands }: SidebarProps) => {
               },
              }}
              />
-            <Tab 
+            {/* <Tab 
             label="Brands"
             sx={{
               textTransform: 'none',
@@ -106,7 +106,7 @@ const Sidebar = ({ isOpen, setIsOpen,categories, brands }: SidebarProps) => {
                 color: '#FC2779', // Primary color for selected tab
               },
              }}
-            />
+            /> */}
           </Tabs>
         </Box>
         <div className='h-screen overflow-y-auto pr-2' style={{ maxHeight: 'calc(100vh - 120px)'}}>

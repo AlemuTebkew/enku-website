@@ -59,12 +59,12 @@ const LoginPage = () => {
 
 
   useEffect(() => {
-    if ((token !== null || token !== undefined) && typeof(window) !== "undefined") {
+    if (token !== null && token !== undefined && typeof(window) !== "undefined") {
       const searchParams = new URLSearchParams(window.location.search);
       const redirectPath = searchParams.get('redirect') || '/';
       router.push(redirectPath);
     }
-  }, [token, router]);
+  }, [token]);
       
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-pink-50">

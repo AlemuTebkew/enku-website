@@ -75,7 +75,7 @@ const CheckoutPage: React.FC = () => {
         // User is not logged in, redirect to login page
         router.push(`/login?redirect=${encodeURIComponent('/checkout')}`);
       }
-    }, [token, router]);
+    }, [token]);
 
     useEffect(() => {
         if(isOrderCheckoutSuccess) {
