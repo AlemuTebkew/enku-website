@@ -4,10 +4,8 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import SearchBar from './SearchBar'
@@ -18,10 +16,6 @@ import { Category } from '../models/category'
 import { Brand } from '@/models/brand';
 import { Button } from './ui/button';
 import CartDrawer from '../features/cart/components/CartDrawer';
-import { useAppSelector } from '@/store/app-store-hooks';
-import { RootState } from '@/store/app-store';
-import { Separator } from './ui/separator';
-import { CartItemModel } from '@/models/cart';
 import useCart from '@/features/cart/hooks/useCart';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/features/auth/hooks/useAuth'
@@ -36,8 +30,6 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const Nav: React.FC<NavProps> = ({ categories, brands }) => {
   const router = useRouter()
   const {token, setCartDrawerOpen, setMobileNavbarOpen, cartDrawerOpen, mobileNavBarOpen} = useAuth()
-  console.log("token","token"+token)
-  const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,6 +41,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
   const toggleDrawer = () => {
     setCartDrawerOpen(!cartDrawerOpen);
   };
+
   const toggleNavDrawer = () => {
     setMobileNavbarOpen(!mobileNavBarOpen);
   };
@@ -241,7 +234,6 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
           </NavigationMenu>
         </div>
       </div>
-      
       {/* <!-- Hamburger Toggle BTN --> */}
       <div className='mx-4 flex lg:hidden justify-between items-center'>
         <div className='flex gap-4 items-center'>

@@ -15,7 +15,7 @@ import { Product } from '@/models/product';
 import CustomButton from '@/components/Button';
 import { Button } from '@/components/ui/button';
 import FilterDrawer from '../components/FilterDrawer';
-import { useLazyGetFilterByCategoryIdQuery } from '../api/productApi';
+import { FilterModel, useLazyGetFilterByCategoryIdQuery } from '../api/productApi';
 
 interface ProductListProps {
   category: string | null,
@@ -89,6 +89,45 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
   };
 
 
+  const filters: FilterModel[] = [
+    {
+      id: "1",
+      name: "Brand",
+      values: [
+        { id: 1, value: "L'Oreal" },
+        { id: 2, value: "Maybelline" },
+        { id: 3, value: "Nivea" }
+      ]
+    },
+    {
+      id: "2",
+      name: "Price",
+      values: [
+        { id: 4, value: "$0 - $50" },
+        { id: 5, value: "$51 - $100" },
+        { id: 6, value: "$101 - $200" }
+      ]
+    },
+    {
+      id: "3",
+      name: "Color",
+      values: [
+        { id: 7, value: "Red" },
+        { id: 8, value: "Blue" },
+        { id: 9, value: "Green" }
+      ]
+    },
+    {
+      id: "4",
+      name: "Size",
+      values: [
+        { id: 10, value: "Small" },
+        { id: 11, value: "Medium" },
+        { id: 12, value: "Large" }
+      ]
+    },
+  ];
+  
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -131,7 +170,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
               <div className='bg-background px-4'>
               <Accordion type="single" collapsible className="w-full">
                 {
-                  filtersData && filtersData.map((filter) => (
+                  filters && filters.map((filter) => (
                     <AccordionItem value={filter.name} key={filter.name}>
                       <AccordionTrigger className='text-lg font-medium capitalize'>{filter.name}</AccordionTrigger>
                       <AccordionContent className='flex flex-col gap-4'>
@@ -154,7 +193,6 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
                   ))
                 }
               </Accordion>
-
               </div>
             </div>
             <div className='w-full grid grid-cols-1 lg:grid-cols-3 gap-8 lg:col-span-3'>
@@ -167,7 +205,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
             </div>
           </div>
         </div>
-        <div className='w-full flex flex-1 justify-between bg-background rounded-md p-4 gap-4 mt-8 lg:hidden sticky bottom-0 shadow-soft'>
+        <div className='w-full flex justify-between bg-background rounded-md py-4 gap-2 mt-8 lg:hidden sticky bottom-0 shadow-soft'>
                 <Button variant={'outline'} className='w-full h-auto flex gap-2 '>
                   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
                   <defs><filter id="579yu3ce3a" width="105.8%" height="143.8%" x="-2.9%" y="-21.9%" filterUnits="objectBoundingBox"><feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset><feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"></feGaussianBlur><feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.24 0"></feColorMatrix><feMerge><feMergeNode in="shadowMatrixOuter1"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs><g fill="none" fill-rule="evenodd" opacity=".54"><g fill="#001325" fill-rule="nonzero"><g filter="url(#579yu3ce3a)" transform="translate(-45 -685) translate(0 672)"><g><g><g><g><path d="M5.05 13.551V2.224c0-.373-.307-.68-.679-.68-.372 0-.68.307-.68.68V13.55l-2.513-2.834c-.272-.271-.68-.307-.95-.069-.272.271-.308.68-.07.95l3.704 4.144c.277.343.97.29 1.188 0v-2.19zM12.074 4.398L8.404.255c-.327-.33-.937-.35-1.221 0V13.74c0 .373.307.68.679.68.372 0 .679-.271.679-.647V2.45l2.514 2.834c.271.271.68.307.95.069.271-.274.307-.683.069-.954z" transform="translate(33 6) translate(12) translate(0 7) translate(6 4)"></path></g></g></g></g></g></g></g>
@@ -190,7 +228,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
       </div>
       {/* <div className='w-full h-screen absolute'>
       </div> */}
-      <FilterDrawer isOpen={filter} onClose={setFilter} onItemSelected={handleFilterChange}/>
+      <FilterDrawer isOpen={filter} onClose={setFilter} onItemSelected={handleFilterChange} filters={filters}/>
     </Suspense>
   );
 
