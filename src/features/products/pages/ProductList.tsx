@@ -87,8 +87,12 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
       
     // Update the URL with the new query parameters
     router.push(url.toString());
-  };
 
+    router.push({
+      pathname: '/products',
+      query: "",
+    }, undefined, { shallow: true });
+  };
 
   const filters: FilterModel[] = [
     {
