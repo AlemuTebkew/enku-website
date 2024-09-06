@@ -209,17 +209,17 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
             <NavigationMenuList>
             {categories.map((category, index) => (
             <NavigationMenuItem key={category.id}>
-              <NavigationMenuTrigger className='bg-background hover:bg-background hover:text-primaryT'><Link target='_blank' href={`/products?category=${category.name}&&categoryId=${category.id}`}>{category.name}</Link></NavigationMenuTrigger>
+              <NavigationMenuTrigger className='bg-background hover:bg-background hover:text-primaryT'><Link href={`/products?category=${category.name}&&categoryId=${category.id}`}>{category.name}</Link></NavigationMenuTrigger>
               <NavigationMenuContent>
               <ul className="w-[80rem] bg-background p-4 grid grid-cols-4 gap-4">
                 {category.subCategories.map((subCategory) => (
                   <li key={subCategory.id}>
-                    <Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}`}><h4 className="font-semibold mb-2">{subCategory.name}</h4></Link>
+                    <Link className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}`}><h4 className="font-semibold mb-2">{subCategory.name}</h4></Link>
                     {subCategory.subSubCategories.length > 0 && (
                       <ul className="">
                         {subCategory.subSubCategories.map((subSubCategory) => (
                           <li key={subSubCategory.id} className="py-1 hover:text-primaryT">
-                            <Link target='_blank' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}>{subSubCategory.name}</Link>
+                            <Link href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}>{subSubCategory.name}</Link>
                           </li>
                         ))}
                       </ul>

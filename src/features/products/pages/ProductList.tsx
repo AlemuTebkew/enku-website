@@ -88,10 +88,10 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
     // Update the URL with the new query parameters
     router.push(url.toString());
 
-    router.push({
-      pathname: '/products',
-      query: "",
-    }, undefined, { shallow: true });
+    // router.push({
+    //   pathname: '/products',
+    //   query: "",
+    // }, undefined, { shallow: true });
   };
 
   const filters: FilterModel[] = [
@@ -173,31 +173,31 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
                 </Accordion>
               </div>
               <div className='bg-background px-4'>
-              <Accordion type="single" collapsible className="w-full">
-                {
-                  (filtersData !== null && filtersData !== undefined) && filtersData.map((filter) => (
-                    <AccordionItem value={filter.name} key={filter.name}>
-                      <AccordionTrigger className='text-lg font-medium capitalize'>{filter.name}</AccordionTrigger>
-                      <AccordionContent className='flex flex-col gap-4'>
-                        {
-                          filter.values.map((value) => (
-                            <div key={value.value} className="flex items-center justify-between w-full">
-                              <label htmlFor={`${filter.name}-${value.id}`} className="text-lg capitalize">
-                                {value.value}
-                              </label>
-                              <Checkbox
-                                id={`${filter.name}-${value.id}`}
-                                checked={selectedFilters.includes(value.id)}
-                                onCheckedChange={() => handleFilterChange(value.id)}
-                              />
-                            </div>
-                          ))
-                        }
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))
-                }
-              </Accordion>
+                <Accordion type="single" collapsible className="w-full">
+                  {
+                    (filtersData !== null && filtersData !== undefined) && filtersData.map((filter) => (
+                      <AccordionItem value={filter.name} key={filter.name}>
+                        <AccordionTrigger className='text-lg font-medium capitalize'>{filter.name}</AccordionTrigger>
+                        <AccordionContent className='flex flex-col gap-4'>
+                          {
+                            filter.values.map((value) => (
+                              <div key={value.value} className="flex items-center justify-between w-full">
+                                <label htmlFor={`${filter.name}-${value.id}`} className="text-lg capitalize">
+                                  {value.value}
+                                </label>
+                                <Checkbox
+                                  id={`${filter.name}-${value.id}`}
+                                  checked={selectedFilters.includes(value.id)}
+                                  onCheckedChange={() => handleFilterChange(value.id)}
+                                />
+                              </div>
+                            ))
+                          }
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))
+                  }
+                </Accordion>
               </div>
             </div>
             <div className='w-full grid grid-cols-1 lg:grid-cols-3 gap-8 lg:col-span-3'>

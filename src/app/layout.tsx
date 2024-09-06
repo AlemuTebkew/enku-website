@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import { fetchCategoriesAndBrands } from '@/utils/fetchData';
 import StoreProvider from './providers';
+import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default async function RootLayout({
           <Header/>
           <Nav categories={categories} brands={brands}/>
           {children}
+          <Footer/>
         </StoreProvider>
         </Suspense>
         </body>

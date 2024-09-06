@@ -28,7 +28,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <Link target='_blank' href={`/products/${product.id}`}>
           <div className='relative flex flex-col items-center w-full gap-8'>
           <Image 
-            src={`${product.imageUrl}`} 
+            src={`https://images-static.nykaa.com/media/catalog/product/tr:w-220,h-220,cm-pad_resize/e/2/e2f1392DOTKE00000054_1090624.jpg`} 
             width={200} 
             height={200} // Adjusted height for better display
             alt={product.name} // Added alt text for better accessibility
@@ -39,9 +39,9 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             {product.name}
           </p>
           <p>
-            <span className='text-md mr-2 line-through'>ETB 4000</span>
-            {product.price}
-            <span className='text-primaryT ml-2'>25% Off</span>
+            {/* <span className='text-md mr-2 line-through'>ETB 4000</span> */}
+            {`ETB ${product.price}`}
+            {/* <span className='text-primaryT ml-2'>25% Off</span> */}
           </p>
           </div>
         </Link>

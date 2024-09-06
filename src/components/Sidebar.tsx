@@ -115,18 +115,18 @@ const Sidebar = ({ isOpen, setIsOpen,categories, brands }: SidebarProps) => {
             <Accordion type="multiple" className='px-4'>
             {categories.map((category) => (
               <AccordionItem key={category.id} value={category.id}>
-                  <AccordionTrigger><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}`}><p>{category.name}</p></Link></AccordionTrigger>
+                  <AccordionTrigger><Link className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}`}><p>{category.name}</p></Link></AccordionTrigger>
                   <AccordionContent>
                     <Accordion type="multiple">
                       {category.subCategories.map((subCategory) => (
                         <AccordionItem key={subCategory.id} value={subCategory.id}>
-                          <AccordionTrigger><Link target='_blank' className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}`}><p className='font-normal'>{subCategory.name}</p></Link></AccordionTrigger>
+                          <AccordionTrigger><Link className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}`}><p className='font-normal'>{subCategory.name}</p></Link></AccordionTrigger>
                           <AccordionContent>
                             <ul className='flex flex-col gap-0'>
                                 <Separator/>
                                 {subCategory.subSubCategories.map((subSubCategory, index) => (
                                   <div key={index} className='w-full flex flex-col gap-0'>
-                                    <li key={subSubCategory.id}><Link target='_blank' className='hover:text-primaryT px-2' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal p-2'>{subSubCategory.name}</p></Link></li>
+                                    <li key={subSubCategory.id}><Link className='hover:text-primaryT px-2' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal p-2'>{subSubCategory.name}</p></Link></li>
                                     <Separator/>
                                   </div>
                                 ))}
