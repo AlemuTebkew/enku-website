@@ -18,20 +18,13 @@ const config = {
     },
     extend: {
       colors: {
-         // primary: '#FF6B6B', // Primary color (pink)
          primaryT: '#FC2779',
-         // primaryTemp: '#FC2779', // Primary color (pink)
-         // secondaryTemp: '#FF92BB', // Primary color (pink)
-         // secondary: '#6B46C1', // Secondary color (purple)
          secondaryT: '#FF92BB',
          text: '#333333', // Text color
          backgroundT: '#FFFFFF', // Background color
          tertiary: '#E2A1B0',
          tertiary1: '#FFE3E3',
          black: '#000000',
-         // Add more colors as needed
-
-
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
@@ -120,6 +113,7 @@ const config = {
       backgroundImage: {
         // Custom background images
         'pattern': 'url("/images/pattern.png")',
+        'hero': 'url("/images/youtube.png")'
         // Add more background images as per design needs
       },
     },
