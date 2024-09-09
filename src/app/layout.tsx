@@ -32,7 +32,7 @@ export default async function RootLayout({
           <Header/>
           <Nav categories={categories} brands={brands}/>
           {children}
-          <Footer/>
+          {/* <Footer/> */}
         </StoreProvider>
         </Suspense>
         </body>

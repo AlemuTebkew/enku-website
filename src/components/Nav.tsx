@@ -90,11 +90,11 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
   }, []);
 
   return (
-    <div className={`bg-white z-50 w-full py-4 shadow-lg ${
+    <div className={`bg-white z-50 w-full py-4 ${
       stickyMenu ? "bg-white fixed left-0 top-0 !py-4 shadow transition duration-100" : ""
     }`}>
       <div className='w-full hidden lg:block'>
-        <div className=' mx-auto max-w-c-1390 flex py-2 w-full justify-between items-center relative lg:px-12 2xl:px-0'>
+        <div className='mx-auto container flex py-2 w-full justify-between items-center relative lg:px-12 2xl:px-0'>
           <div className='flex items-center gap-10  relative z-50'>
             <div className='w-32'>
               <svg viewBox="0 0 3081 923" fill="none" xmlns="http://www.w3.org/2000/svg">
