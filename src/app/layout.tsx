@@ -31,7 +31,9 @@ export default async function RootLayout({
         <StoreProvider>
           <Header/>
           <Nav categories={categories} brands={brands}/>
-          {children}
+          <div className='bg-white'>
+            {children}
+          </div>
           {/* <Footer/> */}
         </StoreProvider>
         </Suspense>
