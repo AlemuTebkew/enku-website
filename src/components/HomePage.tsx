@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaFacebookF, FaInstagram, FaTiktok, FaTelegramPlane, FaYoutube } from "react-icons/fa";
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
@@ -12,53 +13,15 @@ import { Separator } from "./ui/separator";
 
 const Home = () => {
   return (
-    <main className="flex flex-col gap-8">
+    <main className="flex flex-col gap-0">
       {/* Hero Section with 3 Cards */}
       <section className="pt-4">
         <div className="mx-auto container">
-          <Carousel
-            opts={{
-              align: "start",
-            }}
-            className="block md:hidden w-full"
-          >
-            <CarouselContent>
-              <CarouselItem className="w-full">
-                <div className="relative group">
-                  <img
-                    src="https://images-static.nykaa.com/uploads/41f372ad-c370-40ae-a72c-e46e38fd0c09.gif"
-                    alt="AI Beauty Assistant"
-                    className="w-full h-auto object-cover rounded-lg transition-transform transform"
-                  />
-                </div>
-              </CarouselItem>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                <div className="relative group">
-                  <img
-                    src="https://images-static.nykaa.com/creatives/2beb4533-0acd-46e2-ba5e-796b0c47caf8/default.png?tr=cm-pad_resize,w-900"
-                    alt="Beauty Tips & Tutorials"
-                    className="w-full h-auto object-cover rounded-lg"
-                  />
-                </div>
-              </CarouselItem>
-              <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                <div className="relative group">
-                  <img
-                    src="https://images-static.nykaa.com/creatives/8df26789-9675-49e5-a53f-e6a9ea7d8808/default.jpg?tr=cm-pad_resize,w-900"
-                    alt="Original Products"
-                    className="w-full h-auto object-cover rounded-lg"
-                  />
-                </div>
-              </CarouselItem>
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Card 1 - AI Beauty Assistant */}
             <div className="relative group">
               <img
-                src="https://images-static.nykaa.com/uploads/41f372ad-c370-40ae-a72c-e46e38fd0c09.gif"
+                src="images/face.jpg"
                 alt="AI Beauty Assistant"
                 className="w-full h-auto object-cover rounded-lg transition-transform transform"
               />
@@ -67,7 +30,7 @@ const Home = () => {
             {/* Card 2 - Beauty Tips & Tutorials */}
             <div className="relative group">
               <img
-                src="https://images-static.nykaa.com/creatives/2beb4533-0acd-46e2-ba5e-796b0c47caf8/default.png?tr=cm-pad_resize,w-900"
+                src="images/face.jpg"
                 alt="Beauty Tips & Tutorials"
                 className="w-full h-auto object-cover rounded-lg"
               />
@@ -76,7 +39,7 @@ const Home = () => {
             {/* Card 3 - Original Products */}
             <div className="relative group">
               <img
-                src="https://images-static.nykaa.com/creatives/8df26789-9675-49e5-a53f-e6a9ea7d8808/default.jpg?tr=cm-pad_resize,w-900"
+                src="images/face.jpg"
                 alt="Original Products"
                 className="w-full h-auto object-cover rounded-lg"
               />
@@ -86,7 +49,7 @@ const Home = () => {
       </section>
 
      {/* Skin Type Checker */}
-      <section className="container rounded-lg">
+      <section className="container rounded-lg py-8">
         <div className="relative w-full rounded-lg">
           <Image 
             src="https://images-static.nykaa.com/uploads/e3d8e1f2-5ca1-48e8-ae8b-810c28c3c7b7.jpg?tr=cm-pad_resize,w-1800"
@@ -126,7 +89,7 @@ const Home = () => {
             {/* Card 2 - Beauty Tips & Tutorials */}
             <div className="relative group">
               <img
-                src="https://images-static.nykaa.com/creatives/2beb4533-0acd-46e2-ba5e-796b0c47caf8/default.png?tr=cm-pad_resize,w-900"
+                src="images/face.jpg"
                 alt="Beauty Tips & Tutorials"
                 className="w-full h-auto object-cover rounded-lg"
               />
@@ -135,7 +98,7 @@ const Home = () => {
             {/* Card 3 - Original Products */}
             <div className="relative group">
               <img
-                src="https://images-static.nykaa.com/creatives/8df26789-9675-49e5-a53f-e6a9ea7d8808/default.jpg?tr=cm-pad_resize,w-900"
+                src="images/face.jpg"
                 alt="Original Products"
                 className="w-full h-auto object-cover rounded-lg"
               />
@@ -158,7 +121,7 @@ const Home = () => {
         {/* Example Article Card */}
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <Image
-            src="https://images-static.nykaa.com/creatives/610c9a26-342a-4ca2-a3fd-5ba82236f1e5/default.jpg?tr=cm-pad_resize,w-300"
+            src="/images/face.jpg"
             alt="Skincare Routine"
             width={300}
             height={200}
@@ -180,7 +143,7 @@ const Home = () => {
         {/* Additional Article Cards */}
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <Image
-            src="https://images-static.nykaa.com/creatives/42b347d7-1d4e-48ba-b55a-87a2e8d1d648/default.jpg?tr=cm-pad_resize,w-300"
+            src="/images/face.jpg"
             alt="Makeup Tutorial"
             width={300}
             height={200}
@@ -201,7 +164,7 @@ const Home = () => {
 
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <Image
-            src="https://images-static.nykaa.com/creatives/e8bfbeb3-ddb3-4816-9959-664c4c161b81/default.jpg?tr=cm-pad_resize,w-300"
+            src="/images/face.jpg"
             alt="Haircare Advice"
             width={300}
             height={200}
@@ -254,104 +217,114 @@ const Home = () => {
       </div>
     </section>
 
-      {/* Featured Products Section */}
-      <section className="py-16 px-4">
-        <h3 className="text-3xl font-semibold text-center mb-12">
-          Featured Products
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="p-4 border rounded-lg">
-            <Image
-              src="/images/youtube.png"
-              alt="Product 1"
-              width={300}
-              height={300}
-            />
-            <p className="text-lg mt-4">Product 1</p>
-            <Link href="/product/1">
-              <p className="text-pink-500 mt-2 inline-block">Shop Now</p>
-            </Link>
-          </div>
-          <div className="p-4 border rounded-lg">
-            <Image
-              src="/images/youtube.png"
-              alt="Product 2"
-              width={300}
-              height={300}
-            />
-            <p className="text-lg mt-4">Product 2</p>
-            <Link href="/product/2">
-              <p className="text-pink-500 mt-2 inline-block">Shop Now</p>
-            </Link>
-          </div>
-          <div className="p-4 border rounded-lg">
-            <Image
-              src="/images/youtube.png"
-              alt="Product 3"
-              width={300}
-              height={300}
-            />
-            <p className="text-lg mt-4">Product 3</p>
-            <Link href="/product/3">
-              <p className="text-pink-500 mt-2 inline-block">Shop Now</p>
-            </Link>
-          </div>
-          <div className="p-4 border rounded-lg">
-            <Image
-              src="/images/youtube.png"
-              alt="Product 4"
-              width={300}
-              height={300}
-            />
-            <p className="text-lg mt-4">Product 4</p>
-            <Link href="/product/4">
-              <p className="text-pink-500 mt-2 inline-block">Shop Now</p>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Social Media Community */}
-      {/* <section className="py-16 bg-gray-100 px-4 text-center">
-        <h3 className="text-2xl font-semibold mb-4">Join Our Community</h3>
-        <p className="mb-6">
-          We are just starting out and building our community from the ground up. Follow us on TikTok, Facebook, Telegram, YouTube, and Instagram to stay updated with the latest beauty trends, tips, and products.
+    <section className="bg-gray-100 py-10">
+      <div className="container mx-auto text-center">
+        {/* Section Title */}
+        <h2 className="text-3xl font-bold mb-6">Join Our Beauty Community</h2>
+        <p className="text-gray-600 mb-8">
+          Follow us on social media to stay updated with the latest beauty tips, tutorials, and more.
         </p>
-        <div className="flex justify-center space-x-4">
-          <Link href="https://tiktok.com">
-            <p className="bg-pink-500 text-white px-6 py-2 rounded-full">
-              Follow us on TikTok
-            </p>
-          </Link>
-          <Link href="https://facebook.com">
-            <p className="bg-blue-800 text-white px-6 py-2 rounded-full">
-              Follow us on Facebook
-            </p>
-          </Link>
-          <Link href="https://telegram.org">
-            <p className="bg-blue-500 text-white px-6 py-2 rounded-full">
-              Join us on Telegram
-            </p>
-          </Link>
-          <Link href="https://youtube.com">
-            <p className="bg-red-500 text-white px-6 py-2 rounded-full">
-              Subscribe on YouTube
-            </p>
-          </Link>
-          <Link href="https://instagram.com">
-            <p className="bg-pink-600 text-white px-6 py-2 rounded-full">
-              Follow us on Instagram
-            </p>
-          </Link>
-        </div>
-      </section> */}
 
-      {/* Footer */}
-      <footer className="py-8 bg-gray-900 text-gray-400">
-        <div className="container mx-auto px-4 text-center">
-          <p>© 2024 Enku Beauty. All rights reserved.</p>
+        {/* Social Media Icons */}
+        <div className="flex flex-wrap justify-center gap-6">
+          <Link href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
+            <p className="bg-white text-primary p-4 rounded-full shadow-lg hover:bg-primary hover:text-white transition duration-300">
+              <FaFacebookF className="text-2xl"/>
+            </p>
+          </Link>
+          <Link href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
+            <p className="bg-white text-primary p-4 rounded-full shadow-lg hover:bg-primary hover:text-white transition duration-300">
+              <FaInstagram className="text-2xl" />
+            </p>
+          </Link>
+          <Link href="https://www.tiktok.com/@yourprofile" target="_blank" rel="noopener noreferrer">
+            <p className="bg-white text-primary p-4 rounded-full shadow-lg hover:bg-primary hover:text-white transition duration-300">
+              <FaTiktok className="text-2xl" />
+            </p>
+          </Link>
+          <Link href="https://t.me/yourchannel" target="_blank" rel="noopener noreferrer">
+            <p className="bg-white text-primary p-4 rounded-full shadow-lg hover:bg-primary hover:text-white transition duration-300">
+              <FaTelegramPlane className="text-2xl" />
+            </p>
+          </Link>
+          <Link href="https://www.youtube.com/channel/yourchannel" target="_blank" rel="noopener noreferrer">
+            <p className="bg-white text-primary p-4 rounded-full shadow-lg hover:bg-primary hover:text-white transition duration-300">
+              <FaYoutube className="text-2xl" />
+            </p>
+          </Link>
         </div>
-      </footer>
+
+        {/* Call to Action */}
+        <div className="mt-8">
+          <p className="text-gray-600">
+            Be part of our community and get the latest updates right in your feed!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer className="bg-gradient-to-r from-pink-500 to-purple-600 text-white py-12">
+      <div className="container mx-auto px-4">
+        {/* Footer Top */}
+        <div className="flex flex-col md:flex-row justify-between gap-8 mb-12">
+          {/* About Us */}
+          <div className="flex-1">
+            <h3 className="text-2xl font-semibold mb-4">About Us</h3>
+            <p className="text-gray-200">
+              Enku Beauty is more than just a platform—it's your beauty partner. From personalized AI recommendations to beauty tips and premium products, we’re here to help you look and feel your best.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div className="flex-1">
+            <h3 className="text-2xl font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li><p className="hover:text-gray-300 transition cursor-pointer">About Us</p></li>
+              <li><p className="hover:text-gray-300 transition cursor-pointer">Contact Us</p></li>
+              <li><p className="hover:text-gray-300 transition cursor-pointer">Our Services</p></li>
+              <li><p className="hover:text-gray-300 transition cursor-pointer">Privacy Policy</p></li>
+            </ul>
+          </div>
+
+          {/* Follow Us */}
+          <div className="flex-1">
+            <h3 className="text-2xl font-semibold mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
+                <FaFacebookF className="text-xl" />
+              </p>
+              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
+                <FaInstagram className="text-xl" />
+              </p>
+              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
+                <FaTiktok className="text-xl" />
+              </p>
+              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
+                <FaTelegramPlane className="text-xl" />
+              </p>
+              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
+                <FaYoutube className="text-xl" />
+              </p>
+            </div>
+          </div>
+
+          {/* Contact Information */}
+          <div className="flex-1">
+            <h3 className="text-2xl font-semibold mb-4">Contact Us</h3>
+            <p className="text-gray-200 mb-2">123 Beauty Lane, Addis Ababa, Ethiopia</p>
+            <p className="text-gray-200 mb-2">Phone: +251 123 456 789</p>
+            <p className="text-gray-200">Email: contact@enkubeauty.com</p>
+          </div>
+        </div>
+
+        {/* Footer Bottom */}
+        <div className="border-t border-gray-700 pt-4 text-center">
+          <p className="text-gray-300 text-sm">
+            &copy; {new Date().getFullYear()} Enku Beauty. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
     </main>
   );
 };
