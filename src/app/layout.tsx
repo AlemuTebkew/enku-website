@@ -29,7 +29,7 @@ export default async function RootLayout({
         {/* <Header/> */}
         <Suspense fallback={<div>Loading...</div>}>
         <StoreProvider>
-          <Header/>
+          {/* <Header/> */}
           <Nav categories={categories} brands={brands}/>
           <div className='bg-white'>
             {children}

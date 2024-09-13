@@ -18,13 +18,7 @@ const config = {
     },
     extend: {
       colors: {
-         primaryT: '#FC2779',
-         secondaryT: '#FF92BB',
-         text: '#333333', // Text color
-         backgroundT: '#FFFFFF', // Background color
-         tertiary: '#E2A1B0',
-         tertiary1: '#FFE3E3',
-         black: '#000000',
+         
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",

@@ -1,58 +1,56 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaTiktok, FaTelegramPlane, FaYoutube } from "react-icons/fa";
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import { Separator } from "./ui/separator";
+import CustomCarousel from "./CustomCarousel";
+import { Button } from "./ui/button";
 
 const Home = () => {
   return (
     <main className="flex flex-col gap-0">
       {/* Hero Section with 3 Cards */}
       <section className="pt-4">
+        <div className="container mx-auto">
+
+        <CustomCarousel visibleItems={1}/>
+        </div>
         <div className="mx-auto container">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4"> */}
             {/* Card 1 - AI Beauty Assistant */}
-            <div className="relative group">
+            {/* <div className="relative group">
               <img
-                src="images/face.jpg"
+                src="banner/banner1.avif"
                 alt="AI Beauty Assistant"
                 className="w-full h-auto object-cover rounded-lg transition-transform transform"
               />
-            </div>
+            </div> */}
 
             {/* Card 2 - Beauty Tips & Tutorials */}
-            <div className="relative group">
+            {/* <div className="relative group">
               <img
-                src="images/face.jpg"
+                src="banner/banner2.avif"
                 alt="Beauty Tips & Tutorials"
                 className="w-full h-auto object-cover rounded-lg"
               />
-            </div>
+            </div> */}
 
             {/* Card 3 - Original Products */}
-            <div className="relative group">
+            {/* <div className="relative group">
               <img
-                src="images/face.jpg"
+                src="banner/banner3.avif"
                 alt="Original Products"
                 className="w-full h-auto object-cover rounded-lg"
               />
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
       </section>
 
      {/* Skin Type Checker */}
       <section className="container rounded-lg py-8">
-        <div className="relative w-full rounded-lg">
-          <Image 
-            src="https://images-static.nykaa.com/uploads/e3d8e1f2-5ca1-48e8-ae8b-810c28c3c7b7.jpg?tr=cm-pad_resize,w-1800"
+        <div className="relative w-full rounded-lg border-2">
+          <Image
+            src="/banner/banner7.avif"
             alt="Skin Type Checker"
             width={1800}
             height={0} // This will auto calculate the height based on the width
@@ -76,143 +74,27 @@ const Home = () => {
             </div>
             <Separator className="bg-black/10 font-bold"/>
           </div>
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4 px-4">
-            {/* Card 1 - AI Beauty Assistant */}
-            <div className="relative group">
-              <img
-                src="images/face.jpg"
-                alt="AI Beauty Assistant"
-                className="w-full h-auto object-cover rounded-lg transition-transform transform"
-              />
-            </div>
-
-            {/* Card 2 - Beauty Tips & Tutorials */}
-            <div className="relative group">
-              <img
-                src="images/face.jpg"
-                alt="Beauty Tips & Tutorials"
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            </div>
-
-            {/* Card 3 - Original Products */}
-            <div className="relative group">
-              <img
-                src="images/face.jpg"
-                alt="Original Products"
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            </div>
+          <div className="px-4">
+            <CustomCarousel visibleItems={3}/>
           </div>
         </div>
       </section>
 
-      <section className="container mx-auto py-10">
+      <section className="container mx-auto py-10 flex flex-col gap-2">
       {/* Section Title */}
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold">Discover Beauty Tips & Tutorials</h2>
-        <p className="text-gray-600 mt-2">
-          Explore our latest and most popular beauty tips, tutorials, and expert advice.
-        </p>
-      </div>
-
-      {/* Featured Articles/Tutorials */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        {/* Example Article Card */}
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <Image
-            src="/images/face.jpg"
-            alt="Skincare Routine"
-            width={300}
-            height={200}
-            className="w-full h-48 object-cover"
-          />
-          <div className="p-4">
-            <h3 className="text-lg font-semibold">Skincare Routine for Glowing Skin</h3>
-            <p className="text-gray-600 mt-2">
-              Discover how to create a personalized skincare routine for healthy and glowing skin.
-            </p>
-            <Link href="/blog/skincare-routine">
-              <p className="text-pink-600 font-bold mt-4 block">
-                Read More
-              </p>
-            </Link>
-          </div>
-        </div>
-
-        {/* Additional Article Cards */}
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <Image
-            src="/images/face.jpg"
-            alt="Makeup Tutorial"
-            width={300}
-            height={200}
-            className="w-full h-48 object-cover"
-          />
-          <div className="p-4">
-            <h3 className="text-lg font-semibold">Makeup Tips for Everyday Look</h3>
-            <p className="text-gray-600 mt-2">
-              Learn how to apply makeup for a fresh, everyday look that enhances your natural beauty.
-            </p>
-            <Link href="/blog/makeup-tips">
-              <p className="text-pink-600 font-bold mt-4 block">
-                Read More
-              </p>
-            </Link>
-          </div>
-        </div>
-
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <Image
-            src="/images/face.jpg"
-            alt="Haircare Advice"
-            width={300}
-            height={200}
-            className="w-full h-48 object-cover"
-          />
-          <div className="p-4">
-            <h3 className="text-lg font-semibold">Haircare for Healthy Locks</h3>
-            <p className="text-gray-600 mt-2">
-              Tips and tricks for maintaining healthy, shiny hair with minimal effort.
-            </p>
-            <Link href="/blog/haircare">
-              <p className="text-pink-600 font-bold mt-4 block">
-                Read More
-              </p>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Categories */}
-      <div className="text-center mb-10">
-        <h3 className="text-2xl font-semibold mb-4">Explore by Category</h3>
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link href="/category/skincare">
-            <p className="bg-pink-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-pink-700 transition duration-200">
-              Skincare
-            </p>
-          </Link>
-          <Link href="/category/makeup">
-            <p className="bg-pink-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-pink-700 transition duration-200">
-              Makeup
-            </p>
-          </Link>
-          <Link href="/category/haircare">
-            <p className="bg-pink-600 text-white py-2 px-4 rounded-lg font-bold hover:bg-pink-700 transition duration-200">
-              Haircare
-            </p>
-          </Link>
-          {/* Add more categories as needed */}
-        </div>
-      </div>
-
-      {/* Call to Action */}
-      <div className="text-center">
-        <Link href="/blog">
-          <p className="bg-pink-600 text-white py-3 px-6 rounded-lg font-bold hover:bg-pink-700 transition duration-200">
-            Explore More Beauty Tips
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold">Discover Beauty Hacks</h2>
+          <p className="mt-2">
+          Explore beauty hacks and tutorials from our YouTube channel.
           </p>
+        </div>
+        <CustomCarousel visibleItems={1}/>
+      {/* Call to Action */}
+      <div className="text-center w-min self-center mt-4">
+        <Link href="/blog">
+          <Button className="">
+            Watch More Beauty Hacks
+          </Button>
         </Link>
       </div>
     </section>
