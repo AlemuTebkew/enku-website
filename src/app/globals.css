@@ -10,9 +10,9 @@
     --card-foreground: #333333; /* Dark gray for card text */
     --popover: #FFFFFF; /* White popover background */
     --popover-foreground: #333333; /* Dark gray for popover text */
-    --primary: #512E87; /* Enku Beauty primary pink */
+    --primary: #EA0A8C; /* Enku Beauty primary pink */
     --primary-foreground: #FFFFFF; /* White text on primary color */
-    --secondary: #EA0A8C; /* Light pink as secondary background */
+    --secondary: #512E87; /* Light pink as secondary background */
     --secondary-foreground: #FFFFFF; /* Dark gray for secondary text */
     --muted: #F4E9F0; /* Light pink for muted elements */
     --muted-foreground: #999999; /* Light gray for muted text */

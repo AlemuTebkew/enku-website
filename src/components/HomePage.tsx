@@ -10,39 +10,38 @@ const Home = () => {
     <main className="flex flex-col gap-0">
       {/* Hero Section with 3 Cards */}
       <section className="pt-4">
-        <div className="container mx-auto">
-
-        <CustomCarousel visibleItems={1}/>
+        <div className="container mx-auto lg:hidden">
+          <CustomCarousel visibleItems={1}/>
         </div>
-        <div className="mx-auto container">
-          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4"> */}
+        <div className="hidden mx-auto container lg:block">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Card 1 - AI Beauty Assistant */}
-            {/* <div className="relative group">
+            <div className="relative group">
               <img
                 src="banner/banner1.avif"
                 alt="AI Beauty Assistant"
                 className="w-full h-auto object-cover rounded-lg transition-transform transform"
               />
-            </div> */}
+            </div>
 
             {/* Card 2 - Beauty Tips & Tutorials */}
-            {/* <div className="relative group">
+            <div className="relative group">
               <img
                 src="banner/banner2.avif"
                 alt="Beauty Tips & Tutorials"
                 className="w-full h-auto object-cover rounded-lg"
               />
-            </div> */}
+            </div>
 
             {/* Card 3 - Original Products */}
-            {/* <div className="relative group">
+            <div className="relative group">
               <img
                 src="banner/banner3.avif"
                 alt="Original Products"
                 className="w-full h-auto object-cover rounded-lg"
               />
-            </div> */}
-          {/* </div> */}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -79,7 +78,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-
+      
       <section className="container mx-auto py-10 flex flex-col gap-2">
       {/* Section Title */}
         <div className="mb-8">
@@ -90,14 +89,14 @@ const Home = () => {
         </div>
         <CustomCarousel visibleItems={1}/>
       {/* Call to Action */}
-      <div className="text-center w-min self-center mt-4">
-        <Link href="/blog">
-          <Button className="">
-            Watch More Beauty Hacks
-          </Button>
-        </Link>
-      </div>
-    </section>
+        <div className="text-center w-min self-center mt-4">
+          <Link href="/blog">
+            <Button className="">
+              Watch More Beauty Hacks
+            </Button>
+          </Link>
+        </div>
+      </section>
 
     <section className="bg-gray-100 py-10">
       <div className="container mx-auto text-center">
@@ -145,66 +144,71 @@ const Home = () => {
       </div>
     </section>
 
-    <footer className="bg-gradient-to-r from-pink-500 to-purple-600 text-white py-12">
-      <div className="container mx-auto px-4">
-        {/* Footer Top */}
-        <div className="flex flex-col md:flex-row justify-between gap-8 mb-12">
-          {/* About Us */}
-          <div className="flex-1">
-            <h3 className="text-2xl font-semibold mb-4">About Us</h3>
-            <p className="text-gray-200">
-              Enku Beauty is more than just a platform—it's your beauty partner. From personalized AI recommendations to beauty tips and premium products, we’re here to help you look and feel your best.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div className="flex-1">
-            <h3 className="text-2xl font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><p className="hover:text-gray-300 transition cursor-pointer">About Us</p></li>
-              <li><p className="hover:text-gray-300 transition cursor-pointer">Contact Us</p></li>
-              <li><p className="hover:text-gray-300 transition cursor-pointer">Our Services</p></li>
-              <li><p className="hover:text-gray-300 transition cursor-pointer">Privacy Policy</p></li>
-            </ul>
-          </div>
-
-          {/* Follow Us */}
-          <div className="flex-1">
-            <h3 className="text-2xl font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
-              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
-                <FaFacebookF className="text-xl" />
-              </p>
-              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
-                <FaInstagram className="text-xl" />
-              </p>
-              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
-                <FaTiktok className="text-xl" />
-              </p>
-              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
-                <FaTelegramPlane className="text-xl" />
-              </p>
-              <p className="bg-white p-3 rounded-full text-primary hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
-                <FaYoutube className="text-xl" />
-              </p>
-            </div>
-          </div>
-
-          {/* Contact Information */}
-          <div className="flex-1">
-            <h3 className="text-2xl font-semibold mb-4">Contact Us</h3>
-            <p className="text-gray-200 mb-2">123 Beauty Lane, Addis Ababa, Ethiopia</p>
-            <p className="text-gray-200 mb-2">Phone: +251 123 456 789</p>
-            <p className="text-gray-200">Email: contact@enkubeauty.com</p>
-          </div>
-        </div>
-
-        {/* Footer Bottom */}
-        <div className="border-t border-gray-700 pt-4 text-center">
-          <p className="text-gray-300 text-sm">
-            &copy; {new Date().getFullYear()} Enku Beauty. All rights reserved.
+    <footer className="bg-primary text-white py-10">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        {/* About Section */}
+        <div>
+          <h3 className="text-lg font-bold mb-4">About Enku Beauty</h3>
+          <p className="text-white text-sm">
+            Enku Beauty is your ultimate destination for beauty education and AI-powered services. 
+            Explore tips, tutorials, and more.
           </p>
         </div>
+
+        {/* Links Section */}
+        <div>
+          <h3 className="text-lg font-bold mb-4">Quick Links</h3>
+          <ul className="space-y-2">
+            <li><p>Beauty AI Services</p></li>
+            <li><p>Blog</p></li>
+            <li><p>Privacy Policy</p></li>
+            <li><p>Terms & Conditions</p></li>
+          </ul>
+        </div>
+
+        {/* Community Section */}
+        <div>
+          <h3 className="text-lg font-bold mb-4">Join Our Community</h3>
+          <p className="text-white text-sm mb-4">
+            Connect with us on social media to stay updated with the latest beauty tips and trends.
+          </p>
+          <div className="flex space-x-4">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+              <FaFacebookF className="text-2xl" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+              <FaInstagram className="text-2xl" />
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+              <FaYoutube className="text-2xl" />
+            </a>
+            <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+              <FaTelegramPlane className="text-2xl" />
+            </a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+              <FaTiktok className="text-2xl" />
+            </a>
+          </div>
+        </div>
+
+        {/* Join Telegram Section */}
+        <div>
+          <h3 className="text-lg font-bold mb-4">Get Exclusive Beauty Updates</h3>
+          <p className="text-white text-sm mb-4">
+            Join our Telegram community for the latest beauty hacks, tips, and product updates.
+          </p>
+          <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer">
+            <button className="px-4 py-2 bg-white hover:bg-pink-400 hover:text-white rounded-lg text-primary flex items-center space-x-2">
+              <FaTelegramPlane className="text-lg" />
+              <span>Join Our Telegram</span>
+            </button>
+          </a>
+        </div>
+      </div>
+
+      {/* Footer Bottom */}
+      <div className="mt-10 border-t border-gray-700 pt-6 text-center text-white text-sm">
+        © {new Date().getFullYear()} Enku Beauty. All rights reserved.
       </div>
     </footer>
     </main>
