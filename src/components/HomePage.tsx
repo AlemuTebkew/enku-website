@@ -207,7 +207,7 @@ const Home = () => {
       </div>
 
       {/* Footer Bottom */}
-      <div className="mt-10 border-t border-gray-700 pt-6 text-center text-white text-sm">
+      <div className="mt-10 border-t border-white pt-6 text-center text-white text-sm">
         © {new Date().getFullYear()} Enku Beauty. All rights reserved.
       </div>
     </footer>
