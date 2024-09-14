@@ -68,7 +68,7 @@ const Home = () => {
                 Beauty Tips:
               </h3>
               <p>
-                Today's featured tips
+                Today&apos;s featured tips
               </p>
             </div>
             <Separator className="bg-black/10 font-bold"/>
