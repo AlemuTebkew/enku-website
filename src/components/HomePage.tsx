@@ -145,72 +145,72 @@ const Home = () => {
     </section>
 
     <footer className="bg-primary text-white py-10">
-      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-        {/* About Section */}
-        <div>
-          <h3 className="text-lg font-bold mb-4">About Enku Beauty</h3>
-          <p className="text-white text-sm">
-            Enku Beauty is your ultimate destination for beauty education and AI-powered services. 
-            Explore tips, tutorials, and more.
-          </p>
-        </div>
+            <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+              {/* About Section */}
+              <div>
+                <h3 className="text-lg font-bold mb-4">About Enku Beauty</h3>
+                <p className="text-white text-sm">
+                  Enku Beauty is your ultimate destination for beauty education and AI-powered services. 
+                  Explore tips, tutorials, and more.
+                </p>
+              </div>
 
-        {/* Links Section */}
-        <div>
-          <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-          <ul className="space-y-2">
-            <li><p>Beauty AI Services</p></li>
-            <li><p>Blog</p></li>
-            <li><p>Privacy Policy</p></li>
-            <li><p>Terms & Conditions</p></li>
-          </ul>
-        </div>
+              {/* Links Section */}
+              <div>
+                <h3 className="text-lg font-bold mb-4">Quick Links</h3>
+                <ul className="space-y-2">
+                  <li><p>Beauty AI Services</p></li>
+                  <li><p>Blog</p></li>
+                  <li><p>Privacy Policy</p></li>
+                  <li><p>Terms & Conditions</p></li>
+                </ul>
+              </div>
 
-        {/* Community Section */}
-        <div>
-          <h3 className="text-lg font-bold mb-4">Join Our Community</h3>
-          <p className="text-white text-sm mb-4">
-            Connect with us on social media to stay updated with the latest beauty tips and trends.
-          </p>
-          <div className="flex space-x-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
-              <FaFacebookF className="text-2xl" />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
-              <FaInstagram className="text-2xl" />
-            </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
-              <FaYoutube className="text-2xl" />
-            </a>
-            <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
-              <FaTelegramPlane className="text-2xl" />
-            </a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
-              <FaTiktok className="text-2xl" />
-            </a>
-          </div>
-        </div>
+              {/* Community Section */}
+              <div>
+                <h3 className="text-lg font-bold mb-4">Join Our Community</h3>
+                <p className="text-white text-sm mb-4">
+                  Connect with us on social media to stay updated with the latest beauty tips and trends.
+                </p>
+                <div className="flex space-x-4">
+                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+                    <FaFacebookF className="text-2xl" />
+                  </a>
+                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+                    <FaInstagram className="text-2xl" />
+                  </a>
+                  <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+                    <FaYoutube className="text-2xl" />
+                  </a>
+                  <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+                    <FaTelegramPlane className="text-2xl" />
+                  </a>
+                  <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-pink-400">
+                    <FaTiktok className="text-2xl" />
+                  </a>
+                </div>
+              </div>
 
-        {/* Join Telegram Section */}
-        <div>
-          <h3 className="text-lg font-bold mb-4">Get Exclusive Beauty Updates</h3>
-          <p className="text-white text-sm mb-4">
-            Join our Telegram community for the latest beauty hacks, tips, and product updates.
-          </p>
-          <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer">
-            <button className="px-4 py-2 bg-white hover:bg-pink-400 hover:text-white rounded-lg text-primary flex items-center space-x-2">
-              <FaTelegramPlane className="text-lg" />
-              <span>Join Our Telegram</span>
-            </button>
-          </a>
-        </div>
-      </div>
+              {/* Join Telegram Section */}
+              <div>
+                <h3 className="text-lg font-bold mb-4">Get Exclusive Beauty Updates</h3>
+                <p className="text-white text-sm mb-4">
+                  Join our Telegram community for the latest beauty hacks, tips, and product updates.
+                </p>
+                <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer">
+                  <button className="px-4 py-2 bg-white hover:bg-pink-400 hover:text-white rounded-lg text-primary flex items-center space-x-2">
+                    <FaTelegramPlane className="text-lg" />
+                    <span>Join Our Telegram</span>
+                  </button>
+                </a>
+              </div>
+            </div>
 
-      {/* Footer Bottom */}
-      <div className="mt-10 border-t border-white pt-6 text-center text-white text-sm">
-        © {new Date().getFullYear()} Enku Beauty. All rights reserved.
-      </div>
-    </footer>
+            {/* Footer Bottom */}
+            <div className="mt-10 border-t border-white pt-6 text-center text-white text-sm">
+              © {new Date().getFullYear()} Enku Beauty. All rights reserved.
+            </div>
+          </footer>
     </main>
   );
 };

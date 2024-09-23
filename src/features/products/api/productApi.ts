@@ -23,7 +23,7 @@ export const productApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
         getFilterByCategoryId: builder.query<FilterModel[], string>({
             query: (params) => ({
-                url: `/filters/${params}`,
+                url: params,
                 method: 'GET',
             }),
             transformResponse: (response: FetchFilterResponse) => response.data,

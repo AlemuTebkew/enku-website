@@ -1,7 +1,7 @@
 import {Suspense} from 'react'
-import type { Metadata } from "next";;
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { FaTelegramPlane } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaTiktok, FaTelegramPlane, FaYoutube } from "react-icons/fa";
 import "./globals.css";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
@@ -31,17 +31,18 @@ export default async function RootLayout({
         <Suspense fallback={<div>Loading...</div>}>
         <StoreProvider>
           {/* <Header/> */}
-          {/* <Nav categories={categories} brands={brands}/> */}
-          <header className="sticky top-0 z-50 w-full transition-all duration-300 bg-white backdrop-blur-md shadow-md">
-  <div className="container mx-auto py-4 flex justify-between items-center">
+          <Nav categories={categories} brands={brands}/>
+          
+          {/* <header className="sticky top-0 z-50 w-full transition-all duration-300 bg-white backdrop-blur-md shadow-md">
+  <div className="container mx-auto py-4 flex justify-between items-center"> */}
 
     {/* Logo in the Center */}
-    <div className="">
+    {/* <div className="">
       <img src="/logo.svg" alt="Enku Beauty" className="h-12 w-auto" />
-    </div>
+    </div> */}
 
     {/* Navigation - Hidden on Small Screens */}
-    <nav className="hidden md:flex space-x-6 text-gray-700 text-base font-medium flex-1 justify-center">
+    {/* <nav className="hidden md:flex space-x-6 text-gray-700 text-base font-medium flex-1 justify-center">
       <a href="/" className="hover:text-pink-500 transition duration-300">
         Home
       </a>
@@ -54,26 +55,21 @@ export default async function RootLayout({
       <a href="/ai-assistant" className="hover:text-pink-500 transition duration-300">
         AI Assistant
       </a>
-    </nav>
+    </nav> */}
 
     {/* Call to Action Button & Search Icon */}
-    <div className="flex items-center space-x-4">
+    {/* <div className="flex items-center space-x-4"> */}
       
-      {/* Search Icon */}
-      <button className="text-pink-600 hover:text-pink-700 transition duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3h2v2h-2v4h4v-2h2v2h2V5h-4V3zM5 12v2h2v2H5v2h4v2h2v-2h2v-4H7v2H5z" />
-        </svg>
-      </button>
+     
 
       {/* CTA Button */}
-      <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer" className="flex items-center px-5 py-2 bg-gradient-to-r from-pink-500 to-pink-400 text-white rounded-lg font-semibold hover:from-pink-400 hover:to-pink-300 transition duration-200">
+      {/* <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer" className="flex items-center px-5 py-2 bg-gradient-to-r from-pink-500 to-pink-400 text-white rounded-lg font-semibold hover:from-pink-400 hover:to-pink-300 transition duration-200">
         <FaTelegramPlane className="mr-2" /> Join Our Community
-      </a>
-    </div>
+      </a> */}
+    {/* </div> */}
 
-  </div>
-</header>
+  {/* </div> */}
+{/* </header> */}
 
 
 
