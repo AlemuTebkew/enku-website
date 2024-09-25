@@ -9,13 +9,12 @@ import { Separator } from '@/components/ui/separator';
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: React.Dispatch<SetStateAction<boolean>>;
-  onItemSelected: (id: number) => void
   filters: FilterModel[] | undefined,
   selectedFilters: number[]
-  setSelectedFilters: React.Dispatch<SetStateAction<number[]>>;
+  onSetFilter: (filterIds: number[]) => void;
 }
 
-const FilterDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, onItemSelected, filters, selectedFilters, setSelectedFilters }) => {
+const FilterDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, filters, selectedFilters, onSetFilter }) => {
   const [selectedFilterIds, setSelectedFilterIds] = useState<number[]>(selectedFilters)
   const [selectedFilter, setSelectedFilter] = useState<number>(0)
 
@@ -86,7 +85,7 @@ const FilterDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, onItemSelect
         <div className="w-full flex justify-between items-center p-4 bg-background fixed bottom-0 z-50">
           <Button
           onClick={() => {
-            setSelectedFilters(selectedFilterIds)
+            onSetFilter(selectedFilterIds)
             onClose(false)
           }} 
           className="w-full py-6 cursor-pointer"

@@ -8,6 +8,7 @@ import Nav from "@/components/Nav";
 import { fetchCategoriesAndBrands } from '@/utils/fetchData';
 import StoreProvider from './providers';
 import Footer from '@/components/Footer';
+import SkeletonFilterProductList from '@/features/products/components/SkeletonProductFilter';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,59 +28,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#f3f3f3]`}>
-        {/* <Header/> */}
-        <Suspense fallback={<div>Loading...</div>}>
-        <StoreProvider>
-          {/* <Header/> */}
-          <Nav categories={categories} brands={brands}/>
-          
-          {/* <header className="sticky top-0 z-50 w-full transition-all duration-300 bg-white backdrop-blur-md shadow-md">
-  <div className="container mx-auto py-4 flex justify-between items-center"> */}
-
-    {/* Logo in the Center */}
-    {/* <div className="">
-      <img src="/logo.svg" alt="Enku Beauty" className="h-12 w-auto" />
-    </div> */}
-
-    {/* Navigation - Hidden on Small Screens */}
-    {/* <nav className="hidden md:flex space-x-6 text-gray-700 text-base font-medium flex-1 justify-center">
-      <a href="/" className="hover:text-pink-500 transition duration-300">
-        Home
-      </a>
-      <a href="/beauty-hacks" className="hover:text-pink-500 transition duration-300">
-        Beauty Hacks
-      </a>
-      <a href="/products" className="hover:text-pink-500 transition duration-300">
-        Products
-      </a>
-      <a href="/ai-assistant" className="hover:text-pink-500 transition duration-300">
-        AI Assistant
-      </a>
-    </nav> */}
-
-    {/* Call to Action Button & Search Icon */}
-    {/* <div className="flex items-center space-x-4"> */}
-      
-     
-
-      {/* CTA Button */}
-      {/* <a href="https://t.me/YourTelegramChannel" target="_blank" rel="noopener noreferrer" className="flex items-center px-5 py-2 bg-gradient-to-r from-pink-500 to-pink-400 text-white rounded-lg font-semibold hover:from-pink-400 hover:to-pink-300 transition duration-200">
-        <FaTelegramPlane className="mr-2" /> Join Our Community
-      </a> */}
-    {/* </div> */}
-
-  {/* </div> */}
-{/* </header> */}
-
-
-
-
-
-          <div className='bg-white'>
-            {children}
-          </div>
-          {/* <Footer/> */}
-        </StoreProvider>
+        <Suspense fallback={<SkeletonFilterProductList/>}>
+          <StoreProvider>
+            <Nav categories={categories} brands={brands}/>
+            <div className='bg-white'>
+              {children}
+            </div>
+            {/* <Footer/> */}
+          </StoreProvider>
         </Suspense>
         </body>
     </html>

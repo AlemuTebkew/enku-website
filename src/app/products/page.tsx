@@ -11,7 +11,6 @@ searchParams: {
 
 // Optionally, you can use generateMetadata to create SEO-friendly metadata
 export async function generateMetadata({ searchParams }: ProductsPageProps): Promise<Metadata> {
-const products = await fetchProducts(searchParams);
 
 return {
     title: `Products - ${searchParams.category || 'All Categories'}`,
@@ -22,7 +21,6 @@ return {
 
 const page = async ({ searchParams }: ProductsPageProps) => {
     const products = await fetchProducts(searchParams);
-    console.log(products)
     return (
         <div>
             <ProductList products={products}/>

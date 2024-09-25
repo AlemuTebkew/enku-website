@@ -1,20 +1,45 @@
 `use client`
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Separator } from '@/components/ui/separator';
-import { useAppDispatch } from '@/store/app-store-hooks';
-import { clearCart, removeItem } from '../store/cart-slice';
 import { CartItemModel } from '../api/CartApi';
 import useCart from '../hooks/useCart';
 import QuantityAdjuster from './QuantityAdjuster';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+import { Notify } from '@/lib/Notification/notify';
 
 interface CartItemProps {
     item: CartItemModel;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
-    const {deleteCart} = useCart()
+    const {
+        deleteCart,
+        updateCartQuantity,
+        isDeleteCartItemError, 
+        isDeleteCartItemLoading, 
+        isDeleteCartItemSuccess,
+        isUpdateQuantityLoading,
+        isUpdateQuantitySuccess,
+        isUpdateQuantityError
+    } = useCart()
+
+    const { setCartLoading } = useAuth()
+
+    useEffect(() => {
+        if(isDeleteCartItemLoading || isUpdateQuantityLoading) {
+            setCartLoading(true)
+        }
+    }, [isDeleteCartItemLoading, isUpdateQuantityLoading])
+
+    useEffect(() => {
+        if(isDeleteCartItemSuccess || isUpdateQuantitySuccess) {
+            setCartLoading(false)
+            Notify("success", "Cart item removed")
+        }
+    }, [isDeleteCartItemSuccess, isUpdateQuantitySuccess])
+
     return (
         <div className="flex flex-col gap-2 border-[0.1px] p-4 rounded-md">
             <div className="flex justify-between gap-2 items-start">
@@ -48,8 +73,8 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
                 quantity={item.quantity}
                 minQuantity={1}
                 maxQuantity={item.variation.quantity}
-                onDecrease={() => {}}
-                onIncrease={() => {}}
+                onDecrease={() => {updateCartQuantity(item.quantity - 1, item.id)}}
+                onIncrease={() => {updateCartQuantity(item.quantity + 1, item.id)}}
                 />
                 {/* <div>
                     <p>{`Quantity: ${item.quantity}`}</p>

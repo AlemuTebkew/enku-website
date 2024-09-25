@@ -18,6 +18,7 @@ interface AuthState {
   userId: string | null;
   sessionId: string;
   isLoading: boolean;
+  isCartLoading: boolean;
   cartDrawerOpen: boolean;
   mobileNavBarOpen: boolean;
   afterLoginRedirect: string;
@@ -29,6 +30,7 @@ const initialState: AuthState = {
   userId: getCurrentUserId(),
   sessionId: getSessionId(),
   isLoading: false,
+  isCartLoading: false,
   cartDrawerOpen: false,
   mobileNavBarOpen: false,
   afterLoginRedirect: "/",
@@ -48,6 +50,9 @@ const authSlice = createSlice({
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    setCartLoading: (state, action: PayloadAction<boolean>) => {
+      state.isCartLoading = action.payload;
     },
     setCartDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.cartDrawerOpen = action.payload
@@ -93,13 +98,14 @@ export function logIn(request: LoginRequest) {
   };
 }
 
-export const { setSession, logOut,setLoading, setCartDrawerOpen, setMobileNavbarOpen, setAfterLoginRedirect } = authSlice.actions;
+export const { setSession, logOut,setLoading, setCartLoading, setCartDrawerOpen, setMobileNavbarOpen, setAfterLoginRedirect } = authSlice.actions;
 
 
 export const selectToken = (state: RootState) => state.auth.token;
 export const selectUserId = (state: RootState) => state.auth.userId;
 export const selectSessionId = (state: RootState) => state.auth.sessionId;
 export const selectIsLoading = (state: RootState):boolean => state.auth.isLoading;
+export const selectIsCartLoading = (state: RootState):boolean => state.auth.isCartLoading;
 export const selectCartDrawerOpen = (state: RootState):boolean => state.auth.cartDrawerOpen;
 export const selectMobileNavBarOpen = (state: RootState):boolean => state.auth.mobileNavBarOpen;
 export const selectAfterLoginRedirect = (state: RootState):string => state.auth.afterLoginRedirect;

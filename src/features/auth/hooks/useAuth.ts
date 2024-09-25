@@ -9,7 +9,9 @@ import {
   selectMobileNavBarOpen,
   setCartDrawerOpen,
   setMobileNavbarOpen,
-  selectLoginSuccess
+  selectLoginSuccess,
+  selectIsCartLoading,
+  setCartLoading
 } from "../store/authSlice";
 import { LoginRequest } from "../api/authApi";
 
@@ -20,14 +22,17 @@ export const useAuth = (): {
   mobileNavBarOpen: boolean;
   submitLoginRequest: (request: LoginRequest) => void;
   logOut: () => void;
+  setCartLoading: (value: boolean) => void;
   setCartDrawerOpen: (value: boolean) => void;
   setMobileNavbarOpen: (value: boolean) => void;
   selectIsLoading?: boolean;
+  selectIsCartLoading?: boolean;
   selectLoginSuccess?: boolean
 } => {
   const token = useAppSelector(selectToken);
   const userId = useAppSelector(selectUserId);
   const isLoading = useAppSelector(selectIsLoading);
+  const isCartLoading = useAppSelector(selectIsCartLoading);
   const cartDrawerOpen = useAppSelector(selectCartDrawerOpen);
   const mobileNavBarOpen = useAppSelector(selectMobileNavBarOpen);
   const loginSuccess = useAppSelector(selectLoginSuccess)
@@ -44,6 +49,9 @@ export const useAuth = (): {
     logOut: () => {
       dispatch(logOut());
     },
+    setCartLoading: (value: boolean) => {
+      dispatch(setCartLoading(value))
+    },
     setCartDrawerOpen: (value: boolean) => {
       dispatch(setCartDrawerOpen(value))
     },
@@ -51,6 +59,7 @@ export const useAuth = (): {
       dispatch(setMobileNavbarOpen(value))
     },
     selectIsLoading: isLoading,
+    selectIsCartLoading: isCartLoading,
     selectLoginSuccess: loginSuccess
   };
 };

@@ -19,6 +19,13 @@ interface FetchFilterResponse {
     meta: Record<string, any>;
   }
 
+  interface FetchProductResponse {
+    status: boolean;
+    message: string;
+    data: Product[];
+    meta: Record<string, any>;
+  }
+
 export const productApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
         getFilterByCategoryId: builder.query<FilterModel[], string>({
@@ -28,13 +35,21 @@ export const productApi = appApi.injectEndpoints({
             }),
             transformResponse: (response: FetchFilterResponse) => response.data,
         }),
-        filterProducts: builder.query<string, Product[]>({
-            query: (params) => ({
-                url: `/products?` 
-            })
-        })
+        filterProducts: builder.query<Product[], number[]>({
+            query: (filters) => {
+                const filterParams = `filters=${filters.join(',')}`; // Join filters with commas
+                return {
+                    url: `/products?${filterParams}`, // Append the single filters parameter
+                    method: 'GET',
+                };
+            },
+            transformResponse: (response: FetchProductResponse) => {
+                console.log(response.data)
+                return response.data
+            },
+        }),
     })
 })
 
 
-export const { useLazyGetFilterByCategoryIdQuery } = productApi
+export const { useLazyGetFilterByCategoryIdQuery, useLazyFilterProductsQuery } = productApi

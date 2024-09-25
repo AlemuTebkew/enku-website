@@ -24,7 +24,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
     router.push("/checkout")
   }
   return (
-    <Card className='bg-background rounded-md h-min border'>
+    <Card className='bg-background rounded-md h-min border py-10'>
       {/* <CardHeader> */}
         {/* <CardTitle className='text-sm text-primaryT font-normal'>FEATURED</CardTitle> */}
       {/* </CardHeader> */}
@@ -32,7 +32,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <Link target='_blank' href={`/products/${product.id}`}>
           <div className='relative flex flex-col items-center w-full gap-4'>
             <Image
-              src={`https://images-static.nykaa.com/media/catalog/product/tr:w-220,h-220,cm-pad_resize/e/2/e2f1392DOTKE00000054_1090624.jpg`} 
+              src={product.imageUrl} 
               width={200} 
               height={200} // Adjusted height for better display
               alt={product.name} // Added alt text for better accessibility
@@ -48,7 +48,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           </div>
         </Link>
       </CardContent>
-      <CardFooter className='w-full flex gap-2 px-2 py-2'>
+      {/* <CardFooter className='w-full flex gap-2 px-2 py-2'>
         <CustomButton
         variant="outline"
         onClick={() => {buyNow(product)}} 
@@ -71,7 +71,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 <p className='font-bold'>Add to Bag</p>
             </div>
         </CustomButton>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 };

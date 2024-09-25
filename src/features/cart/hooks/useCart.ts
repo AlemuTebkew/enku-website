@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { setLocalStorageItem, getLocalStorageItem, generateSessionId } from '../../../utils/storage';
-import { useGetCartItemsQuery, useSaveCartMutation, useGetCartItemsCountQuery, useDeleteCartMutation } from '../api/CartApi';
+import { useGetCartItemsQuery, useSaveCartMutation, useGetCartItemsCountQuery, useDeleteCartMutation, useUpdateQuantityMutation } from '../api/CartApi';
 
 import { AddCartItemModel, CartItemModel } from '../../../models/cart';
 import { RootState } from '@/store/app-store';
@@ -16,6 +16,8 @@ export const useCart = () => {
   const [saveCart, {isLoading: isSaveCartLoading, isError: isSaveCartError, isSuccess: isSaveCartSuccess}] = useSaveCartMutation();
   const [deleteCartItem, {isLoading: isDeleteCartItemLoading, isError: isDeleteCartItemError, isSuccess: isDeleteCartItemSuccess}] = useDeleteCartMutation();
 
+  const [updateQuantity, {isLoading: isUpdateQuantityLoading, isError: isUpdateQuantityError, isSuccess: isUpdateQuantitySuccess}] = useUpdateQuantityMutation()
+
   const addToCart = async (item: AddCartItemModel) => {
     await saveCart({ sessionId, userId:token?? null, cart: item });
   };
@@ -23,6 +25,10 @@ export const useCart = () => {
   const deleteCart = (itemId: string) => {
     deleteCartItem({ sessionId, userId:token ?? null, cartItemId: itemId });
   };
+
+  const updateCartQuantity = async (quantity: number, itemId: string) => {
+    updateQuantity({ sessionId, userId:token?? null, cartId: itemId, quantity: quantity })
+  }
 
   return {
     cartData,
@@ -36,6 +42,10 @@ export const useCart = () => {
     isDeleteCartItemLoading,
     isDeleteCartItemError,
     isDeleteCartItemSuccess,
+    updateCartQuantity,
+    isUpdateQuantityLoading,
+    isUpdateQuantitySuccess,
+    isUpdateQuantityError,
     refetch,
   };
 };

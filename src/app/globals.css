@@ -35,6 +35,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  html {
+    color-scheme: light !important;
+  }
 }
 
 /* carousel.css */

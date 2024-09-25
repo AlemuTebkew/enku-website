@@ -52,6 +52,13 @@ interface SaveCartParams {
   cart: AddCartItemModel;
 }
 
+interface UpdateCartQuantityParams {
+  userId: string | null; // Optional
+  sessionId: string; // Required
+  cartId: string;
+  quantity: number
+}
+
 interface DeleteCartItemParams {
   userId: string | null; // Optional
   sessionId: string; // Required
@@ -116,10 +123,26 @@ const extendedCartApi = appApi.injectEndpoints({
       }),
       invalidatesTags: ['Cart'],
     }),
+    updateQuantity: builder.mutation<void, UpdateCartQuantityParams>({
+      query: ({ userId, sessionId, cartId, quantity }) => ({
+        url: '/carts',
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(userId !== null && { 'Authorization': `Bearer ${userId}` }),
+          'sessionId': sessionId, // Send sessionId or empty string if null
+        },
+        body: {
+          itemId: cartId,
+          quantity: quantity
+        },
+      }),
+      invalidatesTags: ['Cart'],
+    }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useGetCartItemsQuery, useSaveCartMutation, useGetCartItemsCountQuery, useDeleteCartMutation } = extendedCartApi;
+export const { useGetCartItemsQuery, useSaveCartMutation, useGetCartItemsCountQuery, useDeleteCartMutation, useUpdateQuantityMutation } = extendedCartApi;
 export default extendedCartApi;

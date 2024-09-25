@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -14,9 +14,9 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Product } from '@/models/product';
 import { Button } from '@/components/ui/button';
 import FilterDrawer from '../components/FilterDrawer';
-import { FilterModel, useLazyGetFilterByCategoryIdQuery } from '../api/productApi';
-import { Card } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { useLazyFilterProductsQuery, useLazyGetFilterByCategoryIdQuery } from '../api/productApi';
+import SkeletonLoader from '../components/SkeletonLoader';
+import SkeletonFilterProductList from '../components/SkeletonProductFilter';
 
 interface ProductListProps {
   category: string | null,
@@ -26,7 +26,6 @@ interface ProductListProps {
 
 // const ProductList: React.FC<ProductListProps>
 const ProductList:React.FC<{products: Product[]}> = ({products}) => {
-  const router = useRouter()
   const searchParams = useSearchParams();
   const category = searchParams.get('category');
   const categoryId = searchParams.get('categoryId')
@@ -35,7 +34,11 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
   const filterBy = searchParams.get('filters');
   const [filter, setFilter] = useState(false)
   const [selectedFilters, setSelectedFilters] = useState<number[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[] | null>(null); // Set initially to null
+  const [isFilterApplied, setIsFilterApplied] = useState(false); // Track if filters are applied
+
   const [getFiltersByCategory, { data: filtersData, isLoading: isGetFiltersLoading, isSuccess: isGetFiltersSuccess, isError: isGetFiltersError}] = useLazyGetFilterByCategoryIdQuery()
+  const [getProductsByFilter, { data: productData, isLoading: isGetProductLoading, isSuccess: isGetProductSuccess, isError: isGetProductError}] = useLazyFilterProductsQuery()
   
   useEffect(() => {
     if(categoryId !== null && categoryId !== undefined) {
@@ -55,49 +58,50 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
     }
   }, [filterBy]);
 
-  useEffect(() => {
-    if (selectedFilters) {
-      applyFilters(selectedFilters);
+  const fetchFilteredProducts = async (filters: number[]) => {
+    const response = await getProductsByFilter(filters);
+    if (response.data && response.data.length > 0) {
+      setFilteredProducts(response.data);
+    } else {
+      setFilteredProducts([]);
     }
-  }, [selectedFilters]);
+    setIsFilterApplied(true);
+  };
 
   const handleFilterChange = (filterId: number) => {
     const updatedFilters = selectedFilters.includes(filterId)
-      ? selectedFilters.filter(id => id !== filterId) // Remove filterId
-      : [...selectedFilters, filterId]; // Add filterId
+      ? selectedFilters.filter((id) => id !== filterId)
+      : [...selectedFilters, filterId];
 
     setSelectedFilters(updatedFilters);
-
-    // applyFilters(updatedFilters);
+    // Fetch filtered products only after user changes filters
+    fetchFilteredProducts(updatedFilters);
+    applyFilters(updatedFilters);
   };
 
+  const handleManyFiltersChange = (filterIds: number[]) => {
+    setSelectedFilters(filterIds)
+    fetchFilteredProducts(filterIds);
+    applyFilters(filterIds);
+  }
+
   const applyFilters = (filters: number[]) => {
-    // Construct the new URL with selected filters
     const query: Record<string, string> = {
-      ...(category &&{ category: category}),
-      ...(categoryId && {categoryId: categoryId}),
-      ...(subCategory && {subCategory: subCategory}),
-      ...(subSubCategory && {subSubCategory: subSubCategory}),
-      ...(filters.length > 0 && {filters: filters.join(',')}), // Join filter IDs with a comma
+      ...(category && { category }),
+      ...(categoryId && { categoryId }),
+      ...(subCategory && { subCategory }),
+      ...(subSubCategory && { subSubCategory }),
+      ...(filters.length > 0 && { filters: filters.join(',') }),
     };
 
-
-     // Create the URL with the updated query
     const url = new URL(window.location.href);
     url.search = new URLSearchParams(query).toString();
-      
-    // Update the URL with the new query parameters
-    router.push(url.toString());
-
-    // router.push({
-    //   pathname: '/products',
-    //   query: "",
-    // }, undefined, { shallow: true });
+    window.history.replaceState({}, '', url.toString());
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className='h-auto relative'>
+    <Suspense fallback={<SkeletonFilterProductList/>}>
+      <div className='h-auto relative bg-[#F3F3F3]'>
         <div className='mx-auto max-w-c-1390 py-2 w-full px-4 lg:px-12 2xl:px-0 mt-2'>
           <div className='flex'>
             {
@@ -119,11 +123,11 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
             }
           </div>
           {/* <p>Home ❯ Hair ❯ Hair Care ❯ Shampoo</p> */}
-          <p className='w-full text-center font-semibold text-2xl'>All Products</p>
+          <p className='w-full text-center font-semibold text-2xl py-4'>All Products</p>
           <div className='grid grid-cols-1 lg:grid-cols-4 gap-8 mt-4'>
-            <div className='hidden lg:col-span-1 lg:flex lg:flex-col lg:gap-0 h-min border rounded-md'>
+            <div className='hidden lg:col-span-1 lg:flex lg:flex-col lg:gap-0 h-min border rounded'>
               {/* First column content */}
-              <div className='bg-background rounded-md'>
+              <div className='bg-background rounded'>
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
                     <AccordionTrigger className='px-4 text-md font-normal'>Sort By: Popularity</AccordionTrigger>
@@ -166,12 +170,24 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
             </div>
             <div className='w-full lg:col-span-3 flex flex-col gap-4'> 
               <div className='w-full grid grid-cols-1 lg:grid-cols-3 gap-8'>
-                {/* Second column content */}
-                {
-                  products && products.map((product, index) => (
-                    <ProductCard key={index} product={product}/>
-                  ))
-                }
+                {/* On first load, show initial products */}
+                {/* Show skeleton loader when loading */}
+                {isGetProductLoading && <SkeletonLoader />}
+
+                {/* On first load, show initial products */}
+                {!isGetProductLoading && !isFilterApplied && products && products.length > 0 && products.map((product, index) => (
+                  <ProductCard key={index} product={product} />
+                ))}
+
+                {/* Show filtered products when filter is applied */}
+                {!isGetProductLoading && isFilterApplied && filteredProducts && filteredProducts.length > 0 && filteredProducts.map((product, index) => (
+                  <ProductCard key={index} product={product} />
+                ))}
+
+                {/* Show message if no filtered products found */}
+                {!isGetProductLoading && isFilterApplied && filteredProducts && filteredProducts.length === 0 && (
+                  <p>No products found for the selected filters.</p>
+                )}
               </div>
             </div>
           </div>
@@ -197,7 +213,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
                 </Button>
         </div>
       </div>
-      <FilterDrawer isOpen={filter} onClose={setFilter} onItemSelected={handleFilterChange} filters={filtersData} selectedFilters={selectedFilters} setSelectedFilters={setSelectedFilters}/>
+      <FilterDrawer isOpen={filter} onClose={setFilter}  filters={filtersData} selectedFilters={selectedFilters} onSetFilter={handleManyFiltersChange}/>
     </Suspense>
   );
 

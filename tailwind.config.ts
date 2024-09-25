@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   content: [
@@ -6,7 +6,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -18,7 +18,6 @@ const config = {
     },
     extend: {
       colors: {
-         
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
@@ -57,7 +56,6 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-
         'lgT': '1rem',
         'full': '9999px',
       },
@@ -88,31 +86,26 @@ const config = {
         heading: ['Inter', 'sans-serif'], // Heading font
       },
       fontSize: {
-        // Custom font sizes based on Enku Beauty's design requirements
         small: ['14px', '20px'],
         regular: ['16px', '26px'],
         large: ['20px', '32px'],
       },
       spacing: {
-        // Custom spacing based on design specifications
         '72': '18rem',
         '84': '21rem',
         '96': '24rem',
       },
       boxShadow: {
-        // Custom box shadows
         'soft': '0 4px 6px rgba(0, 0, 0, 0.1)',
         'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
       },
       backgroundImage: {
-        // Custom background images
         'pattern': 'url("/images/pattern.png")',
-        'hero': 'url("/images/youtube.png")'
-        // Add more background images as per design needs
+        'hero': 'url("/images/youtube.png")',
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

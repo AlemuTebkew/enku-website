@@ -34,6 +34,7 @@ import { CartItemModel } from "@/features/cart/api/CartApi";
 import OrderItem from "../components/OrderItem";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import useCart from "@/features/cart/hooks/useCart";
+import { Notify } from "@/lib/Notification/notify";
 
   const FormSchema = z.object({
     fullName: z.string(),
@@ -78,6 +79,7 @@ const CheckoutPage: React.FC = () => {
 
     useEffect(() => {
         if(isOrderCheckoutSuccess) {
+            Notify("success","Your order sent successfully")
             router.push('/confirmation')
         }
     }, [isOrderCheckoutSuccess])
@@ -291,6 +293,7 @@ const CheckoutPage: React.FC = () => {
                                 />
                                 <div className="w-full">
                                     <CustomButton 
+                                    variant="primary"
                                     type="submit" 
                                     className="w-full"
                                     isLoading={isOrderCheckoutLoading}
