@@ -64,7 +64,7 @@ const FilterDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, filters, sel
           <div className='w-full h-full flex flex-col gap-4 py-4 bg-background px-4 rounded-t-lg overflow-auto'>
             {
               (filters && filters.length > 0) && filters[selectedFilter].values.map((value, index) => (
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-2' key={index}>
                   <div key={value.value} className="flex items-center w-full gap-4">
                     <Checkbox
                       id={`${value.value}-${value.id}`}
