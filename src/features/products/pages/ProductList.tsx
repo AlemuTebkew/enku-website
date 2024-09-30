@@ -17,6 +17,7 @@ import FilterDrawer from '../components/FilterDrawer';
 import { useLazyFilterProductsQuery, useLazyGetFilterByCategoryIdQuery } from '../api/productApi';
 import SkeletonLoader from '../components/SkeletonLoader';
 import SkeletonFilterProductList from '../components/SkeletonProductFilter';
+import NoProductsFound from '../components/NoProductFound';
 
 interface ProductListProps {
   category: string | null,
@@ -145,8 +146,8 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
                         <AccordionTrigger className='text-md font-normal capitalize px-4'>{filter.name}</AccordionTrigger>
                         <AccordionContent className='flex flex-col gap-2'>
                           {
-                            filter.values.map((value) => (
-                              <div className='flex flex-col gap-4 px-4'>
+                            filter.values.map((value, index) => (
+                              <div key={index} className='flex flex-col gap-4 px-4'>
                                 <div key={value.value} className="flex items-center justify-between w-full">
                                   <label htmlFor={`${filter.name}-${value.id}`} className="">
                                     {value.value}
@@ -186,7 +187,16 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
 
                 {/* Show message if no filtered products found */}
                 {!isGetProductLoading && isFilterApplied && filteredProducts && filteredProducts.length === 0 && (
-                  <p>No products found for the selected filters.</p>
+                  <NoProductsFound title='No Products Available' message='We are sorry, but it looks like we do not have any products at the moment.'/>
+                  // <p>No products found for the selected filters.</p>
+                )}
+
+                {products && products.length === 0 && (
+                  <NoProductsFound title='No Products Available' message='We are sorry, but it looks like we do not have any products at the moment.'/>
+                )}
+                
+                {!products && (
+                  <NoProductsFound title='No Products Available' message='We are sorry, but it looks like we do not have any products at the moment.'/>
                 )}
               </div>
             </div>

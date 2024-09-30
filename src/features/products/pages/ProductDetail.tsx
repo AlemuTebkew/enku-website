@@ -193,6 +193,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                         </div>
                     </div>
                 </div>
+                
                 { /* product description section */ }
                 <div className='lg:mx-12 mt-10'>
                     <p className='text-xl font-semibold mb-4 mx-4 lg:mx-0'>Product Description</p>
@@ -275,6 +276,7 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                         </div>
                     </div>
                 </div>
+
                 { /* add to cart section */}
                 <div className='flex items-center bg-background rounded-md p-4 gap-4 mt-8 lg:hidden sticky bottom-0 shadow-soft z-50'>
                     <CustomButton 
@@ -299,7 +301,6 @@ const ProductDetail: React.FC<{product: Product}> = ({product}) => {
                     </CustomButton>
                 </div>
             </div>
-            
         </div>
     </Suspense>
   );

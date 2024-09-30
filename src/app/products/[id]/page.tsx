@@ -1,7 +1,7 @@
-import axios from 'axios'
 import { Metadata } from 'next';
 import ProductDetail from '@/features/products/pages/ProductDetail';
 import { fetchProductDetail } from '@/utils/fetchData';
+import NoProductsFound from '@/features/products/components/NoProductFound';
 
 interface ProductPageProps {
   params: {
@@ -10,8 +10,6 @@ interface ProductPageProps {
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-//   const product: Product = await axios.get(`/products/${params.id}`);
-
   return {
     title: 'product.title',
     description: 'product.description',
@@ -23,12 +21,17 @@ const ProductDetailPage = async ({ params }: ProductPageProps) => {
   const product = await fetchProductDetail(id);
   try {
     return (
-      <>
-          <ProductDetail product={product}/>
-      </>
+      // {
+      //   product?  <ProductDetail product={product}/> : <NoProductsFound title='' message=''/>
+      // }
+      // {
+      //   product ? 
+      // }
+      <ProductDetail product={product}/>
+       
     );
 
-  }catch (error) {
+  } catch (error) {
     return <div>Error loading product details</div>;
   }
 };

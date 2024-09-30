@@ -2,13 +2,10 @@ import React from 'react';
 import {
   Card,
   CardContent,
-  CardHeader,
   CardFooter
 } from "@/components/ui/card";
 import Image from 'next/image';
 import { Product } from '@/models/product';
-import { useAppDispatch } from '@/store/app-store-hooks';
-import { addItem } from '../../cart/store/cart-slice';
 import Link from 'next/link';
 import useCart from '@/features/cart/hooks/useCart';
 import CustomButton from '@/components/Button';
@@ -16,18 +13,15 @@ import { useRouter } from 'next/navigation';
 
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const router = useRouter()
-  const dispatch = useAppDispatch();
-  const { addToCart, isSaveCartLoading, isSaveCartSuccess, isSaveCartError } = useCart()
+  const { addToCart, isSaveCartLoading } = useCart()
   
   const buyNow = async (p: Product) => {
     await addToCart({productId: product.id, variationId: "1", quantity: 1})
     router.push("/checkout")
   }
+
   return (
     <Card className='bg-background rounded-md h-min border py-10'>
-      {/* <CardHeader> */}
-        {/* <CardTitle className='text-sm text-primaryT font-normal'>FEATURED</CardTitle> */}
-      {/* </CardHeader> */}
       <CardContent>
         <Link target='_blank' href={`/products/${product.id}`}>
           <div className='relative flex flex-col items-center w-full gap-4'>
@@ -48,7 +42,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           </div>
         </Link>
       </CardContent>
-      {/* <CardFooter className='w-full flex gap-2 px-2 py-2'>
+      <CardFooter className='w-full flex gap-2 px-2 py-2'>
         <CustomButton
         variant="outline"
         onClick={() => {buyNow(product)}} 
@@ -71,7 +65,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
                 <p className='font-bold'>Add to Bag</p>
             </div>
         </CustomButton>
-      </CardFooter> */}
+      </CardFooter>
     </Card>
   );
 };

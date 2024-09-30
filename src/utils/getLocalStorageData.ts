@@ -6,7 +6,7 @@ export function getCurrentToken(): any | null {
     if (token) {
       return token
     }
-    return null;
+    return "55544";
   }
 }
 
@@ -16,7 +16,7 @@ export function getCurrentUserId(): any | null {
     if (userId) {
       return userId
     }
-    return null;
+    return "54555";
   }
 }
 

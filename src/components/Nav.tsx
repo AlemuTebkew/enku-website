@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useState } from 'react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,34 +7,26 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import SearchBar from './SearchBar'
 import { Divider} from "@mui/material";
 import Sidebar from './Sidebar';
 import Link from 'next/link'
-import { Category } from '../models/category'
-import { Brand } from '@/models/brand';
+import { Category } from '../models/category';
 import { Button } from './ui/button';
 import CartDrawer from '../features/cart/components/CartDrawer';
 import useCart from '@/features/cart/hooks/useCart';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/features/auth/hooks/useAuth'
+import { DropDownUser } from './DropdownUser'
 
 interface NavProps {
   categories: Category[];
-  brands: Brand[];
 }
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-
-const Nav: React.FC<NavProps> = ({ categories, brands }) => {
+const Nav: React.FC<NavProps> = ({ categories }) => {
   const router = useRouter()
   const {token, setCartDrawerOpen, setMobileNavbarOpen, cartDrawerOpen, mobileNavBarOpen} = useAuth()
-  const [stickyMenu, setStickyMenu] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
-  const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const { itemCount } = useCart()
 
@@ -46,51 +38,8 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
     setMobileNavbarOpen(!mobileNavBarOpen);
   };
 
-  const handleStickyMenu = () => {
-    if (window.scrollY >= 80) {
-      setStickyMenu(false);
-    } else {
-      setStickyMenu(false);
-    }
-  };
-
-  const handleSearch = (searchQuery: string) => {
-    setSearchTerm(searchQuery);
-    setSelectedLetter(null); // Reset selected letter when searching
-  };
-
-  const handleLetterClick = (letter: string) => {
-    const element = scrollRefs.current[letter];
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const groupedBrands = brands.reduce((acc: { [key: string]: Brand[] }, brand) => {
-    const firstLetter = brand.name[0].toUpperCase();
-    if (!acc[firstLetter]) {
-      acc[firstLetter] = [];
-    }
-    acc[firstLetter].push(brand);
-    return acc;
-  }, {});
-
-  const filteredBrands = Object.keys(groupedBrands).reduce((acc: { [key: string]: Brand[] }, letter) => {
-    if (groupedBrands[letter].some(brand => brand.name.toLowerCase().includes(searchTerm.toLowerCase()))) {
-      acc[letter] = groupedBrands[letter].filter(brand => brand.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    }
-    return acc;
-  }, {});
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleStickyMenu);
-    return () => {
-      window.removeEventListener("scroll", handleStickyMenu);
-    };
-  }, []);
-
   return (
-    <div className={`bg-white sticky top-0 z-50 w-full py-2`}>
+    <div className={`bg-white sticky top-0 z-40 w-full py-2`}>
       <div className='w-full hidden lg:block'>
         <div className='mx-auto container flex py-0 w-full justify-between items-center relative 2xl:px-0'>
           <div className='flex items-center gap-10  relative z-50'>
@@ -110,10 +59,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
                 </Button>
               ) :
               (
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+              <DropDownUser/>
               )
             }
             <button onClick={toggleDrawer} type="button" id="header-bag-icon" className="relative">
@@ -165,6 +111,7 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
           </NavigationMenu>
         </div>
       </div>
+
       {/* <!-- Hamburger Toggle BTN --> */}
       <div className='mx-4 flex lg:hidden justify-between items-center'>
         <div className='flex gap-4 items-center'>
@@ -201,7 +148,20 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
             </span>
           </button>
           <CartDrawer isOpen={isDrawerOpen} onClose={toggleDrawer} />
-          <button type="button" aria-label="Kebab menu" className="css-n3ntp6">
+          {
+              (token === null || token === undefined) ? (
+                <Button
+                onClick={() => router.push('/login')}
+                className='w-32 py-[10px] px-4 bg-primary text-background rounded-md font-semibold hover:bg-secondary'
+                >
+                  Sign in
+                </Button>
+              ) :
+              (
+              <DropDownUser/>
+              )
+            }
+          {/* <button type="button" aria-label="Kebab menu" className="css-n3ntp6">
             <svg 
             width="24px" 
             height="24px" 
@@ -212,16 +172,15 @@ const Nav: React.FC<NavProps> = ({ categories, brands }) => {
             >
               <g id="ic-account" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="ic_account" transform="translate(4.000000, 3.000000)"><path d="M4.71,4.3 L4.71,4.19 C4.71,2.37298317 6.18298317,0.9 8,0.9 C9.81701683,0.9 11.29,2.37298317 11.29,4.19 L11.29,4.29 C11.29,6.10701683 9.81701683,7.58 8,7.58 C6.18298317,7.58 4.71,6.10701683 4.71,4.29 L4.71,4.3 Z" id="Path" stroke="#000000" stroke-width="1.5"></path><circle id="Oval" fill="#000000" fill-rule="nonzero" cx="15.65" cy="18.06" r="1"></circle><circle id="Oval" fill="#000000" fill-rule="nonzero" cx="11.77" cy="18.06" r="1"></circle><circle id="Oval" fill="#000000" fill-rule="nonzero" cx="7.88" cy="18.06" r="1"></circle><path d="M4.16,18.24 L1,18.24 C0.785174643,18.24 0.579147974,18.154661 0.427243507,18.0027565 C0.275339041,17.850852 0.189892462,17.6448254 0.189892462,17.43 L0.189892462,15.52 C0.182015162,14.4007779 0.618981212,13.3242274 1.40476473,12.5271916 C2.19054824,11.7301558 3.26077754,11.2779283 4.38,11.27 L11.69,11.27 C13.7812854,11.2805307 15.5462056,12.8280332 15.83,14.9" id="Path" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></g>
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
 
       <div className='flex items-center mx-4 mt-2 lg:hidden'>
         <SearchBar/>
       </div>
-
-      <Sidebar isOpen={mobileNavBarOpen} setIsOpen={toggleNavDrawer} categories={categories} brands={brands}/>
-          {/* <!-- Hamburger Toggle BTN --> */}
+      
+      <Sidebar isOpen={mobileNavBarOpen} setIsOpen={toggleNavDrawer} categories={categories}/>
     </div>
   )
 }

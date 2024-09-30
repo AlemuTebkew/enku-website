@@ -30,7 +30,7 @@ export default async function RootLayout({
       <body className={`${inter.className} bg-[#f3f3f3]`}>
         <Suspense fallback={<SkeletonFilterProductList/>}>
           <StoreProvider>
-            <Nav categories={categories} brands={brands}/>
+            <Nav categories={categories}/>
             <div className='bg-white'>
               {children}
             </div>
