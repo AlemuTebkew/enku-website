@@ -80,7 +80,7 @@ export function logIn(request: LoginRequest) {
       dispatch(setLoading(true)); // Start loading
 
       const response = await axios.post(
-        "http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/auth/login",
+        "http://196.188.249.25:5000/user/auth/login",
         request,
         {
           headers: {
