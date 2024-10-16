@@ -1,18 +1,18 @@
 // utils/fetchData.ts
 export async function fetchCategoriesAndBrands() {
     try {
-      const [categoriesRes, brandsRes] = await Promise.all([
-        fetch('http://196.188.249.25:5000/user/categories', { cache: "no-store" }),
-      ]);
+      // const [categoriesRes, brandsRes] = await Promise.all([
+      //   fetch('http://196.188.249.25:5000/user/categories', { cache: "no-store" }),
+      // ]);
   
-      const categories = await categoriesRes.json();
+      const categories = await fetch('http://196.188.249.25:5000/user/categories', { cache: "no-store" }).json();
       const brands = await brandsRes.json();
   
       // Check if the status is true and data is not empty
-      if (categories.status && brands.status) {
+      if (categories.status) {
         return {
           categories: categories.data,
-          brands: brands.data,
+          brands: [],
         };
       } else {
         throw new Error('Failed to fetch data');
