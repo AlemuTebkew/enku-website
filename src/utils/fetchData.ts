@@ -2,8 +2,7 @@
 export async function fetchCategoriesAndBrands() {
     try {
       const [categoriesRes, brandsRes] = await Promise.all([
-        fetch('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/categories', { cache: "no-store" }),
-        fetch('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/admin/brands', { cache: "no-store" })
+        fetch('http://196.188.249.25:5000/user/categories', { cache: "no-store" }),
       ]);
   
       const categories = await categoriesRes.json();
@@ -40,7 +39,7 @@ export async function fetchProducts(searchParams: { [key: string]: string | stri
     .join('&');
 
   try {
-    const response = await fetch(`http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/products?${query}`,{ cache: "no-store" });
+    const response = await fetch(`http://196.188.249.25:5000/user/products?${query}`,{ cache: "no-store" });
     const result = await response.json();
 
     if (result.status) {
@@ -55,7 +54,7 @@ export async function fetchProducts(searchParams: { [key: string]: string | stri
 }
 
 export async function fetchProductDetail(id: string) {
-  const res = await fetch(`http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/products/${id}`, {
+  const res = await fetch(`http://196.188.249.25:5000/user/products/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
