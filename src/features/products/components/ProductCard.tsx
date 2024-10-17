@@ -25,12 +25,13 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
       <CardContent>
         <Link target='_blank' href={`/products/${product.id}`}>
           <div className='relative flex flex-col items-center w-full gap-4'>
-            <Image
-              src={product.imageUrl} 
+          <img
+              
+              src={`http://196.188.249.25:5000/files/${product.imageUrl}`}
               width={200} 
               height={200} // Adjusted height for better display
               alt={product.name} // Added alt text for better accessibility
-              quality={75} // Added quality for better image quality control
+            
               className='object-contain' // Added class for better image fit
             />
             <p className='text-md text-center font-medium leading-relaxed px-4'>

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel"
 import { Button } from './ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react' // Arrow icons
-import { fetchTips } from '@/utils/fetchData'
 
 interface Tip {
   id: number;
@@ -17,16 +16,14 @@ interface Tip {
   updatedAt: string; // ISO date string
 }
 
-interface CustomCarouselProps {
+interface YouTubeThumbnailCarouselProps {
   visibleItems: number; // Number of fully visible items
-  tips: Tip[]; //
+  videos:  Tip[]; // Updated to accept video tips
 }
 
-const CustomCarousel: React.FC<CustomCarouselProps> = ({ visibleItems,tips }) => {
+const YouTubeThumbnailCarousel: React.FC<YouTubeThumbnailCarouselProps> = ({ visibleItems, videos }) => {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
-
-
 
   useEffect(() => {
     if (!api) return
@@ -36,36 +33,39 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({ visibleItems,tips }) =>
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap())
     })
-   
-    
   }, [api])
 
   // Calculate item width based on how many items you want to show fully.
   const itemWidth = 100 / visibleItems // percentage width based on visible items
 
-
+  // Extract the YouTube thumbnail using the video ID
+  const getYouTubeThumbnail = (youtubeUrl: string) => {
+    const videoId = youtubeUrl.split('v=')[1] || youtubeUrl.split('/')[youtubeUrl.split('/').length - 1];
+    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`; // YouTube's high-res thumbnail
+  };
 
   return (
     <div className="relative w-full mx-auto overflow-hidden">
       <Carousel setApi={setApi} opts={{ loop: true }} className="w-full">
         <CarouselContent className="flex">
-          {Array.from({ length: visibleItems }).map((_, index) => (
+          {videos.map((video, index) => (
             <CarouselItem
-              key={index}
+              key={video.id}
               className={`flex-shrink-0 max-w-[86%] lg:max-w-[30%] transition-transform transform`}
             >
               <div className="group">
                 <img
-                src={`http://196.188.249.25:5000/files/${tips[index].content}`}
-                  alt={`Banner ${index + 1}`}
-                  className="w-full h-auto object-cover rounded-lg"
+                  src={getYouTubeThumbnail(video.content)}
+                  alt={video.title}
+                  className="w-full h-auto object-cover rounded-lg cursor-pointer"
+                  onClick={() => window.open(video.content, "_blank")} // Redirect to YouTube
                 />
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
-      
+
       {/* Previous Button */}
       <Button
         onClick={() => api?.scrollTo(current - 1)}
@@ -85,4 +85,4 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({ visibleItems,tips }) =>
   )
 }
 
-export default CustomCarousel
+export default YouTubeThumbnailCarousel

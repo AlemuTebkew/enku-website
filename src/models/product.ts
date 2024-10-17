@@ -124,23 +124,22 @@ const product = {
       }
   ]
 }
-
 export interface Product {
-    id: string;
-    name: string;
-    description: string;
-    price: string;
-    imageUrl: string;
-    category?: Category;
-    subCategory?: SubCategory,
-    subSubCategory?: SubSubCategory,
-    brand?: Brand,
-    productionDate?: string,
-    expiryDate?: string,
-    variations: Variation[],
-    images?: Image[];
-    how_to_use: string;
-    ingredients: string
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  imageUrl: string;
+  category?: Category;
+  subCategory?: SubCategory;
+  subSubCategory?: SubSubCategory;
+  brand?: Brand;
+  productionDate?: string;
+  expiryDate?: string;
+  variations: Variation[];
+  images?: Image[];
+  howToUse: string; // Changed `how_to_use` to camelCase
+  ingredients: string;
 }
 
 interface SubSubCategory {
@@ -162,8 +161,8 @@ interface Category {
 }
 
 interface Brand {
-  id?: string,
-  name: string
+  id?: string;
+  name: string;
 }
 
 interface Option {
@@ -181,15 +180,15 @@ interface Variation {
   id: string;
   sku: string;
   title: string;
-  color: string | null
+  color: string | null;
   price: string;
   quantity: number;
   images: Image[];
   optionValues: OptionValue[];
-  isDefault?: boolean
+  isDefault?: boolean;
 }
 
 interface Image {
   id: string;
-  url: string
+  url: string;
 }
