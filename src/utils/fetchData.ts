@@ -1,74 +1,68 @@
-// utils/fetchData.ts
-export async function fetchCategoriesAndBrands() {
-    try {
-      const [categoriesRes, brandsRes] = await Promise.all([
-        fetch('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/categories', { cache: "no-store" }),
-        fetch('http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/admin/brands', { cache: "no-store" })
-      ]);
-  
-      const categories = await categoriesRes.json();
-      const brands = await brandsRes.json();
-  
-      // Check if the status is true and data is not empty
-      if (categories.status && brands.status) {
-        return {
-          categories: categories.data,
-          brands: brands.data,
-        };
-      } else {
-        throw new Error('Failed to fetch data');
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return {
-        categories: [],
-        brands: [],
-      };
-    }
-}
+// utils/apiUtils.ts
+// const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'http://196.188.249.25:5000';
 
-// utils/fetchProducts.ts
-export async function fetchProducts(searchParams: { [key: string]: string | string[] }) {
-  // Convert searchParams to query string
-  const query = Object.entries(searchParams)
-    .map(([key, value]) => {
-      if (Array.isArray(value)) {
-        return value.map(v => `${key}=${encodeURIComponent(v)}`).join('&');
-      }
-      return `${key}=${encodeURIComponent(value)}`;
-    })
-    .join('&');
-
+async function fetchData(url: string, options: RequestInit = { cache: "no-store" }) {
   try {
-    const response = await fetch(`http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/products?${query}`,{ cache: "no-store" });
-    const result = await response.json();
-
-    if (result.status) {
-      return result.data;
-    } else {
-      throw new Error(result.message || 'Failed to fetch products');
+    const res = await fetch(`${BASE_URL}${url}`, options);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data from ${url}`);
     }
+    const data = await res.json();
+    return data.data;
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error(`Error fetching data from ${url}:`, error);
     return null;
   }
 }
 
-export async function fetchProductDetail(id: string) {
-  const res = await fetch(`http://ec2-3-91-23-59.compute-1.amazonaws.com:5000/user/products/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      // Add other headers if necessary
-    },
-    cache: "no-store"
+// utils/fetchData.ts
+export async function fetchCategoriesAndBrands() {
+  const [categories, brands] = await Promise.all([
+    fetchData('/user/categories'),
+    fetchData('/admin/brands')
+  ]);
+
+  return categories && brands
+    ? { categories, brands }
+    : { categories: [], brands: [] };
+}
+
+// utils/fetchProducts.ts
+export async function fetchProducts(searchParams: { [key: string]: string | string[] }) {
+  const query = new URLSearchParams();
+
+  Object.entries(searchParams).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach(v => query.append(key, v));
+    } else {
+      query.append(key, value);
+    }
   });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch product details');
-    
-  }
+  return fetchData(`/user/products?${query.toString()}`);
+}
 
-  const data = await res.json();
-  return data.data; // Adjust this based on your API response structure
+export async function fetchProductDetail(id: string) {
+  return fetchData(`/user/products/${id}`);
+}
+
+export async function search(searchString: string) {
+  return fetchData(`/user/products/search?keyword=${encodeURIComponent(searchString)}`);
+}
+
+export async function fetchCards() {
+  return fetchData('/user/cards');
+}
+
+export async function fetchTips() {
+  return fetchData('/user/tips');
+}
+
+export async function fetchVideos() {
+  return fetchData('/user/videos');
+}
+
+export async function fetchDiscounts() {
+  return fetchData('/user/discounts');
 }

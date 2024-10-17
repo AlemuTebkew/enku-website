@@ -1,46 +1,74 @@
+/* eslint-disable @next/next/no-async-client-component */
+"use client";
+/* eslint-disable @next/next/no-img-element */
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaTiktok, FaTelegramPlane, FaYoutube } from "react-icons/fa";
 import { Separator } from "./ui/separator";
 import CustomCarousel from "./CustomCarousel";
 import { Button } from "./ui/button";
+import { fetchCards, fetchTips, fetchVideos } from "@/utils/fetchData";
+import YouTubeThumbnailCarousel from "./YouTubeThumbnailCarousel";
 
-const Home = () => {
+
+type Card = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  type: string;
+  redirectUrl: string;
+  active: boolean;
+};
+
+interface Tip {
+  id: number;
+  title: string;
+  description: string;
+  content: string; // Assuming this is a reference or identifier for the content, e.g., a UUID.
+  type: string; // Example: "tip"
+  status: string; // Example: "draft"
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+}
+
+
+
+const Home = async () => {
+  const router = useRouter()
+  const cards: Card[] = await fetchCards();
+const tips: Tip[] = await fetchTips();
+const videos: Tip[] = await fetchVideos();
+
   return (
+
+    
     <main className="flex flex-col gap-0">
       {/* Hero Section with 3 Cards */}
       <section className="pt-4">
-        <div className="container mx-auto lg:hidden">
-          <CustomCarousel visibleItems={1}/>
-        </div>
-        <div className="hidden mx-auto container lg:block">
+        {/* <div className="container mx-auto lg:hidden">
+          <CustomCarousel tips={tips} visibleItems={tips.length} />
+        </div> */}
+        <div className=" mx-auto container lg:block">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Card 1 - AI Beauty Assistant */}
-            <div className="relative group">
+            {cards.map((card) => (
+              <div  onClick={() => {
+                if (card.type === 'product') {
+                  router.push(`/products/${card.redirectUrl}`);
+                } else {
+                  router.push(`/products?categoryId=${card.redirectUrl}`);
+                }
+              }} key={card.id} className="relative group">
               <img
-                src="banner/banner1.avif"
+        
+                src={`http://196.188.249.25:5000/files/${card.imageUrl}`}
                 alt="AI Beauty Assistant"
                 className="w-full h-auto object-cover rounded-lg transition-transform transform"
               />
-            </div>
-
-            {/* Card 2 - Beauty Tips & Tutorials */}
-            <div className="relative group">
-              <img
-                src="banner/banner2.avif"
-                alt="Beauty Tips & Tutorials"
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            </div>
-
-            {/* Card 3 - Original Products */}
-            <div className="relative group">
-              <img
-                src="banner/banner3.avif"
-                alt="Original Products"
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            </div>
+            </div> 
+            ))}
           </div>
         </div>
       </section>
@@ -74,7 +102,7 @@ const Home = () => {
             <Separator className="bg-black/10 font-bold"/>
           </div>
           <div className="px-4">
-            <CustomCarousel visibleItems={3}/>
+            <CustomCarousel tips={tips} visibleItems={tips.length}/>
           </div>
         </div>
       </section>
@@ -87,7 +115,7 @@ const Home = () => {
           Explore beauty hacks and tutorials from our YouTube channel.
           </p>
         </div>
-        <CustomCarousel visibleItems={1}/>
+        <YouTubeThumbnailCarousel videos={videos} visibleItems={videos.length}/>
       {/* Call to Action */}
         <div className="text-center w-min self-center mt-4">
           <Link href="/blog">
