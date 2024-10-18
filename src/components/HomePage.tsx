@@ -10,6 +10,7 @@ import CustomCarousel from "./CustomCarousel";
 import { Button } from "./ui/button";
 import { fetchCards, fetchTips, fetchVideos } from "@/utils/fetchData";
 import YouTubeThumbnailCarousel from "./YouTubeThumbnailCarousel";
+import { useEffect, useState } from "react";
 
 
 type Card = {
@@ -37,10 +38,28 @@ interface Tip {
 
 const Home = async () => {
   const router = useRouter()
-  const cards: Card[] = await fetchCards();
-const tips: Tip[] = await fetchTips();
-const videos: Tip[] = await fetchVideos();
-
+  const [cards, setCards] = useState<Card[]>([]);
+  const [tips, setTips] = useState<Tip[]>([]);
+  const [videos, setVideos] = useState<Tip[]>([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      // Fetch cards
+      const allCards = await fetchCards() || [];
+      setCards(allCards);
+  
+      // Fetch tips
+      const allTips = await fetchTips() || [];
+      setTips(allTips);
+  
+      // Fetch videos
+      const allVideos = await fetchVideos() || [];
+      setVideos(allVideos);
+    };
+  
+    fetchData();
+  }, []);
+  
   return (
 
     
