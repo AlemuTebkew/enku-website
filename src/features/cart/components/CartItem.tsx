@@ -44,12 +44,12 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         <div className="flex flex-col gap-2 border-[0.1px] p-4 rounded-md">
             <div className="flex justify-between gap-2 items-start">
                 <div className="relative w-20 h-20">
-                    <Image
-                        src={item.variation.images[0].url}
-                        layout="fill"
-                        objectFit="cover"
+                    <img
+                        src={`http://196.188.249.25:5000/files/${item.variation.images[0].url}`}
+                        // layout="fill"
+                        // objectFit="cover"
                         alt={item.variation.title}
-                        priority={true}
+                        // priority={true}
                     />
                 </div>
                 <div className="flex flex-col justify-between flex-1">

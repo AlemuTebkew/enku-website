@@ -69,3 +69,6 @@
   border-bottom-color: #FC2779;
   border-left-color: #FC2779;
 }
+.carousel.slick-track {
+  margin-left: 0;
+}

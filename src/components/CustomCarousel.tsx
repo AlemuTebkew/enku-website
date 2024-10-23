@@ -48,22 +48,23 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({ visibleItems,tips }) =>
   return (
     <div className="relative w-full mx-auto overflow-hidden">
       <Carousel setApi={setApi} opts={{ loop: true }} className="w-full">
-        <CarouselContent className="flex">
-          {Array.from({ length: visibleItems }).map((_, index) => (
-            <CarouselItem
-              key={index}
-              className={`flex-shrink-0 max-w-[86%] lg:max-w-[30%] transition-transform transform`}
-            >
-              <div className="group">
-                <img
-                src={`http://196.188.249.25:5000/files/${tips[index].content}`}
-                  alt={`Banner ${index + 1}`}
-                  className="w-full h-auto object-cover rounded-lg"
-                />
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
+      <CarouselContent className="flex justify-start">
+  {Array.from({ length: visibleItems }).map((_, index) => (
+    <CarouselItem
+      key={index}
+      className={`flex-shrink-0 max-w-[86%] lg:max-w-[30%] transition-transform transform`}
+    >
+      <div className="group">
+        <img
+          src={`http://196.188.249.25:5000/files/${tips[index].content}`}
+          alt={`Banner ${index + 1}`}
+          className="w-full h-auto object-cover rounded-lg"
+        />
+      </div>
+    </CarouselItem>
+  ))}
+</CarouselContent>
+
       </Carousel>
       
       {/* Previous Button */}
