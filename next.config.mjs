@@ -11,7 +11,8 @@ const nextConfig = {
       },
       {
         protocol: 'http',
-        hostname: 'ec2-3-91-23-59.compute-1.amazonaws.com',
+        hostname: '196.188.249.25',
+        port:"5000",
         pathname: '/**'
       }
     ],

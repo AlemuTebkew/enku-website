@@ -107,6 +107,8 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
               ))}
+              <Link className='hover:text-primaryT' href={`/blogs`}><h4 className="">Blog</h4></Link>
+
             </NavigationMenuList>
           </NavigationMenu>
         </div>

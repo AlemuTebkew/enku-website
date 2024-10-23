@@ -1,14 +1,20 @@
-import {Suspense} from 'react'
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { FaFacebookF, FaInstagram, FaTiktok, FaTelegramPlane, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTiktok,
+  FaTelegramPlane,
+  FaYoutube,
+} from "react-icons/fa";
 import "./globals.css";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
-import { fetchCategoriesAndBrands } from '@/utils/fetchData';
-import StoreProvider from './providers';
-import Footer from '@/components/Footer';
-import SkeletonFilterProductList from '@/features/products/components/SkeletonProductFilter';
+import { fetchCategoriesAndBrands } from "@/utils/fetchData";
+import StoreProvider from "./providers";
+import Footer from "@/components/Footer";
+import SkeletonFilterProductList from "@/features/products/components/SkeletonProductFilter";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,16 +34,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#f3f3f3]`}>
-        <Suspense fallback={<SkeletonFilterProductList/>}>
+        <Suspense fallback={<SkeletonFilterProductList />}>
           <StoreProvider>
-            <Nav categories={categories}/>
-            <div className='bg-white'>
-              {children}
-            </div>
+            <Nav categories={categories} />
+            <div className="bg-white">{children}</div>
             {/* <Footer/> */}
           </StoreProvider>
         </Suspense>
-        </body>
+      </body>
     </html>
   );
 }

@@ -1,8 +1,11 @@
 // utils/apiUtils.ts
 // const BASE_URL = 'http://localhost:5000';
-const BASE_URL = 'http://196.188.249.25:5000';
+const BASE_URL = "http://196.188.249.25:5000";
 
-async function fetchData(url: string, options: RequestInit = { cache: "no-store" }) {
+async function fetchData(
+  url: string,
+  options: RequestInit = { cache: "no-store" }
+) {
   try {
     const res = await fetch(`${BASE_URL}${url}`, options);
     if (!res.ok) {
@@ -15,12 +18,28 @@ async function fetchData(url: string, options: RequestInit = { cache: "no-store"
     return null;
   }
 }
+async function fetchPaginatedData(
+  url: string,
+  options: RequestInit = { cache: "no-store" }
+) {
+  try {
+    const res = await fetch(`${BASE_URL}${url}`, options);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data from ${url}`);
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching data from ${url}:`, error);
+    return null;
+  }
+}
 
 // utils/fetchData.ts
 export async function fetchCategoriesAndBrands() {
   const [categories, brands] = await Promise.all([
-    fetchData('/user/categories'),
-    fetchData('/admin/brands')
+    fetchData("/user/categories"),
+    fetchData("/admin/brands"),
   ]);
 
   return categories && brands
@@ -29,12 +48,14 @@ export async function fetchCategoriesAndBrands() {
 }
 
 // utils/fetchProducts.ts
-export async function fetchProducts(searchParams: { [key: string]: string | string[] }) {
+export async function fetchProducts(searchParams: {
+  [key: string]: string | string[];
+}) {
   const query = new URLSearchParams();
 
   Object.entries(searchParams).forEach(([key, value]) => {
     if (Array.isArray(value)) {
-      value.forEach(v => query.append(key, v));
+      value.forEach((v) => query.append(key, v));
     } else {
       query.append(key, value);
     }
@@ -48,21 +69,44 @@ export async function fetchProductDetail(id: string) {
 }
 
 export async function search(searchString: string) {
-  return fetchData(`/user/products/search?keyword=${encodeURIComponent(searchString)}`);
+  return fetchData(
+    `/user/products/search?keyword=${encodeURIComponent(searchString)}`
+  );
 }
 
 export async function fetchCards() {
-  return fetchData('/user/cards');
+  return fetchData("/user/cards");
+}
+export async function fetchBlogs(params: {
+  page?: number;
+  limit?: number;
+  type?: string;
+  search?: string;
+}) {
+  const query = new URLSearchParams();
+
+  // Add the pagination params if they exist
+  if (params.page) query.append("page", params.page.toString());
+  if (params.limit) query.append("limit", params.limit.toString());
+  if (params.search) query.append("search", params.search.toString());
+  if (params.type && params.type !== "all") query.append("type", params.type); // Only send type if not 'all'
+
+  // Pass the query string to fetchPaginatedData
+  return fetchPaginatedData(`/user/blogs?${query.toString()}`);
+}
+
+export async function fetchBlog(id: string) {
+  return fetchData(`/user/blogs/${id}`);
 }
 
 export async function fetchTips() {
-  return fetchData('/user/tips');
+  return fetchData("/user/tips");
 }
 
 export async function fetchVideos() {
-  return fetchData('/user/videos');
+  return fetchData("/user/videos");
 }
 
 export async function fetchDiscounts() {
-  return fetchData('/user/discounts');
+  return fetchData("/user/discounts");
 }
