@@ -5,17 +5,18 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'images-static.nykaa.com',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "images-static.nykaa.com",
+        pathname: "/**",
       },
       {
-        protocol: 'http',
-        hostname: '196.188.249.25',
-        port:"5000",
-        pathname: '/**'
-      }
+        protocol: "http",
+        hostname: "196.188.249.25",
+        port: "5000",
+        pathname: "/**",
+      },
     ],
+    domains: ["196.188.249.25"],
   },
 };
 
