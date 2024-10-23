@@ -6,7 +6,7 @@ import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper";
 import { Box, List, ListItem, Divider, Typography } from "@mui/material";
 import { search } from "@/utils/fetchData";
-
+import { useRouter } from "next/navigation";
 
 
 export default function SearchBar(): JSX.Element {
@@ -15,12 +15,12 @@ export default function SearchBar(): JSX.Element {
   const [error, setError] = useState<string | null>(null);
   const [recentSearches, setRecentSearches] = useState<string[]>(["Face Wash", "The Derma Co. 1% Hyaluronic Sunscreen"]); // Sample recent searches
   const [isFocused, setIsFocused] = useState<boolean>(false); // To track input focus
-
+  const router = useRouter()
   // Handle search
   const handleSearch = async (query: string) => {
     try {
       const data = await search(query);
-      setResults(data); // Set the search results
+      setResults(data.products); // Set the search results
       setError(null);   // Reset any previous errors
       if (!recentSearches.includes(query)) {
         setRecentSearches([...recentSearches, query]); // Add query to recent searches
@@ -72,15 +72,15 @@ export default function SearchBar(): JSX.Element {
                   </ListItem>
                 ))}
                 <Divider />
-                <Typography variant="subtitle2" sx={{ padding: '8px', color: '#555', fontWeight: 'bold' }}>
+                {/* <Typography variant="subtitle2" sx={{ padding: '8px', color: '#555', fontWeight: 'bold' }}>
                   Trending Searches
-                </Typography>
+                </Typography> */}
                 {/* You can add trending searches here */}
-                {["Nykaa Cosmetics", "Face Masks", "Nykaa Naturals", "Lipstick", "Hand Sanitisers"].map((trend, index) => (
+                {/* {["Nykaa Cosmetics", "Face Masks", "Nykaa Naturals", "Lipstick", "Hand Sanitisers"].map((trend, index) => (
                   <ListItem button key={index}>
                     {trend}
                   </ListItem>
-                ))}
+                ))} */}
               </List>
             )}
 
@@ -89,7 +89,11 @@ export default function SearchBar(): JSX.Element {
               <List component="nav" aria-label="search results" sx={{ backgroundColor: 'white', borderRadius: '4px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', maxHeight: '200px', overflowY: 'auto' }}>
                 {results.length > 0 ? (
                   results.map((result) => (
-                    <ListItem button key={result.id}>
+                    <ListItem   onClick={() => {
+                      
+                        router.push(`/products/${result.id}`);
+                      
+                    }} button key={result.id}>
                       {result.name} {/* Adjust based on your data structure */}
                     </ListItem>
                   ))
