@@ -9,16 +9,13 @@ const nextConfig = {
         hostname: "images-static.nykaa.com",
         pathname: "/**",
       },
-      // {
-      //   protocol: "http",
-      //   hostname: "196.188.249.25",
-      //   port: "5000",
-      //   pathname: "/**",
-      // },
+       {
+      
         protocol: 'http',
         hostname: '196.188.249.25',
         port: '5000',
         pathname: '/files/**',
+       }
     ],
    // domains: ["196.188.249.25"],
   },
