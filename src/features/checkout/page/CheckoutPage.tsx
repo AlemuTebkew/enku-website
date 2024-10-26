@@ -186,7 +186,8 @@ const CheckoutPage: React.FC = () => {
                     ETB{" "}
                     {cartData?.items?.reduce((acc, item) => {
                       return (
-                        acc + item.quantity * item?.variation?.price
+                        acc +
+                        item.quantity * (Number(item?.variation?.price) || 1)
                       );
                     }, 0) || 0}
                   </p>
@@ -202,7 +203,7 @@ const CheckoutPage: React.FC = () => {
                   <p className="text-md font-medium">
                     {cartData?.items?.reduce(
                       (acc, item) =>
-                        acc + item.quantity * item.variation.price,
+                        acc + item.quantity * Number(item?.variation?.price),
                       0
                     ) || 0}
                   </p>
