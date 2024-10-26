@@ -38,7 +38,7 @@ const OrderHistory: React.FC = () => {
       try {
         const token = localStorage.getItem("token"); // Retrieve the token from local storage
         const response = await axios.get(
-          "http://192.168.193.156:5000/user/orders",
+          "http://196.188.249.25:5000/user/orders",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Add the Bearer token to the headers

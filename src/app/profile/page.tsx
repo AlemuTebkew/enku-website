@@ -22,7 +22,7 @@ const ProfilePage = () => {
 
       try {
         const response = await axios.get(
-          "http://192.168.193.156:5000/user/auth/me"
+          "http://196.188.249.25:5000/user/auth/me"
         );
 
         // Adjust the endpoint as necessary
@@ -50,7 +50,7 @@ const ProfilePage = () => {
 
     try {
       const response = await axios.put(
-        "http://192.168.193.156:5000/user/auth/me",
+        "http://196.188.249.25:5000/user/auth/me",
         { ...customer }
       );
       if (response.status === 200) {

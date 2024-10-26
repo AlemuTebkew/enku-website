@@ -91,7 +91,7 @@ export function logIn(request: LoginRequest) {
       console.log("Phone number:", request.loginInfo?.phoneNumber);
       console.log("Session ID:", request.sessionId);
       const response = await axios.post(
-        "http://192.168.193.156:5000/user/auth/login",
+        "http://196.188.249.25:5000/user/auth/login",
         { phoneNumber: request.loginInfo.phoneNumber },
         {
           headers: {
