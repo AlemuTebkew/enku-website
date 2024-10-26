@@ -1,9 +1,14 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react'
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel"
-import { Button } from './ui/button'
-import { ChevronLeft, ChevronRight } from 'lucide-react' // Arrow icons
+import { useEffect, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { Button } from "./ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react"; // Arrow icons
 
 interface Tip {
   id: number;
@@ -18,40 +23,70 @@ interface Tip {
 
 interface YouTubeThumbnailCarouselProps {
   visibleItems: number; // Number of fully visible items
-  videos:  Tip[]; // Updated to accept video tips
+  videos: Tip[]; // Updated to accept video tips
 }
 
-const YouTubeThumbnailCarousel: React.FC<YouTubeThumbnailCarouselProps> = ({ visibleItems, videos }) => {
-  const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
+const YouTubeThumbnailCarousel: React.FC<YouTubeThumbnailCarouselProps> = ({
+  visibleItems,
+  videos,
+}) => {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (!api) return
-    
-    setCurrent(api.selectedScrollSnap())
+    if (!api) return;
+
+    setCurrent(api.selectedScrollSnap());
 
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap())
-    })
-  }, [api])
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   // Calculate item width based on how many items you want to show fully.
-  const itemWidth = 100 / visibleItems // percentage width based on visible items
+  const itemWidth = 100 / visibleItems; // percentage width based on visible items
 
   // Extract the YouTube thumbnail using the video ID
+  // const getYouTubeThumbnail = (youtubeUrl: string) => {
+  //   const videoId = youtubeUrl.split('v=')[1] || youtubeUrl.split('/')[youtubeUrl.split('/').length - 1];
+  //   return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`; // YouTube's high-res thumbnail
+  // };
   const getYouTubeThumbnail = (youtubeUrl: string) => {
-    const videoId = youtubeUrl.split('v=')[1] || youtubeUrl.split('/')[youtubeUrl.split('/').length - 1];
-    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`; // YouTube's high-res thumbnail
-  };
+    let videoId: string | undefined;
 
+    // Check for regular YouTube video URL format
+    const regularVideoMatch = youtubeUrl.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/);
+    if (regularVideoMatch) {
+      videoId = regularVideoMatch[1];
+    }
+
+    // Check for YouTube Shorts URL format
+    const shortVideoMatch = youtubeUrl.match(/shorts\/([a-zA-Z0-9_-]{11})/);
+    if (shortVideoMatch) {
+      videoId = shortVideoMatch[1];
+    }
+
+    // Check for YouTube URL format that doesn't use 'v=' or 'shorts/' (e.g., /embed/)
+    if (!videoId) {
+      const embedMatch = youtubeUrl.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
+      if (embedMatch) {
+        videoId = embedMatch[1];
+      }
+    }
+
+    // Return the thumbnail URL if the videoId was found, otherwise return a placeholder image
+    return videoId
+      ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` // YouTube's high-res thumbnail
+      : "https://via.placeholder.com/640x360?text=Video+not+found"; // Placeholder image
+  };
   return (
     <div className="relative w-full mx-auto overflow-hidden">
       <Carousel setApi={setApi} opts={{ loop: true }} className="w-full">
-        <CarouselContent className="flex">
+        <CarouselContent className="flex justify-start">
           {videos.map((video, index) => (
             <CarouselItem
               key={video.id}
-              className={`flex-shrink-0 max-w-[86%] lg:max-w-[30%] transition-transform transform`}
+              className={`flex-shrink-0 w-full md:max-w-[30%] transition-transform transform`}
             >
               <div className="group">
                 <img
@@ -82,7 +117,7 @@ const YouTubeThumbnailCarousel: React.FC<YouTubeThumbnailCarouselProps> = ({ vis
         <ChevronRight />
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default YouTubeThumbnailCarousel
+export default YouTubeThumbnailCarousel;

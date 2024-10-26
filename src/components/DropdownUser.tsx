@@ -12,41 +12,60 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
 export function DropDownUser() {
-  const { logOut, token, userId } = useAuth();
+  const { logOut, token } = useAuth();
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handleLogout = () => {
+    logOut();
+    window.location.href = "/";
+  };
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        setName(user.fullName || "User");
+        setPhoneNumber(user.phoneNumber || "N/A");
+      } catch (error) {
+        console.error("Failed to parse user data from localStorage:", error);
+      }
+    }
+  }, []);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex justify-center gap-2">
-        <Button
+          <Button
             variant="outline"
             size="icon"
             className="overflow-hidden rounded-full h-max"
           >
             <Avatar>
               <AvatarImage src="" alt="@shadcn" />
-              <AvatarFallback>{"H"}</AvatarFallback>
+              <AvatarFallback>
+                {name ? name?.charAt(0)?.toUpperCase() : "H"}
+              </AvatarFallback>
             </Avatar>
           </Button>
           <div className="hidden lg:flex lg:flex-col cursor-pointer text-sm">
-            <span className="font-semibold">
-              {"Heliza Yared"}
-            </span>
-            <span className="font-normal">{"0984245345"}</span>
+            <span className="font-semibold">{name}</span>
+            <span className="font-normal">{phoneNumber}</span>
           </div>
-          
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 z-50">
         <DropdownMenuGroup className="lg:hidden">
           <div className="p-2">
             <DropdownMenuItem className="flex flex-col items-start cursor-pointer">
-              <p className="font-semibold">
-                {"Heliza Yared"}
-              </p>
-              <p className="font-normal">{"0984245345"}</p>
+              <p className="font-semibold">{name}</p>
+              <p className="font-normal">{phoneNumber}</p>
             </DropdownMenuItem>
           </div>
         </DropdownMenuGroup>
@@ -68,7 +87,7 @@ export function DropDownUser() {
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => logOut()}>
+        <DropdownMenuItem onClick={() => handleLogout()}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

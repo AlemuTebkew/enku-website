@@ -15,13 +15,22 @@ const ImageRenderer: React.FC<ImageRendererProps> = ({
   height = 300,
 }) => {
   return (
-    <Image
+    // <Image
+    //   src={`http://196.188.249.25:5000/files/${content}`}
+    //   alt={title}
+    //   width={width} // Use the width prop
+    //   height={height} // Use the height prop
+    //   className="object-cover" // Remove fixed width and height class
+    //   priority // Optional: use priority if this image is critical for the page
+    // />
+
+    <img
       src={`http://196.188.249.25:5000/files/${content}`}
       alt={title}
       width={width} // Use the width prop
       height={height} // Use the height prop
-      className="object-cover" // Remove fixed width and height class
-      priority // Optional: use priority if this image is critical for the page
+      className="object-cover" // Tailwind CSS for image styling
+      loading="lazy" // Optional: lazy load the image
     />
   );
 };

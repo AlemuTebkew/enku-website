@@ -56,9 +56,9 @@ const AutocompleteSearch: React.FC<AutocompleteSearchProps> = ({
   };
 
   return (
-    <div className="flex justify-center m-5">
+    <div className="flex w-full justify-center my-5">
       <Autocomplete
-        className="w-3/4 mr-3"
+        className="w-full md:w-3/4 md:mr-3"
         size="small"
         freeSolo
         disableClearable
@@ -105,7 +105,7 @@ const AutocompleteSearch: React.FC<AutocompleteSearchProps> = ({
       />
       <button
         onClick={handleSearchSubmit}
-        className="bg-blue-500 text-white py-2 px-4 rounded"
+        className="bg-primary text-background py-2 px-4 rounded hidden md:flex"
       >
         Submit
       </button>

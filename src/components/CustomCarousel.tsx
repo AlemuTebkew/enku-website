@@ -52,7 +52,7 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({ visibleItems,tips }) =>
   {Array.from({ length: visibleItems }).map((_, index) => (
     <CarouselItem
       key={index}
-      className={`flex-shrink-0 max-w-[86%] lg:max-w-[30%] transition-transform transform`}
+      className={`flex-shrink-0 w-full md:max-w-[30%] transition-transform transform`}
     >
       <div className="group">
         <img

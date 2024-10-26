@@ -1,17 +1,16 @@
-`use client`
-import React from 'react';
-import Image from 'next/image';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Separator } from '@/components/ui/separator';
-import { useAppDispatch } from '@/store/app-store-hooks';
+`use client`;
+import React from "react";
+import Image from "next/image";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Separator } from "@/components/ui/separator";
+import { useAppDispatch } from "@/store/app-store-hooks";
 // import { clearCart, removeItem } from '../store/cart-slice';
-import { CartItemModel } from '../../cart/api/CartApi';
+import { CartItemModel } from "../../cart/api/CartApi";
 // import useCart from '../hooks/useCart';
 
 // interface CartItemProps {
 //     item: CartItemModel;
 // }
-
 
 interface CartItemProps {
   item: CartItemModel;
@@ -19,7 +18,11 @@ interface CartItemProps {
   onRemoveItem: (itemId: string) => void;
 }
 
-const OrderItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveItem }) => {
+const OrderItem: React.FC<CartItemProps> = ({
+  item,
+  onUpdateQuantity,
+  onRemoveItem,
+}) => {
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = parseInt(event.target.value, 10);
     if (newQuantity > 0) {
@@ -30,14 +33,18 @@ const OrderItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveIt
   return (
     <div className="flex items-center p-4 bg-white rounded-lg shadow-md mb-4">
       <img
-        src={item.variation.images[0].url}
+        src={`http://196.188.249.25:5000/files/${item.variation.images[0].url}`}
         alt={item.variation.title}
         className="w-24 h-24 object-cover rounded-md"
       />
       <div className="ml-4 flex-1">
-        <h2 className="text-lg font-semibold text-gray-800">{item.variation.title}</h2>
+        <h2 className="text-lg font-semibold text-gray-800">
+          {item.variation.title}
+        </h2>
         {/* <p className="text-gray-600">{item.variation.sku}</p> */}
-        {item.variation.color && <p className="text-gray-600">Color: {item.variation.color}</p>}
+        {item.variation.color && (
+          <p className="text-gray-600">Color: {item.variation.color}</p>
+        )}
         <div className="mt-2">
           {item.variation.optionValues.map((optionValue) => (
             <p key={optionValue.id} className="text-sm text-gray-500">
@@ -72,6 +79,5 @@ const OrderItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemoveIt
     </div>
   );
 };
-
 
 export default OrderItem;

@@ -36,7 +36,6 @@ const BlogList = () => {
   const handleSearch = (results: BlogPost[]) => {
     setCurrentPage(1); // Reset to first page on search
     setPosts(results); // Update posts with search results
-    alert(results.length)
   };
 
   // Handle filter change
@@ -52,8 +51,35 @@ const BlogList = () => {
 
   return (
     <div>
-      <div className="container mx-auto flex justify-between px-10 py-8">
-        <aside className="w-1/4 mt-[130px]">
+         <aside className="flex flex-wrap justify-center md:hidden">
+          <button
+            onClick={() => handleFilterChange("all")}
+            className="p-2 text-left bg-primary rounded hover:bg-gray-300 mx-2 my-1 md:hidden"
+          >
+            All
+          </button>
+          <button
+            onClick={() => handleFilterChange("blog")}
+            className="p-2 text-left bg-primary rounded hover:bg-gray-300 mx-2 my-1 md:hidden"
+          >
+            Blogs
+          </button>
+          <button
+            onClick={() => handleFilterChange("tip")}
+            className="p-2 text-left bg-primary rounded hover:bg-gray-300 mx-2 my-1 md:hidden"
+          >
+            Tips
+          </button>
+          <button
+            onClick={() => handleFilterChange("video")}
+            className="p-2 text-left bg-primary rounded hover:bg-gray-300 mx-2 my-1 md:hidden"
+          >
+            Videos
+          </button>
+          </aside>
+      <div className="container mx-auto flex justify-between md:px-10 pb-8">
+   
+        <aside className="w-1/4 mt-[130px] hidden md:block">
           <h2 className="text-2xl font-bold mb-4">Categories</h2>
           <ul className="space-y-2">
             <li>
@@ -91,8 +117,8 @@ const BlogList = () => {
           </ul>
         </aside>
 
-        <main className="w-3/4 ml-4">
-          <h1 className="text-4xl font-bold text-center mb-8">Blog</h1>
+        <main className="w-full md:w-3/4 md:ml-4">
+          {/* <h1 className="text-4xl font-bold text-center mb-8">Blog</h1> */}
 
           {/* Search bar */}
           <AutocompleteSearch
