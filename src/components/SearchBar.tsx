@@ -8,37 +8,46 @@ import { Box, List, ListItem, Divider, Typography } from "@mui/material";
 import { search } from "@/utils/fetchData";
 import { useRouter } from "next/navigation";
 
-
 export default function SearchBar(): JSX.Element {
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [results, setResults] = useState<any[]>([]); // Replace `any` with the appropriate type for your data
   const [error, setError] = useState<string | null>(null);
-  const [recentSearches, setRecentSearches] = useState<string[]>(["Face Wash", "The Derma Co. 1% Hyaluronic Sunscreen"]); // Sample recent searches
+  // const [recentSearches, setRecentSearches] = useState<string[]>([
+  //   "Face Wash",
+  //   "The Derma Co. 1% Hyaluronic Sunscreen",
+  // ]);
+  // Sample recent searches
   const [isFocused, setIsFocused] = useState<boolean>(false); // To track input focus
-  const router = useRouter()
+  const router = useRouter();
   // Handle search
   const handleSearch = async (query: string) => {
     try {
       const data = await search(query);
       setResults(data.products); // Set the search results
-      setError(null);   // Reset any previous errors
-      if (!recentSearches.includes(query)) {
-        setRecentSearches([...recentSearches, query]); // Add query to recent searches
-      }
+      setError(null); // Reset any previous errors
+      // if (!recentSearches.includes(query)) {
+      //   setRecentSearches([...recentSearches, query]); // Add query to recent searches
+      // }
     } catch (err) {
-      setError('Failed to fetch search results');
-      setResults([]);   // Clear previous results if error occurs
+      setError("Failed to fetch search results");
+      setResults([]); // Clear previous results if error occurs
     }
   };
 
   // Hide the menu when the input field loses focus
-  const handleBlur = () => {
+  const handleBlur = (event: any) => {
     // Delay the hiding to allow clicks on the dropdown items
-    setTimeout(() => setIsFocused(false), 200);
+    setTimeout(() => setIsFocused(false), 300);
+
+    // const relatedTarget = event.relatedTarget as HTMLElement;
+    // Only hide dropdown if focus is not shifting to a dropdown item
+    // if (!relatedTarget || !relatedTarget.closest(".search-dropdown")) {
+    //   setTimeout(() => setIsFocused(false), 200);
+    // }
   };
 
   return (
-    <Box className="flex w-full gap-2">
+    <Box className="flex w-full gap-2 z-50 bg-red">
       <Box className="w-full">
         <Paper className="flex rounded-md" elevation={0} variant="outlined">
           <Box className="flex items-center flex-1">
@@ -48,12 +57,12 @@ export default function SearchBar(): JSX.Element {
             <InputBase
               className="w-full ml-1 flexGrow-1"
               placeholder="Search on Enku"
-              onFocus={() => setIsFocused(true)}  // Show dropdown when focused
-              onBlur={handleBlur}                // Hide dropdown when focus is lost
+              onFocus={() => setIsFocused(true)} // Show dropdown when focused
+              onBlur={handleBlur} // Hide dropdown when focus is lost
               onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => {
                 const value = (event.target as HTMLInputElement).value;
                 setSearchQuery(value);
-                handleSearch(value);  // Trigger search when the user types
+                handleSearch(value); // Trigger search when the user types
               }}
             />
           </Box>
@@ -61,40 +70,57 @@ export default function SearchBar(): JSX.Element {
 
         {/* Conditionally render the dropdown based on focus and searchQuery */}
         {isFocused && (
-          <Box sx={{ position: 'relative', zIndex: 1000, mt: 1 }}>
+          <Box sx={{ position: "absolute", zIndex: 1000, mt: 1 }}>
             {/* Recent Searches */}
-            {searchQuery.length === 0 && (
-              <List component="nav" aria-label="recent searches" sx={{ backgroundColor: 'white', borderRadius: '4px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', maxHeight: '200px', overflowY: 'auto' }}>
+
+            {/* {searchQuery.length === 0 && (
+              <List
+                component="nav"
+                aria-label="recent searches"
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "4px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  maxHeight: "200px",
+                  overflowY: "auto",
+                }}
+              >
                 {recentSearches.map((item, index) => (
                   <ListItem button key={index}>
-                    <SearchIcon fontSize="small" style={{ marginRight: '8px' }} />
+                    <SearchIcon
+                      fontSize="small"
+                      style={{ marginRight: "8px" }}
+                    />
                     {item}
                   </ListItem>
                 ))}
                 <Divider />
-                {/* <Typography variant="subtitle2" sx={{ padding: '8px', color: '#555', fontWeight: 'bold' }}>
-                  Trending Searches
-                </Typography> */}
-                {/* You can add trending searches here */}
-                {/* {["Nykaa Cosmetics", "Face Masks", "Nykaa Naturals", "Lipstick", "Hand Sanitisers"].map((trend, index) => (
-                  <ListItem button key={index}>
-                    {trend}
-                  </ListItem>
-                ))} */}
               </List>
-            )}
+            )} */}
 
             {/* Search Results */}
             {searchQuery.length > 0 && (
-              <List component="nav" aria-label="search results" sx={{ backgroundColor: 'white', borderRadius: '4px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', maxHeight: '200px', overflowY: 'auto' }}>
+              <List
+                component="nav"
+                aria-label="search results"
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "4px",
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  maxHeight: "200px",
+                  overflowY: "auto",
+                }}
+              >
                 {results.length > 0 ? (
                   results.map((result) => (
-                    <ListItem   onClick={() => {
-                      
+                    <ListItem
+                      onClick={() => {
                         router.push(`/products/${result.id}`);
-                      
-                    }} button key={result.id}>
-                      {result.name} {/* Adjust based on your data structure */}
+                      }}
+                      button
+                      key={result.id}
+                    >
+                      {result.name}
                     </ListItem>
                   ))
                 ) : (
