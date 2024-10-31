@@ -77,7 +77,7 @@ export async function search(searchString: string) {
 export async function fetchCards() {
   return fetchData("/user/cards");
 }
-export async function fetchProfile(id:string) {
+export async function fetchProfile(id: string) {
   return fetchData(`/user/me/${id}`);
 }
 export async function fetchBlogs(params: {

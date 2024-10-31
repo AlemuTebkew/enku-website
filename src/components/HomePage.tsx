@@ -53,23 +53,18 @@ const Home = async () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch cards
-      const allCards = (await fetchCards()) || [];
-      setCards(allCards);
-
-      // Fetch tips
-      const allTips = (await fetchTips()) || [];
-      setTips(allTips);
-
-      // Fetch videos
-      const allVideos = (await fetchVideos()) || [];
-      setVideos(allVideos);
-
-      // Fetch videos
-      const allDiscounts = (await fetchDiscounts()) || [];
-      setDiscounts(allDiscounts);
+      const [allCards, allTips, allVideos, allDiscounts] = await Promise.all([
+        fetchCards(),
+        fetchTips(),
+        fetchVideos(),
+        fetchDiscounts(),
+      ]);
+      setCards(allCards || []);
+      setTips(allTips || []);
+      setVideos(allVideos || []);
+      setDiscounts(allDiscounts || []);
     };
-
+  
     fetchData();
   }, []);
 

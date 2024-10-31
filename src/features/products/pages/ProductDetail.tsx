@@ -13,8 +13,11 @@ import useCart from "@/features/cart/hooks/useCart";
 import CustomButton from "@/components/Button";
 import SkeletonProductDetail from "../components/SkeletonProductDetailLoader";
 import { Notify } from "@/lib/Notification/notify";
+import { useRouter } from "next/navigation";
 
 const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
+  const router = useRouter();
+
   const { addToCart, isSaveCartLoading, isSaveCartSuccess, isSaveCartError } =
     useCart();
   const [selectedImage, setSelectedImage] = useState<number>(0);
@@ -62,11 +65,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                               onClick={() => setSelectedImage(index)}
                             >
                               <img
-                              
-                                src={
-                                  
-                                  `http://196.188.249.25:5000/files/${ image.url}`
-                                 }
+                                src={`http://196.188.249.25:5000/files/${image.url}`}
                                 className="h-[50px] w-auto"
                                 alt=""
                               />
@@ -80,13 +79,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                         {product?.variations[selectedVariant].images.length >
                           0 && (
                           <img
-                          
-                            src={
-                              `http://196.188.249.25:5000/files/${product?.variations[selectedVariant].images[
-                                selectedImage
-                              ].url}`
-                              
-                            }
+                            src={`http://196.188.249.25:5000/files/${product?.variations[selectedVariant].images[selectedImage].url}`}
                             className="w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-125"
                             alt=""
                           />
@@ -107,7 +100,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                             (image, index) => (
                               <div key={index} className="mb-14 mx-10">
                                 <img
-                                  src={ `http://196.188.249.25:5000/files/${image.url}` }
+                                  src={`http://196.188.249.25:5000/files/${image.url}`}
                                   className="w-full h-auto object-cover"
                                   alt=""
                                 />
@@ -275,7 +268,18 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                       </div>
                     </div>
                     <div className="hidden lg:flex lg:gap-2 lg:items-center">
-                      <CustomButton variant={"outline"} className="">
+                      <CustomButton
+                        variant={"outline"}
+                        className=""
+                        onClick={() => {
+                          addToCart({
+                            productId: product.id,
+                            variationId: product.variations[selectedVariant].id,
+                            quantity: 1,
+                          });
+                          router.push("/checkout");
+                        }}
+                      >
                         <div className="w-full flex gap-2 items-center text-sm font-medium">
                           Buy Now
                         </div>
