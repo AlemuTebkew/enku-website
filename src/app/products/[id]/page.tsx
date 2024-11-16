@@ -21,14 +21,7 @@ const ProductDetailPage = async ({ params }: ProductPageProps) => {
   const product = await fetchProductDetail(id);
   try {
     return (
-      // {
-      //   product?  <ProductDetail product={product}/> : <NoProductsFound title='' message=''/>
-      // }
-      // {
-      //   product ? 
-      // }
       <ProductDetail product={product}/>
-       
     );
 
   } catch (error) {

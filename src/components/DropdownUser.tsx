@@ -1,6 +1,5 @@
 import { LogOut, PackageIcon, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +11,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 
 export function DropDownUser() {
@@ -50,7 +48,7 @@ export function DropDownUser() {
             <Avatar>
               <AvatarImage src="" alt="@shadcn" />
               <AvatarFallback>
-                {name ? name?.charAt(0)?.toUpperCase() : "H"}
+                {name ? name?.charAt(0)?.toUpperCase() : ""}
               </AvatarFallback>
             </Avatar>
           </Button>

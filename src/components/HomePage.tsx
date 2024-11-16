@@ -79,14 +79,7 @@ const Home = async () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Card 1 - AI Beauty Assistant */}
             {cards.map((card) => (
-              <div
-                onClick={() => {
-                  if (card.type === "product") {
-                    router.push(`/products/${card.redirectUrl}`);
-                  } else {
-                    router.push(`/products?categoryId=${card.redirectUrl}`);
-                  }
-                }}
+              <Link href={card.type === "product" ? `/products/${card.redirectUrl}` : `/products?categoryId=${card.redirectUrl}`}
                 key={card.id}
                 className="relative group"
               >
@@ -95,7 +88,7 @@ const Home = async () => {
                   alt="AI Beauty Assistant"
                   className="w-full h-auto object-cover rounded-lg transition-transform transform"
                 />
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -231,27 +224,6 @@ const Home = async () => {
               AI-powered services. Explore tips, tutorials, and more.
             </p>
           </div>
-
-          {/* Links Section */}
-          {/* <div>
-            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#"><p>Beauty AI Services</p></a>
-              </li>
-              <li>
-                <a href="/blogs"><p>Blog</p></a>
-              </li>
-              <li>
-                <a href="#"><p>Privacy Policy</p></a>
-              </li>
-              <li>
-                <a href="#"><p>Terms & Conditions</p></a>
-              </li>
-            </ul>
-          </div> */}
-
-          {/* Community Section */}
           <div>
             <h3 className="text-lg font-bold mb-4">Join Our Community</h3>
             <p className="text-white text-sm mb-4">
@@ -282,7 +254,7 @@ const Home = async () => {
                 className="hover:text-pink-400"
               >
                 <FaYoutube className="text-2xl" />
-              </a> */}
+              </a> 
               <a
                 href="https://t.me/enku_beauty"
                 target="_blank"

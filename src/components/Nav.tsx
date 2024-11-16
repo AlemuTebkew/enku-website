@@ -18,6 +18,7 @@ import useCart from "@/features/cart/hooks/useCart";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { DropDownUser } from "./DropdownUser";
+import Image from "next/image";
 
 interface NavProps {
   categories: Category[];
@@ -49,9 +50,15 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
       <div className='w-full hidden lg:block'>
         <div className='mx-auto container flex py-0 w-full justify-between items-center relative 2xl:px-0'>
           <Link className='z-50' href={"/"}>
-            <div className='flex items-center gap-10  relative z-50'>
+            <div className='flex items-center gap-10 relative z-50'>
               <div className='w-16'>
-                <img src='logo/logo_primary.png' className='w-full h-auto'/>
+              <Image 
+                  src='/logo/logo_primary.png' 
+                  alt='Logo'
+                  width={64} // specify width
+                  height={64} // specify height
+                  className='w-full h-auto'
+                />
               </div>
             </div>
           </Link>
@@ -231,7 +238,13 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
           </button>
           <Link className='z-50' href={"/"}>
             <div className='w-[72px]'>
-              <img src='logo/logo_primary.png' className='w-full h-auto'/>
+            <Image 
+                src='/logo/logo_primary.png'  // Use absolute path
+                alt='Logo'
+                width={72} // specify width
+                height={72} // specify height
+                className='w-full h-auto'
+              />
             </div>
           </Link>
         </div>
