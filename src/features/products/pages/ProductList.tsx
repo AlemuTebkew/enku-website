@@ -127,8 +127,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
           <p className='w-full text-center font-semibold text-2xl py-4'>All Products</p>
           <div className='grid grid-cols-1 lg:grid-cols-4 gap-8 mt-4'>
             <div className='hidden lg:col-span-1 lg:flex lg:flex-col lg:gap-0 h-min border rounded'>
-              {/* First column content */}
-              <div className='bg-background rounded'>
+              {/* <div className='bg-background rounded'>
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
                     <AccordionTrigger className='px-4 text-md font-normal'>Sort By: Popularity</AccordionTrigger>
@@ -137,7 +136,7 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
-              </div>
+              </div> */}
               <div className='bg-background'>
                 <Accordion type="single" collapsible className="w-full">
                   {
@@ -226,7 +225,6 @@ const ProductList:React.FC<{products: Product[]}> = ({products}) => {
       <FilterDrawer isOpen={filter} onClose={setFilter}  filters={filtersData} selectedFilters={selectedFilters} onSetFilter={handleManyFiltersChange}/>
     </Suspense>
   );
-
 };
 
 export default ProductList;

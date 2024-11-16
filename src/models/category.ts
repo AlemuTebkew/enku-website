@@ -1,9 +1,9 @@
-interface SubSubCategory {
+export interface SubSubCategory {
     id: string;
     name: string;
 }
   
-interface SubCategory {
+export interface SubCategory {
     id: string;
     name: string;
     subSubCategories: SubSubCategory[];

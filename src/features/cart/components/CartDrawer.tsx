@@ -1,15 +1,10 @@
 `use client`
 import React from 'react';
 import { Drawer, IconButton } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useAppDispatch, useAppSelector } from '@/store/app-store-hooks';
-import { RootState } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
-import { clearCart, removeItem } from '../store/cart-slice';
 import CartItem from './CartItem';
 import useCart from '../hooks/useCart';
 import { useRouter } from 'next/navigation';
-import { CartItemModel } from '../api/CartApi';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import CircularProgress from '@mui/material/CircularProgress';
 

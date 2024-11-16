@@ -167,7 +167,7 @@ const Home = async () => {
           {/* Social Media Icons */}
           <div className="flex flex-wrap justify-center gap-6">
             <Link
-              href="https://www.facebook.com/yourpage"
+              href="https://www.facebook.com/enkuBeauty"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -176,7 +176,7 @@ const Home = async () => {
               </p>
             </Link>
             <Link
-              href="https://www.instagram.com/yourprofile"
+              href="https://instagram.com/enkubeautyshop"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -185,7 +185,7 @@ const Home = async () => {
               </p>
             </Link>
             <Link
-              href="https://www.tiktok.com/@yourprofile"
+              href="https://tiktok.com/@enku.beauty"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -194,7 +194,7 @@ const Home = async () => {
               </p>
             </Link>
             <Link
-              href="https://t.me/yourchannel"
+              href="https://t.me/enku_beauty"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -203,7 +203,7 @@ const Home = async () => {
               </p>
             </Link>
             <Link
-              href="https://www.youtube.com/channel/yourchannel"
+              href="https://www.youtube.com/@EnkuBeauty"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -239,16 +239,16 @@ const Home = async () => {
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <p>Beauty AI Services</p>
+                <a href="#"><p>Beauty AI Services</p></a>
               </li>
               <li>
-                <p>Blog</p>
+                <a href="/blogs"><p>Blog</p></a>
               </li>
               <li>
-                <p>Privacy Policy</p>
+                <a href="#"><p>Privacy Policy</p></a>
               </li>
               <li>
-                <p>Terms & Conditions</p>
+                <a href="#"><p>Terms & Conditions</p></a>
               </li>
             </ul>
           </div>
@@ -270,7 +270,7 @@ const Home = async () => {
                 <FaFacebookF className="text-2xl" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/enkubeautyshop"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-pink-400"
@@ -278,7 +278,7 @@ const Home = async () => {
                 <FaInstagram className="text-2xl" />
               </a>
               <a
-                href="https://youtube.com"
+                href="https://www.youtube.com/@EnkuBeauty"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-pink-400"
@@ -294,7 +294,7 @@ const Home = async () => {
                 <FaTelegramPlane className="text-2xl" />
               </a>
               <a
-                href="https://tiktok.com"
+                href="https://tiktok.com/@enku.beauty"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-pink-400"

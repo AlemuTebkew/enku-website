@@ -34,11 +34,18 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     }, [isDeleteCartItemLoading, isUpdateQuantityLoading])
 
     useEffect(() => {
-        if(isDeleteCartItemSuccess || isUpdateQuantitySuccess) {
+        if(isUpdateQuantitySuccess) {
+            setCartLoading(false)
+            Notify("success", "Cart item quantity updated")
+        }
+    }, [isUpdateQuantitySuccess])
+
+    useEffect(() => {
+        if(isDeleteCartItemSuccess) {
             setCartLoading(false)
             Notify("success", "Cart item removed")
         }
-    }, [isDeleteCartItemSuccess, isUpdateQuantitySuccess])
+    }, [isDeleteCartItemSuccess])
 
     return (
         <div className="flex flex-col gap-2 border-[0.1px] p-4 rounded-md">

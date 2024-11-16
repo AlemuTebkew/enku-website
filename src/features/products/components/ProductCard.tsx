@@ -1,4 +1,5 @@
-import React from "react";
+`use client`
+import React, { useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { Product } from "@/models/product";
@@ -10,6 +11,7 @@ import { useRouter } from "next/navigation";
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const router = useRouter();
   const { addToCart, isSaveCartLoading } = useCart();
+  const [clickedButton, setClickedButton] = useState<string | null>(null)
 
   const buyNow = async (p: Product) => {
     await addToCart({
@@ -23,7 +25,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   return (
     <Card className="bg-background rounded-md h-min border py-10">
       <CardContent>
-        <Link target="_blank" href={`/products/${product.id}`}>
+        <Link href={`/products/${product.id}`}>
           <div className="relative flex flex-col items-center w-full gap-4">
             <img
               src={`http://196.188.249.25:5000/files/${product.imageUrl}`}
@@ -47,9 +49,10 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <CustomButton
           variant="outline"
           onClick={() => {
+            setClickedButton("Buy")
             buyNow(product);
           }}
-          isLoading={isSaveCartLoading}
+          isLoading={isSaveCartLoading && clickedButton === "Buy"}
           className="w-full"
         >
           <div className="py-1">
@@ -59,10 +62,10 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <CustomButton
           variant="primary"
           onClick={() => {
-            console.log(product);
+            setClickedButton("Add")
             addToCart({ productId: product.id, variationId: "1", quantity: 1 });
           }}
-          isLoading={isSaveCartLoading}
+          isLoading={isSaveCartLoading && clickedButton === "Add"}
           className="w-full flex items-center"
         >
           <div className="flex gap-2 items-center py-1">

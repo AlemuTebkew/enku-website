@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState, useRef } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -9,7 +9,7 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { Category } from '@/models/category';
+import { Category, SubCategory, SubSubCategory } from '@/models/category';
 import Link from 'next/link';
 import { Separator } from './ui/separator';
 
@@ -64,18 +64,18 @@ const Sidebar = ({ isOpen, setIsOpen,categories }: SidebarProps) => {
             <Accordion type="multiple" className='px-4'>
               {categories.map((category) => (
               <AccordionItem key={category.id} value={category.id}>
-                  <AccordionTrigger><Link className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}`}><p>{category.name}</p></Link></AccordionTrigger>
+                  <AccordionTrigger><Link onClick={() => setIsOpen(false)} className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}`}><p>{category.name}</p></Link></AccordionTrigger>
                   <AccordionContent>
                     <Accordion type="multiple">
-                      {category.subCategories.map((subCategory) => (
+                      {category.subCategories.map((subCategory: SubCategory) => (
                         <AccordionItem key={subCategory.id} value={subCategory.id}>
-                          <AccordionTrigger><Link className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}`}><p className='font-normal'>{subCategory.name}</p></Link></AccordionTrigger>
+                          <AccordionTrigger><Link onClick={() => setIsOpen(false)} className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}`}><p className='font-normal'>{subCategory.name}</p></Link></AccordionTrigger>
                           <AccordionContent>
                             <ul className='flex flex-col gap-0'>
                                 <Separator/>
-                                {subCategory.subSubCategories.map((subSubCategory, index) => (
+                                {subCategory.subSubCategories.map((subSubCategory: SubSubCategory, index) => (
                                   <div key={index} className='w-full flex flex-col gap-0'>
-                                    <li key={subSubCategory.id}><Link className='hover:text-primaryT px-2' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal p-2'>{subSubCategory.name}</p></Link></li>
+                                    <li key={subSubCategory.id}><Link onClick={() => setIsOpen(false)} className='hover:text-primaryT px-2' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal p-2'>{subSubCategory.name}</p></Link></li>
                                     <Separator/>
                                   </div>
                                 ))}

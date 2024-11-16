@@ -23,17 +23,13 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
   const [selectedImage, setSelectedImage] = useState<number>(0);
   const [value, setValue] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState<number>(0);
+  const [clickedButton, setClickedButton] = useState<string | null>(null)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   useEffect(() => {
-    console.log("KKKKKKKKKKKKKKKKKKK");
-    console.log("====================================");
-    console.log(product);
-    console.log("====================================");
-
     if (isSaveCartSuccess) {
       Notify("success", "Product added to Cart");
     }
@@ -272,6 +268,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                         variant={"outline"}
                         className=""
                         onClick={() => {
+                          setClickedButton("Buy")
                           addToCart({
                             productId: product.id,
                             variationId: product.variations[selectedVariant].id,
@@ -279,6 +276,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                           });
                           router.push("/checkout");
                         }}
+                        isLoading={isSaveCartLoading && clickedButton === "Buy"}
                       >
                         <div className="w-full flex gap-2 items-center text-sm font-medium">
                           Buy Now
@@ -286,14 +284,15 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                       </CustomButton>
                       <CustomButton
                         variant="primary"
-                        onClick={() =>
+                        onClick={() => {
+                          setClickedButton("Add")
                           addToCart({
                             productId: product.id,
                             variationId: product.variations[selectedVariant].id,
                             quantity: 1,
                           })
-                        }
-                        isLoading={isSaveCartLoading}
+                        }}
+                        isLoading={isSaveCartLoading && clickedButton === "Add"}
                         className="w-min my-4 lg:flex"
                       >
                         <div className="w-full flex gap-2 items-center text-sm text-medium">
@@ -414,14 +413,15 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                   <p className="text-lg text-center font-semibold text-primary mb-4">{`ETB ${product.variations[selectedVariant].price}`}</p>
                   <CustomButton
                     variant="primary"
-                    onClick={() =>
+                    onClick={() => {
+                      setClickedButton("Add")
                       addToCart({
                         productId: product.id,
                         variationId: product.variations[selectedVariant].id,
                         quantity: 1,
                       })
-                    }
-                    isLoading={isSaveCartLoading}
+                    }} 
+                    isLoading={isSaveCartLoading && clickedButton === "Add"}
                     className="w-min"
                   >
                     <div className="w-full flex gap-2 items-center">
@@ -451,8 +451,17 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
             <div className="flex items-center bg-background rounded-md p-4 gap-4 mt-8 lg:hidden sticky bottom-0 shadow-soft z-50">
               <CustomButton
                 variant={"outline"}
-                isLoading={isSaveCartLoading}
+                isLoading={isSaveCartLoading && clickedButton === "Buy"}
                 className="flex-1 h-auto"
+                onClick={() => {
+                  setClickedButton("Buy")
+                  addToCart({
+                    productId: product.id,
+                    variationId: product.variations[selectedVariant].id,
+                    quantity: 1,
+                  });
+                  router.push("/checkout");
+                }}
               >
                 <div className="flex gap-2 items-center text-sm font-medium py-1">
                   <p className="text-lg font-medium">Buy Now</p>
@@ -460,14 +469,15 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
               </CustomButton>
               <CustomButton
                 variant="primary"
-                onClick={() =>
+                onClick={() =>{
+                  setClickedButton("Add")
                   addToCart({
                     productId: product.id,
                     variationId: product.variations[selectedVariant].id,
                     quantity: 1,
                   })
-                }
-                isLoading={isSaveCartLoading}
+                }}
+                isLoading={isSaveCartLoading && clickedButton === "Add"}
                 className="flex-1 h-auto"
               >
                 <div className="flex gap-2 items-center text-sm font-medium py-1">
