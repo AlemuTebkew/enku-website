@@ -64,7 +64,7 @@ const Home = async () => {
       setVideos(allVideos || []);
       setDiscounts(allDiscounts || []);
     };
-  
+
     fetchData();
   }, []);
 
@@ -103,21 +103,19 @@ const Home = async () => {
 
       {/* Skin Type Checker */}
       <section className="container rounded-lg py-8">
-        {discounts.length > 0 &&
-          discounts.map((discount) => (
-            <div
-              key={discount.id}
-              className="relative w-full rounded-lg border-2 mb-4"
-            >
-              <img
-                src={`http://196.188.249.25:5000/files/${discount.image}`}
-                alt={``}
-                className="w-full  rounded-lg transition-transform transform"
-                height={20}
-                
-              />
-            </div>
-          ))}
+        {discounts.length > 0 && (
+          <div
+            key={discounts[0].id}
+            className="relative w-full rounded-lg border-2 mb-4"
+          >
+            <img
+              src={`http://196.188.249.25:5000/files/${discounts[0].image}`}
+              alt=""
+              className="w-full rounded-lg transition-transform transform"
+              style={{ maxHeight: "20px" }}
+            />
+          </div>
+        )}
       </section>
 
       <section className="py-10 bg-[#F3F4F6]">
@@ -235,7 +233,7 @@ const Home = async () => {
           </div>
 
           {/* Links Section */}
-          <div>
+          {/* <div>
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
@@ -251,7 +249,7 @@ const Home = async () => {
                 <a href="#"><p>Terms & Conditions</p></a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           {/* Community Section */}
           <div>
@@ -284,7 +282,7 @@ const Home = async () => {
                 className="hover:text-pink-400"
               >
                 <FaYoutube className="text-2xl" />
-              </a>
+              </a> */}
               <a
                 href="https://t.me/enku_beauty"
                 target="_blank"

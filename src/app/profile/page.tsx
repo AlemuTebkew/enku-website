@@ -14,15 +14,15 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false); 
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     const fetchCustomerData = async () => {
-      if (customer.fullName) return; // prevent re-fetch if data already loaded
+      if (customer.fullName || !userId) return; // prevent re-fetch if data already loaded
 
       try {
         const response = await axios.get(
-          "http://196.188.249.25:5000/user/auth/me"
+          "http://196.188.249.25:5000/user/auth/me/" + userId
         );
 
         // Adjust the endpoint as necessary
@@ -50,7 +50,7 @@ const ProfilePage = () => {
 
     try {
       const response = await axios.put(
-        "http://196.188.249.25:5000/user/auth/me",
+        "http://196.188.249.25:5000/user/auth/me/" + userId,
         { ...customer }
       );
       if (response.status === 200) {
@@ -61,7 +61,6 @@ const ProfilePage = () => {
       setError("Error updating customer");
     } finally {
       setUpdating(false);
-
     }
   };
 
