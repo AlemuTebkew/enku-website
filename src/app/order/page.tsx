@@ -1,6 +1,8 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 // Interface for an order item
 interface OrderItem {
@@ -31,6 +33,15 @@ const OrderHistory: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const { token } = useAuth();
+
+  useEffect(() => {
+    if (!token) {
+      // User is not logged in, redirect to login page
+      router.push(`/login?redirect=${encodeURIComponent("/order")}`);
+    }
+  }, [token]);
 
   useEffect(() => {
     const fetchOrders = async () => {

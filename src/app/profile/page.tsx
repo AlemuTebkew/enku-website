@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 const ProfilePage = () => {
-  const { userId } = useAuth();
+  const { userId, token } = useAuth();
 
   const [customer, setCustomer] = useState({
     fullName: "",
@@ -15,11 +16,17 @@ const ProfilePage = () => {
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!token || !userId) {
+      // User is not logged in, redirect to login page
+      router.push(`/login?redirect=${encodeURIComponent("/profile")}`);
+    }
+  }, [token, userId]);
 
   useEffect(() => {
     const fetchCustomerData = async () => {
-      if (customer.fullName || !userId) return; // prevent re-fetch if data already loaded
-
       try {
         const response = await axios.get(
           "http://196.188.249.25:5000/user/auth/me/" + userId
@@ -35,8 +42,8 @@ const ProfilePage = () => {
       }
     };
 
-    fetchCustomerData();
-  }, []);
+    if (userId) fetchCustomerData();
+  }, [userId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
