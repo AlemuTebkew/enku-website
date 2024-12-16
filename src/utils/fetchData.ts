@@ -1,6 +1,6 @@
 // utils/apiUtils.ts
 // const BASE_URL = 'http://localhost:5000';
-const BASE_URL = "http://196.188.249.25:5000";
+const BASE_URL = "https://api.enkubeauty.com";
 
 async function fetchData(
   url: string,
