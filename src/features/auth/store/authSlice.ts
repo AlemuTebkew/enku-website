@@ -91,7 +91,7 @@ export function logIn(request: LoginRequest) {
       console.log("Phone number:", request.loginInfo?.phoneNumber);
       console.log("Session ID:", request.sessionId);
       const response = await axios.post(
-        "http://api.enkubeauty.com/user/auth/login",
+        "https://api.enkubeauty.com/user/auth/login",
         { phoneNumber: request.loginInfo.phoneNumber },
         {
           headers: {
