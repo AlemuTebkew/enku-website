@@ -29,7 +29,7 @@ const ProfilePage = () => {
     const fetchCustomerData = async () => {
       try {
         const response = await axios.get(
-          "http://196.188.249.25:5000/user/auth/me/" + userId
+          "https://api.enkubeauty.com/user/auth/me/" + userId
         );
 
         // Adjust the endpoint as necessary
@@ -57,7 +57,7 @@ const ProfilePage = () => {
 
     try {
       const response = await axios.put(
-        "http://196.188.249.25:5000/user/auth/me/" + userId,
+        "https://api.enkubeauty.com/user/auth/me/" + userId,
         { ...customer }
       );
       if (response.status === 200) {

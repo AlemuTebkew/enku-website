@@ -16,7 +16,7 @@ const ImageRenderer: React.FC<ImageRendererProps> = ({
 }) => {
   return (
     // <Image
-    //   src={`http://196.188.249.25:5000/files/${content}`}
+    //   src={`https://api.enkubeauty.com/files/${content}`}
     //   alt={title}
     //   width={width} // Use the width prop
     //   height={height} // Use the height prop

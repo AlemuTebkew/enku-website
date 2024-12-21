@@ -56,7 +56,7 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({ visibleItems,tips }) =>
     >
       <div className="group">
         <img
-          src={`http://196.188.249.25:5000/files/${tips[index].content}`}
+          src={`https://api.enkubeauty.com/files/${tips[index].content}`}
           alt={`Banner ${index + 1}`}
           className="w-full h-auto object-cover rounded-lg"
         />
