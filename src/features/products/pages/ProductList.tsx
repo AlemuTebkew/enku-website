@@ -29,7 +29,12 @@ const ClientSideNavigateNextIcon = dynamic(() => import('@mui/icons-material/Nav
     ssr: false,
   });
 
+
 const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
+  const [isClient, setIsClient] = useState(false)
+     useEffect(() => {
+        setIsClient(true)
+     }, []);
     const searchParams = useSearchParams();
     const router = useRouter();
     const category = searchParams.get('category');
@@ -64,17 +69,18 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
          } else {
              getFiltersByCategory(`/filters`);
          }
-          if(isInitialLoad){
-            fetchInitialProducts();
-            setIsInitialLoad(false)
-        }
+         if(isInitialLoad){
+             fetchInitialProducts();
+             setIsInitialLoad(false)
+         }
     }, [categoryId, isInitialLoad, getFiltersByCategory]);
 
-   const fetchFilteredProducts = useCallback(async (filters: number[]) => {
+
+    const fetchFilteredProducts = useCallback(async (filters: number[]) => {
          if (filters.length === 0) {
-           setFilteredProductsState(products);
-            setIsFilterApplied(false);
-         } else {
+              setFilteredProductsState(products);
+             setIsFilterApplied(false);
+          } else {
            try {
              const response = await getProductsByFilter(filters);
                  if (response.data && response.data.length > 0) {
@@ -84,42 +90,43 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                  }
               setIsFilterApplied(true);
            }
-            catch(error){
+           catch(error){
             console.log('error fetching filtered products:', error);
                 setFilteredProductsState([])
-              setIsFilterApplied(true);
+               setIsFilterApplied(true);
            }
          }
          setForceUpdate(prev => prev + 1)
-   }, [getProductsByFilter, products]);
+    }, [getProductsByFilter, products]);
 
-  useEffect(() => {
-       if (filterBy) {
-           const initialFilters = filterBy.split(',').map(filterId => +filterId);
-           setSelectedFilters(initialFilters)
-            fetchFilteredProducts(initialFilters)
-       } else {
-           fetchFilteredProducts([])
-        }
-  }, [filterBy, fetchFilteredProducts]);
-
-  const fetchInitialProducts = () => {
-     if (products && products.length > 0) {
-        setFilteredProductsState(products)
+    useEffect(() => {
+      if (filterBy) {
+        const initialFilters = filterBy.split(',').map(filterId => +filterId);
+        setSelectedFilters(initialFilters);
+         fetchFilteredProducts(initialFilters)
       } else {
-        setFilteredProductsState([])
+        fetchFilteredProducts([]);
       }
-   }
+     }, [filterBy, fetchFilteredProducts]);
+
+    const fetchInitialProducts = () => {
+        if (products && products.length > 0) {
+              setFilteredProductsState(products)
+          } else {
+              setFilteredProductsState([])
+          }
+      }
 
 
-   useEffect(() => {
+    useEffect(() => {
          if (typeof localStorage !== 'undefined') {
              localStorage.setItem('selectedFilters', JSON.stringify(selectedFilters));
          }
-   }, [selectedFilters]);
+    }, [selectedFilters]);
+
 
     const handleFilterChange = (filterId: number) => {
-          setSelectedFilters(prevFilters => {
+        setSelectedFilters(prevFilters => {
                 if (prevFilters.includes(filterId)) {
                     fetchFilteredProducts([])
                      return [];
@@ -128,14 +135,14 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                      return [filterId];
                  }
            });
-   };
+    };
 
     const handleManyFiltersChange = (filterIds: number[]) => {
          setSelectedFilters(filterIds);
-        fetchFilteredProducts(filterIds);
-   };
+          fetchFilteredProducts(filterIds);
+    };
 
-   const applyFilters = (filters: number[]) => {
+     const applyFilters = (filters: number[]) => {
          const query: Record<string, string> = {
              ...(category && { category }),
              ...(categoryId && { categoryId }),
@@ -146,9 +153,9 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
 
          const url = new URL(window.location.href);
          url.search = new URLSearchParams(query).toString();
-         router.push(url.toString());
-   };
-
+        router.push(url.toString());
+     };
+     if(!isClient) return null
     return (
         <Suspense fallback={<SkeletonFilterProductList/>}>
             <div className='h-auto relative bg-[#F3F3F3]'>
