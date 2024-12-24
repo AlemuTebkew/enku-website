@@ -269,7 +269,12 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                   filteredProducts.length > 0 &&
                   filteredProducts.map((product, index) => <ProductCard key={index} product={product} />)}
                     {/* Display no products found component when no product available  */}
-                {!isGetProductLoading &&
+                
+              </div>
+            </div>
+            <div className="w-full lg:col-span-4 flex flex-col gap-4">
+              <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8" key={forceUpdate}>
+              {!isGetProductLoading &&
                   isFilterApplied &&
                   filteredProducts &&
                   filteredProducts.length === 0 && (
@@ -279,7 +284,7 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                     />
                   )}
                    {/* Display no products found component when no product available on initial load  */}
-                {products && products.length === 0 && (
+                {!isGetProductLoading && !isFilterApplied && products && products.length === 0 && (
                   <NoProductsFound
                     title="No Products Available"
                     message="We are sorry, but it looks like we do not have any products at the moment."
@@ -293,7 +298,7 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                   />
                 )}
               </div>
-            </div>
+              </div>
           </div>
         </div>
         <div className="max-w-full mx-auto py-2 px-4 flex justify-between gap-4 bg-background rounded-md mt-2 lg:hidden sticky bottom-0 shadow-soft overflow-x-hidden">
