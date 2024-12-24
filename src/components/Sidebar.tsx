@@ -72,10 +72,10 @@ const Sidebar = ({ isOpen, setIsOpen,categories }: SidebarProps) => {
                           <AccordionTrigger><Link onClick={() => setIsOpen(false)} className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}`}><p className='font-normal'>{subCategory.name}</p></Link></AccordionTrigger>
                           <AccordionContent>
                             <ul className='flex flex-col gap-0'>
-                                <Separator/>
+                                <Separator />
                                 {subCategory.subSubCategories.map((subSubCategory: SubSubCategory, index) => (
                                   <div key={index} className='w-full flex flex-col gap-0'>
-                                    <li key={subSubCategory.id}><Link onClick={() => setIsOpen(false)} className='hover:text-primaryT px-2' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal p-2'>{subSubCategory.name}</p></Link></li>
+                                    <li key={subSubCategory.id}><Link onClick={() => setIsOpen(false)} className='hover:text-primaryT px-2' href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}><p className='font-normal'>{subSubCategory.name}</p></Link></li>
                                     <Separator/>
                                   </div>
                                 ))}
