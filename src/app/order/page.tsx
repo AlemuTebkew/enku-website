@@ -87,7 +87,7 @@ const OrderHistory: React.FC = () => {
             className="border border-gray-300 rounded-lg p-4 mb-4 bg-white shadow-md"
           >
             <p>
-              <strong>Total:</strong> ${Number(order.total).toFixed(2)}{" "}
+              <strong>Total:</strong> ETB {Number(order.total).toFixed(2)}{" "}
             </p>
             <p>
               <strong>Status:</strong> {order.status}
