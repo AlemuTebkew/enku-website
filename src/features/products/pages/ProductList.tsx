@@ -1,197 +1,221 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, Suspense, useCallback, useMemo } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import React, {
+  useState,
+  useEffect,
+  Suspense,
+  useCallback,
+  useMemo,
+} from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Checkbox } from "@/components/ui/checkbox"
-import ProductCard from '../components/ProductCard';
-import dynamic from 'next/dynamic' // Import dynamic for SSR issues
-import { Product } from '@/models/product';
-import { Button } from '@/components/ui/button';
-import FilterDrawer from '../components/FilterDrawer';
-import { useLazyFilterProductsQuery, useLazyGetFilterByCategoryIdQuery } from '../api/productApi';
-import SkeletonLoader from '../components/SkeletonLoader';
-import SkeletonFilterProductList from '../components/SkeletonProductFilter';
-import NoProductsFound from '../components/NoProductFound';
+import { Checkbox } from "@/components/ui/checkbox";
+import ProductCard from "../components/ProductCard";
+import dynamic from "next/dynamic"; // Import dynamic for SSR issues
+import { Product } from "@/models/product";
+import { Button } from "@/components/ui/button";
+import FilterDrawer from "../components/FilterDrawer";
+import {
+  useLazyFilterProductsQuery,
+  useLazyGetFilterByCategoryIdQuery,
+} from "../api/productApi";
+import SkeletonLoader from "../components/SkeletonLoader";
+import SkeletonFilterProductList from "../components/SkeletonProductFilter";
+import NoProductsFound from "../components/NoProductFound";
 
 // Define the props for the ProductList component
 interface ProductListProps {
-    category: string | null;
-    subCategory: string | null;
-    subSubCategory: string | null;
+  category: string | null;
+  subCategory: string | null;
+  subSubCategory: string | null;
 }
 
 // Dynamically import the NavigateNextIcon component to avoid hydration errors
-const ClientSideNavigateNextIcon = dynamic(() => import('@mui/icons-material/NavigateNext'), {
+const ClientSideNavigateNextIcon = dynamic(
+  () => import("@mui/icons-material/NavigateNext"),
+  {
     ssr: false,
-});
+  }
+);
 
 // Define the main ProductList component
 const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
-      // State to track if the component has mounted on client
-    const [isClient, setIsClient] = useState(false);
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
-      // Get search parameters from the URL
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const category = searchParams.get('category');
-    const categoryId = searchParams.get('categoryId');
-    const subCategory = searchParams.get('subCategory');
-    const subSubCategory = searchParams.get('subSubCategory');
-    const filterBy = searchParams.get('filters');
-    // State for filter drawer and selected filters
-    const [filter, setFilter] = useState(false);
-    const [selectedFilters, setSelectedFilters] = useState<number[]>(() => {
-        // Load filters from localStorage if available and if `filterBy` exists
-        if (typeof localStorage !== 'undefined' && filterBy) {
-            const storedFilters = localStorage.getItem('selectedFilters');
-            return storedFilters ? JSON.parse(storedFilters) : [];
-        }
-        return [];
-    });
-     // State to track if filters are applied
-    const [isFilterApplied, setIsFilterApplied] = useState(false);
-    // State to track initial load
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
-      // State to force component update
-    const [forceUpdate, setForceUpdate] = useState(0);
+  // State to track if the component has mounted on client
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  // Get search parameters from the URL
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const category = searchParams.get("category");
+  const categoryId = searchParams.get("categoryId");
+  const subCategory = searchParams.get("subCategory");
+  const subSubCategory = searchParams.get("subSubCategory");
+  const filterBy = searchParams.get("filters");
+  // State for filter drawer and selected filters
+  const [filter, setFilter] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<number[]>(() => {
+    // Load filters from localStorage if available and if `filterBy` exists
+    if (typeof localStorage !== "undefined" && filterBy) {
+      const storedFilters = localStorage.getItem("selectedFilters");
+      return storedFilters ? JSON.parse(storedFilters) : [];
+    }
+    return [];
+  });
+  // State to track if filters are applied
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
+  // State to track initial load
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  // State to force component update
+  const [forceUpdate, setForceUpdate] = useState(0);
 
-     // RTK Query hooks for fetching data
-    const [
-        getFiltersByCategory,
-        { data: filtersData, isLoading: isGetFiltersLoading, isSuccess: isGetFiltersSuccess, isError: isGetFiltersError },
-    ] = useLazyGetFilterByCategoryIdQuery();
-    const [
-        getProductsByFilter,
-        { data: productData, isLoading: isGetProductLoading, isSuccess: isGetProductSuccess, isError: isGetProductError },
-    ] = useLazyFilterProductsQuery();
-      // State to store fetched products after applying the filters
-    const [filteredProductsState, setFilteredProductsState] = useState<Product[] | null>(null);
-    // Memoize the filtered products to prevent unnecessary re-renders
-    const filteredProducts = useMemo(() => {
-           return isFilterApplied ? (filteredProductsState || []) : products;
-     }, [products, isFilterApplied, filteredProductsState, forceUpdate]);
+  // RTK Query hooks for fetching data
+  const [
+    getFiltersByCategory,
+    {
+      data: filtersData,
+      isLoading: isGetFiltersLoading,
+      isSuccess: isGetFiltersSuccess,
+      isError: isGetFiltersError,
+    },
+  ] = useLazyGetFilterByCategoryIdQuery();
+  const [
+    getProductsByFilter,
+    {
+      data: productData,
+      isLoading: isGetProductLoading,
+      isSuccess: isGetProductSuccess,
+      isError: isGetProductError,
+    },
+  ] = useLazyFilterProductsQuery();
+  // State to store fetched products after applying the filters
+  const [filteredProductsState, setFilteredProductsState] = useState<
+    Product[] | null
+  >(null);
+  // Memoize the filtered products to prevent unnecessary re-renders
+  const filteredProducts = useMemo(() => {
+    return isFilterApplied ? filteredProductsState || [] : products;
+  }, [products, isFilterApplied, filteredProductsState, forceUpdate]);
 
-      // Fetch filters when categoryId changes or at initial load
-    useEffect(() => {
-        if (categoryId) {
-            getFiltersByCategory(`/filters/${categoryId}`);
-        } else {
-            getFiltersByCategory(`/filters`);
-        }
-            // Fetch initial product data when the component first mounts
-        if(isInitialLoad){
-             fetchInitialProducts();
-            setIsInitialLoad(false)
-       }
-    }, [categoryId, isInitialLoad, getFiltersByCategory]);
+  // Fetch filters when categoryId changes or at initial load
+  useEffect(() => {
+    if (categoryId) {
+      getFiltersByCategory(`/filters/${categoryId}`);
+    } else {
+      getFiltersByCategory(`/filters`);
+    }
+    // Fetch initial product data when the component first mounts
+    if (isInitialLoad) {
+      fetchInitialProducts();
+      setIsInitialLoad(false);
+    }
+  }, [categoryId, isInitialLoad, getFiltersByCategory]);
 
-    // Fetch products by filters
-    const fetchFilteredProducts = useCallback(async (filters: number[]) => {
-        // Set initial state when no filter is applied
-        if (filters.length === 0) {
-             setFilteredProductsState(products);
-              setIsFilterApplied(false);
+  // Fetch products by filters
+  const fetchFilteredProducts = useCallback(
+    async (filters: number[]) => {
+      // Set initial state when no filter is applied
+      if (filters.length === 0) {
+        setFilteredProductsState(products);
+        setIsFilterApplied(false);
+      } else {
+        // Fetch products using API
+        try {
+          const response = await getProductsByFilter(filters);
+          // Update the products based on response
+          if (response.data && response.data.length > 0) {
+            setFilteredProductsState(response.data);
           } else {
-              // Fetch products using API
-           try {
-            const response = await getProductsByFilter(filters);
-                // Update the products based on response
-                 if (response.data && response.data.length > 0) {
-                   setFilteredProductsState(response.data);
-                 } else {
-                   setFilteredProductsState([]);
-                 }
-               setIsFilterApplied(true);
-           }
-            catch (error) {
-              console.log('error fetching filtered products:', error);
-                setFilteredProductsState([]);
-              setIsFilterApplied(true);
-           }
+            setFilteredProductsState([]);
+          }
+          setIsFilterApplied(true);
+        } catch (error) {
+          console.log("error fetching filtered products:", error);
+          setFilteredProductsState([]);
+          setIsFilterApplied(true);
+        }
       }
-       // Force update of the component
-      setForceUpdate(prev => prev + 1)
-   }, [getProductsByFilter, products]);
+      // Force update of the component
+      setForceUpdate((prev) => prev + 1);
+    },
+    [getProductsByFilter, products]
+  );
 
+  // Update products based on filterBy
+  useEffect(() => {
+    if (filterBy) {
+      const initialFilters = filterBy.split(",").map((filterId) => +filterId);
+      setSelectedFilters(initialFilters);
+      fetchFilteredProducts(initialFilters);
+    } else {
+      // Fetch the product data when no filter is provided in the URL
+      fetchFilteredProducts([]);
+    }
+  }, [filterBy, fetchFilteredProducts]);
 
-    // Update products based on filterBy
-    useEffect(() => {
-      if (filterBy) {
-          const initialFilters = filterBy.split(',').map(filterId => +filterId);
-           setSelectedFilters(initialFilters)
-           fetchFilteredProducts(initialFilters)
-       } else {
-            // Fetch the product data when no filter is provided in the URL
-            fetchFilteredProducts([]);
-       }
-     }, [filterBy, fetchFilteredProducts]);
+  // Fetch initial product data
+  const fetchInitialProducts = () => {
+    if (products && products.length > 0) {
+      setFilteredProductsState(products);
+    } else {
+      setFilteredProductsState([]);
+    }
+  };
 
-     // Fetch initial product data
-     const fetchInitialProducts = () => {
-       if (products && products.length > 0) {
-            setFilteredProductsState(products)
-         } else {
-              setFilteredProductsState([])
-         }
-     }
+  // Update localStorage when selectedFilters change
+  useEffect(() => {
+    // Store selected filters to localStorage
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("selectedFilters", JSON.stringify(selectedFilters));
+    }
+  }, [selectedFilters]);
 
-       // Update localStorage when selectedFilters change
-    useEffect(() => {
-        // Store selected filters to localStorage
-        if (typeof localStorage !== 'undefined') {
-          localStorage.setItem('selectedFilters', JSON.stringify(selectedFilters));
-         }
-    }, [selectedFilters]);
+  // Handler for single filter selection
+  const handleFilterChange = (filterId: number) => {
+    // Update the selected filters using the function form of the state setter
+    setSelectedFilters((prevFilters) => {
+      if (prevFilters.includes(filterId)) {
+        // If the filterId is already present, it means the user want to unselect the current filter
+        fetchFilteredProducts([]);
+        return [];
+      } else {
+        // If the filterId is not present, it means the user want to select a new filter
+        fetchFilteredProducts([filterId]);
+        return [filterId];
+      }
+    });
+  };
+  // Handler for multiple filter selections
+  const handleManyFiltersChange = (filterIds: number[]) => {
+    setSelectedFilters(filterIds);
+    fetchFilteredProducts(filterIds);
+  };
 
-       // Handler for single filter selection
-   const handleFilterChange = (filterId: number) => {
-       // Update the selected filters using the function form of the state setter
-      setSelectedFilters(prevFilters => {
-         if (prevFilters.includes(filterId)) {
-           // If the filterId is already present, it means the user want to unselect the current filter
-             fetchFilteredProducts([]);
-             return [];
-         } else {
-            // If the filterId is not present, it means the user want to select a new filter
-            fetchFilteredProducts([filterId]);
-              return [filterId];
-           }
-      });
-   };
-    // Handler for multiple filter selections
-    const handleManyFiltersChange = (filterIds: number[]) => {
-        setSelectedFilters(filterIds);
-         fetchFilteredProducts(filterIds);
+  // Update URL when filters change
+  const applyFilters = (filters: number[]) => {
+    // Create a query to store the URL params
+    const query: Record<string, string> = {
+      ...(category && { category }),
+      ...(categoryId && { categoryId }),
+      ...(subCategory && { subCategory }),
+      ...(subSubCategory && { subSubCategory }),
+      ...(filters.length > 0 && { filters: filters.join(",") }),
     };
+    // Create a URL instance
+    const url = new URL(window.location.href);
+    url.search = new URLSearchParams(query).toString();
+    // Push the new URL in browser history
+    router.push(url.toString());
+  };
 
-
-      // Update URL when filters change
-    const applyFilters = (filters: number[]) => {
-        // Create a query to store the URL params
-        const query: Record<string, string> = {
-            ...(category && { category }),
-            ...(categoryId && { categoryId }),
-            ...(subCategory && { subCategory }),
-            ...(subSubCategory && { subSubCategory }),
-            ...(filters.length > 0 && { filters: filters.join(',') }),
-        };
-        // Create a URL instance
-        const url = new URL(window.location.href);
-        url.search = new URLSearchParams(query).toString();
-           // Push the new URL in browser history
-       router.push(url.toString());
-    };
-
-       // Return null if the component is not mounted in the client
-    if (!isClient) return null;
+  // Return null if the component is not mounted in the client
+  if (!isClient) return null;
 
   return (
     <Suspense fallback={<SkeletonFilterProductList />}>
@@ -201,7 +225,7 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
             {category && (
               <div className="flex">
                 <p>{category}</p>
-                   {/* Render the icon only when it is on the client side */}
+                {/* Render the icon only when it is on the client side */}
                 {subCategory && <ClientSideNavigateNextIcon />}
               </div>
             )}
@@ -218,28 +242,45 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
               </div>
             )}
           </div>
-          <p className="w-full text-center font-semibold text-2xl py-4">All Products</p>
+          <p className="w-full text-center font-semibold text-2xl py-4">
+            All Products
+          </p>
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-4">
             <div className="hidden lg:col-span-1 lg:flex lg:flex-col lg:gap-0 h-min border rounded">
               <div className="bg-background">
                 <Accordion type="single" collapsible className="w-full">
                   {filtersData &&
-                    filtersData.map(filter => (
-                      <AccordionItem value={filter.name} key={filter.name} className="">
+                    filtersData.map((filter) => (
+                      <AccordionItem
+                        value={filter.name}
+                        key={filter.name}
+                        className=""
+                      >
                         <AccordionTrigger className="text-md font-normal capitalize px-4">
                           {filter.name}
                         </AccordionTrigger>
                         <AccordionContent className="flex flex-col gap-2">
                           {filter.values.map((value, index) => (
-                            <div key={index} className="flex flex-col gap-4 px-4">
-                              <div key={value.value} className="flex items-center justify-between w-full">
-                                <label htmlFor={`${filter.name}-${value.id}`} className="">
+                            <div
+                              key={index}
+                              className="flex flex-col gap-4 px-4"
+                            >
+                              <div
+                                key={value.value}
+                                className="flex items-center justify-between w-full"
+                              >
+                                <label
+                                  htmlFor={`${filter.name}-${value.id}`}
+                                  className=""
+                                >
                                   {value.value}
                                 </label>
                                 <Checkbox
                                   id={`${filter.name}-${value.id}`}
                                   checked={selectedFilters.includes(value.id)}
-                                  onCheckedChange={() => handleFilterChange(value.id)}
+                                  onCheckedChange={() =>
+                                    handleFilterChange(value.id)
+                                  }
                                 />
                               </div>
                             </div>
@@ -251,30 +292,37 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
               </div>
             </div>
             <div className="w-full lg:col-span-3 flex flex-col gap-4">
-              <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8" key={forceUpdate}>
-                 {/* Show skeleton loader when products are loading */}
+              <div
+                className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8"
+                key={forceUpdate}
+              >
+                {/* Show skeleton loader when products are loading */}
                 {isGetProductLoading && <SkeletonLoader />}
-                 {/* Display products when no filter are applied */}
-                {
-                  !isGetProductLoading &&
-                    !isFilterApplied &&
-                    filteredProducts &&
-                    filteredProducts.length > 0 &&
-                    filteredProducts.map((product, index) => <ProductCard key={index} product={product} />)
-                }
-                  {/* Display the products when the filter is applied */}
+                {/* Display products when no filter are applied */}
+                {!isGetProductLoading &&
+                  !isFilterApplied &&
+                  filteredProducts &&
+                  filteredProducts.length > 0 &&
+                  filteredProducts.map((product, index) => (
+                    <ProductCard key={index} product={product} />
+                  ))}
+                {/* Display the products when the filter is applied */}
                 {!isGetProductLoading &&
                   isFilterApplied &&
                   filteredProducts &&
                   filteredProducts.length > 0 &&
-                  filteredProducts.map((product, index) => <ProductCard key={index} product={product} />)}
-                    {/* Display no products found component when no product available  */}
-                
+                  filteredProducts.map((product, index) => (
+                    <ProductCard key={index} product={product} />
+                  ))}
+                {/* Display no products found component when no product available  */}
               </div>
             </div>
             <div className="w-full lg:col-span-4 flex flex-col gap-4">
-              <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8" key={forceUpdate}>
-              {!isGetProductLoading &&
+              <div
+                className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8"
+                key={forceUpdate}
+              >
+                {!isGetProductLoading &&
                   isFilterApplied &&
                   filteredProducts &&
                   filteredProducts.length === 0 && (
@@ -283,14 +331,17 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                       message="We are sorry, but it looks like we do not have any products at the moment."
                     />
                   )}
-                   {/* Display no products found component when no product available on initial load  */}
-                {!isGetProductLoading && !isFilterApplied && products && products.length === 0 && (
-                  <NoProductsFound
-                    title="No Products Available"
-                    message="We are sorry, but it looks like we do not have any products at the moment."
-                  />
-                )}
-                   {/* Display no products found component when no initial products  */}
+                {/* Display no products found component when no product available on initial load  */}
+                {!isGetProductLoading &&
+                  !isFilterApplied &&
+                  products &&
+                  products.length === 0 && (
+                    <NoProductsFound
+                      title="No Products Available"
+                      message="We are sorry, but it looks like we do not have any products at the moment."
+                    />
+                  )}
+                {/* Display no products found component when no initial products  */}
                 {!products && (
                   <NoProductsFound
                     title="No Products Available"
@@ -298,15 +349,20 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                   />
                 )}
               </div>
-              </div>
+            </div>
           </div>
         </div>
         <div className="max-w-full mx-auto py-2 px-4 flex justify-between gap-4 bg-background rounded-md mt-2 lg:hidden sticky bottom-0 shadow-soft overflow-x-hidden">
-          <Button
-            variant={'outline'}
+          {/* <Button
+            variant={"outline"}
             className="flex-[.5] h-auto flex hover:text-background hover:bg-primary border-tertiary1"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+            >
               <defs>
                 <filter
                   id="579yu3ce3a"
@@ -316,8 +372,16 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                   y="-21.9%"
                   filterUnits="objectBoundingBox"
                 >
-                  <feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
-                  <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"></feGaussianBlur>
+                  <feOffset
+                    dy="-1"
+                    in="SourceAlpha"
+                    result="shadowOffsetOuter1"
+                  ></feOffset>
+                  <feGaussianBlur
+                    in="shadowOffsetOuter1"
+                    result="shadowBlurOuter1"
+                    stdDeviation="2"
+                  ></feGaussianBlur>
                   <feColorMatrix
                     in="shadowBlurOuter1"
                     result="shadowMatrixOuter1"
@@ -331,7 +395,10 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
               </defs>
               <g fill="none" fillRule="evenodd" opacity=".54">
                 <g fill="currentColor" fillRule="nonzero">
-                  <g filter="url(#579yu3ce3a)" transform="translate(-45 -685) translate(0 672)">
+                  <g
+                    filter="url(#579yu3ce3a)"
+                    transform="translate(-45 -685) translate(0 672)"
+                  >
                     <g>
                       <g>
                         <g>
@@ -352,13 +419,18 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
               <p className="font-bold">Sort</p>
               <p className="text-[12px]">By Popularity</p>
             </div>
-          </Button>
+          </Button> */}
           <Button
-            variant={'outline'}
+            variant={"outline"}
             className="flex-[.5] h-auto flex hover:text-background hover:bg-primary border-tertiary1"
             onClick={() => setFilter(true)}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+            >
               <defs>
                 <filter
                   id="565v74wosa"
@@ -368,8 +440,16 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                   y="-21.9%"
                   filterUnits="objectBoundingBox"
                 >
-                  <feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
-                  <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"></feGaussianBlur>
+                  <feOffset
+                    dy="-1"
+                    in="SourceAlpha"
+                    result="shadowOffsetOuter1"
+                  ></feOffset>
+                  <feGaussianBlur
+                    in="shadowOffsetOuter1"
+                    result="shadowBlurOuter1"
+                    stdDeviation="2"
+                  ></feGaussianBlur>
                   <feColorMatrix
                     in="shadowBlurOuter1"
                     result="shadowMatrixOuter1"
@@ -383,7 +463,10 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
               </defs>
               <g fill="none" fillRule="evenodd" opacity=".54">
                 <g fill="currentColor" fillRule="nonzero">
-                  <g filter="url(#565v74wosa)" transform="translate(-207 -685) translate(0 672)">
+                  <g
+                    filter="url(#565v74wosa)"
+                    transform="translate(-207 -685) translate(0 672)"
+                  >
                     <g>
                       <g>
                         <g>
