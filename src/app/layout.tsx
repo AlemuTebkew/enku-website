@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: "Discover premium beauty products from the USA and Europe, now available in Ethiopia! Our carefully curated collection caters to your skincare, haircare, and cosmetic needs, bringing you the best the world has to offer. Shop conveniently from home and have",
     images: [
       {
-        url: "../../public/logo/logo_primary.png",
+        url: "/logo/logo_primary.png",
         width: 800,
         height: 600,
         alt: "Enku Beauty",
