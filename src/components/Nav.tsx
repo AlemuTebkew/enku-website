@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -33,17 +33,55 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
     cartDrawerOpen,
     mobileNavBarOpen,
   } = useAuth();
+  // State to manage the cart drawer's open state
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  // State to manage which menu is currently open (null if none)
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  // Ref to track the container of the NavigationMenu, used for click outside
+    const navigationMenuRef = useRef<HTMLDivElement>(null);
 
   const { itemCount } = useCart();
 
+  // Function to toggle the cart drawer's open state
   const toggleDrawer = () => {
     setCartDrawerOpen(!cartDrawerOpen);
   };
 
+    // Function to toggle the sidebar open state
   const toggleNavDrawer = () => {
     setMobileNavbarOpen(!mobileNavBarOpen);
   };
+
+
+    // Function to open the menu on hover
+    const handleMenuOpen = (categoryId: string) => {
+        setOpenMenu(categoryId);
+    };
+
+    // Function to close the menu
+    const handleMenuClose = () => {
+        setOpenMenu(null);
+    };
+
+    // Function to close the category menu when the category is clicked again
+     const handleCategoryClick = (categoryId:string) => {
+        if(openMenu === categoryId) {
+           setOpenMenu(null)
+        }
+     }
+
+    // Effect to handle clicks outside of the menu, this close the menu
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (navigationMenuRef.current && !navigationMenuRef.current.contains(event.target as Node)) {
+               setOpenMenu(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [navigationMenuRef]);
 
   return (
     <div className={`bg-white sticky top-0 z-40 w-full py-2`}>
@@ -135,25 +173,35 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
           </div>
         </div>
         <Divider className="mt-2" />
-        <div className="mx-auto container relative mt-2 flex px-10">
+        <div className="mx-auto container relative mt-2 flex px-10" ref={navigationMenuRef}>
           <NavigationMenu>
             <NavigationMenuList>
               {categories.map((category, index) => (
                 <NavigationMenuItem key={category.id}>
-                  <NavigationMenuTrigger className="font-medium bg-background hover:bg-background hover:text-primaryT">
+                  {/* Added onMouseEnter to open the menu and onClick to close the menu */}
+                   <NavigationMenuTrigger
+                      onMouseEnter={() => handleMenuOpen(category.id)}
+                       onClick={() => handleCategoryClick(category.id)}
+                      className="font-medium bg-background hover:bg-background hover:text-primaryT"
+                    >
                     <Link
                       href={`/products?category=${category.name}&&categoryId=${category.id}`}
                     >
                       {category.name}
                     </Link>
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
+                  {/* Conditionally display the menu content based on openMenu */}
+                  <NavigationMenuContent
+                    className={openMenu === category.id ? 'block' : 'hidden'}
+                  >
                     <ul className="w-[80rem] bg-background p-4 grid grid-cols-4 gap-4">
                       {category.subCategories.map((subCategory) => (
                         <li key={subCategory.id}>
                           <Link
                             className="hover:text-primaryT"
                             href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}`}
+                            //call handleMenuClose when the user click on a subcategory link
+                             onClick={handleMenuClose}
                           >
                             <h4 className="font-semibold mb-2">
                               {subCategory.name}
@@ -169,6 +217,8 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
                                   >
                                     <Link
                                       href={`/products?category=${category.name}&&categoryId=${category.id}&&subCategory=${subCategory.name}&&subSubCategory=${subSubCategory.name}`}
+                                        //call handleMenuClose when the user click on a subsubcategory link
+                                      onClick={handleMenuClose}
                                     >
                                       {subSubCategory.name}
                                     </Link>
@@ -319,18 +369,6 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
           ) : (
             <DropDownUser />
           )}
-          {/* <button type="button" aria-label="Kebab menu" className="css-n3ntp6">
-            <svg 
-            width="24px" 
-            height="24px" 
-            viewBox="0 0 24 24" 
-            version="1.1" 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="css-7zhfhb"
-            >
-              <g id="ic-account" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="ic_account" transform="translate(4.000000, 3.000000)"><path d="M4.71,4.3 L4.71,4.19 C4.71,2.37298317 6.18298317,0.9 8,0.9 C9.81701683,0.9 11.29,2.37298317 11.29,4.19 L11.29,4.29 C11.29,6.10701683 9.81701683,7.58 8,7.58 C6.18298317,7.58 4.71,6.10701683 4.71,4.29 L4.71,4.3 Z" id="Path" stroke="#000000" stroke-width="1.5"></path><circle id="Oval" fill="#000000" fill-rule="nonzero" cx="15.65" cy="18.06" r="1"></circle><circle id="Oval" fill="#000000" fill-rule="nonzero" cx="11.77" cy="18.06" r="1"></circle><circle id="Oval" fill="#000000" fill-rule="nonzero" cx="7.88" cy="18.06" r="1"></circle><path d="M4.16,18.24 L1,18.24 C0.785174643,18.24 0.579147974,18.154661 0.427243507,18.0027565 C0.275339041,17.850852 0.189892462,17.6448254 0.189892462,17.43 L0.189892462,15.52 C0.182015162,14.4007779 0.618981212,13.3242274 1.40476473,12.5271916 C2.19054824,11.7301558 3.26077754,11.2779283 4.38,11.27 L11.69,11.27 C13.7812854,11.2805307 15.5462056,12.8280332 15.83,14.9" id="Path" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></g>
-            </svg>
-          </button> */}
         </div>
       </div>
 
