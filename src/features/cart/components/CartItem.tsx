@@ -52,7 +52,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
             <div className="flex justify-between gap-2 items-start">
                 <div className="relative w-20 h-20">
                     <img
-                        src={`https://api.enkubeauty.com/files/${item.variation.images[0].url}`}
+                        src={`http://16.171.239.43:5000/files/${item.variation.images[0].url}`}
                         // layout="fill"
                         // objectFit="cover"
                         alt={item.variation.title}
