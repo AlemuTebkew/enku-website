@@ -66,7 +66,7 @@ const OrderItem: React.FC<CartItemProps> = ({
             className="w-16 px-2 py-1 border rounded-md"
           />
         </div>
-        <p className="text-gray-600">Price: ${item.variation.price}</p>
+        <p className="text-gray-600">Price: ${item.variation?.price}</p>
       </div>
       {/* <div className="ml-auto">
         <button

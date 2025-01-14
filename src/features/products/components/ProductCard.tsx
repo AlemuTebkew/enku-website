@@ -40,7 +40,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
             <p>{`ETB ${
               product?.variations?.length && product?.variations[0]
                 ? product?.variations[0]?.price
-                : product.price
+                : product?.price
             }`}</p>
           </div>
         </Link>

@@ -108,7 +108,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             {cartData && cartData.items.length > 0 && (
               <div className="flex justify-between items-center p-4 border-t border-gray-200">
                 <div>
-                  <p>{`ETB ${cartData.items.reduce((acc, current) => acc + (+current.variation.price*current.quantity), 0)}`}</p>
+                  <p>{`ETB ${cartData.items.reduce((acc, current) => acc + (+current?.variation?.price*current.quantity), 0)}`}</p>
                 </div>
                 <Button variant="default" color="primary" onClick={() => {
                   setCartDrawerOpen(false)

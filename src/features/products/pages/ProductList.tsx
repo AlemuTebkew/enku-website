@@ -483,7 +483,9 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
             </svg>
             <div className="flex flex-col items-start">
               <p className="font-bold">Filter</p>
-              <p className="text-[12px]">{isFilterApplied ? "Filter Applied" : "No Filter Applied"}</p>
+              <p className="text-[12px]">
+                {isFilterApplied ? "Filter Applied" : "No Filter Applied"}
+              </p>
             </div>
           </Button>
         </div>

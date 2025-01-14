@@ -122,7 +122,7 @@ const OrderHistory: React.FC = () => {
                     <strong>Quantity:</strong> {item.quantity}
                   </p>
                   <p>
-                    <strong>Price:</strong> {Number(item.price).toFixed(2)}
+                    <strong>Price:</strong> {Number(item?.price).toFixed(2)}
                   </p>{" "}
                 </li>
               ))}
