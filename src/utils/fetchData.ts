@@ -37,15 +37,17 @@ async function fetchPaginatedData(
 
 // utils/fetchData.ts
 export async function fetchCategoriesAndBrands() {
-  const [categories, brands] = await Promise.all([
-    fetchData("/user/categories"),
-    fetchData("/admin/brands"),
-  ]);
-
-  return categories && brands
-    ? { categories, brands }
-    : { categories: [], brands: [] };
+  try {
+    const [categories, brands] = await Promise.all([
+      fetchData("/user/categories"),
+      fetchData("/admin/brands"),
+    ]);
+    return { categories, brands };
+  } catch (error) {
+    return { categories: [], brands: [] };
+  }
 }
+
 
 // utils/fetchProducts.ts
 export async function fetchProducts(searchParams: {

@@ -79,25 +79,28 @@ const FilterDrawer: React.FC<CartDrawerProps> = ({
         <div className="w-full flex h-full gap-2 px-2 py-16">
            {/* Filter categories section */}
           <div className="w-full h-full flex flex-col gap-2 overflow-auto">
-            {filters &&
-              filters.length > 0 &&
-              filters.map((filter, index) => (
-                <div
-                  key={index}
-                  className={`py-4 px-2 rounded-md cursor-pointer relative ${
-                    selectedFilter === index ? 'bg-[#FFD1DF] text-black' : 'bg-background text-black'
-                  }`}
-                  onClick={() => setSelectedFilter(index)}
-                >
-                  <p className="text-lg">{filter.name}</p>
-                  <p className={`absolute top-2 right-2 ${selectedFilter === index ? 'text-black' : 'text-primary'}`}>
-                    {
-                      filter.values.filter(value => localSelectedFilters.includes(value.id)).length > 0 &&
-                      filter.values.filter(value => localSelectedFilters.includes(value.id)).length
-                    }
-                  </p>
-                </div>
-              ))}
+          {filters && filters.length > 0 ? (
+  filters.map((filter, index) => (
+    <div
+      key={index}
+      className={`py-4 px-2 rounded-md cursor-pointer relative ${
+        selectedFilter === index ? 'bg-[#FFD1DF] text-black' : 'bg-background text-black'
+      }`}
+      onClick={() => setSelectedFilter(index)}
+    >
+      <p className="text-lg">{filter.name}</p>
+      <p className={`absolute top-2 right-2 ${selectedFilter === index ? 'text-black' : 'text-primary'}`}>
+        {filter.values.filter(value => localSelectedFilters.includes(value.id)).length > 0 &&
+          filter.values.filter(value => localSelectedFilters.includes(value.id)).length}
+      </p>
+    </div>
+  ))
+) : (
+  <div className="px-4 py-2">
+    <p className="text-lg">No filters available</p>
+  </div>
+)}
+
           </div>
          {/* Filter values section */}
           <div className="w-full h-full flex flex-col gap-4 py-4 bg-background px-4 rounded-t-lg overflow-auto">

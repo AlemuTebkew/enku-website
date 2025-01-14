@@ -42,7 +42,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { categories, brands } = await fetchCategoriesAndBrands();
+  let categories = [];
+  let brands = [];
+  try {
+    const result = await fetchCategoriesAndBrands();
+    
+    categories = result.categories || [];
+    brands = result.brands || [];
+    console.log('Fetched categories and brands:', categories, brands);
+  } catch (error) {
+    console.log('Error fetching categories and brands:', error);
+  }
+
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#f3f3f3]`}>

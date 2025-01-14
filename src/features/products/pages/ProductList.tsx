@@ -85,6 +85,7 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
       isError: isGetFiltersError,
     },
   ] = useLazyGetFilterByCategoryIdQuery();
+  
   const [
     getProductsByFilter,
     {
@@ -105,18 +106,22 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
 
   // Fetch filters when categoryId changes or at initial load
   useEffect(() => {
-    if (categoryId) {
-      getFiltersByCategory(`/filters/${categoryId}`);
-    } else {
-      getFiltersByCategory(`/filters`);
-    }
+    const fetchFilters = async () => { 
+      if (categoryId) {
+         await getFiltersByCategory(`/filters/${categoryId}`); 
+        } 
+      else { 
+          await getFiltersByCategory(`/filters`);
+         } 
+      console.log('Filters Data:', filtersData); }; 
+      fetchFilters();
     // Fetch initial product data when the component first mounts
     if (isInitialLoad) {
       fetchInitialProducts();
       setIsInitialLoad(false);
     }
   }, [categoryId, isInitialLoad, getFiltersByCategory]);
-
+  useEffect(() => { if (filtersData) { console.log('Fetched Filters Data:', filtersData); } }, [filtersData]);
   // Fetch products by filters
   const fetchFilteredProducts = useCallback(
     async (filters: number[]) => {
@@ -248,47 +253,41 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-4">
             <div className="hidden lg:col-span-1 lg:flex lg:flex-col lg:gap-0 h-min border rounded">
               <div className="bg-background">
-                <Accordion type="single" collapsible className="w-full">
-                  {filtersData &&
-                    filtersData.map((filter) => (
-                      <AccordionItem
-                        value={filter.name}
-                        key={filter.name}
-                        className=""
-                      >
-                        <AccordionTrigger className="text-md font-normal capitalize px-4">
-                          {filter.name}
-                        </AccordionTrigger>
-                        <AccordionContent className="flex flex-col gap-2">
-                          {filter.values.map((value, index) => (
-                            <div
-                              key={index}
-                              className="flex flex-col gap-4 px-4"
-                            >
-                              <div
-                                key={value.value}
-                                className="flex items-center justify-between w-full"
-                              >
-                                <label
-                                  htmlFor={`${filter.name}-${value.id}`}
-                                  className=""
-                                >
-                                  {value.value}
-                                </label>
-                                <Checkbox
-                                  id={`${filter.name}-${value.id}`}
-                                  checked={selectedFilters.includes(value.id)}
-                                  onCheckedChange={() =>
-                                    handleFilterChange(value.id)
-                                  }
-                                />
-                              </div>
-                            </div>
-                          ))}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                </Accordion>
+              <Accordion type="single" collapsible className="w-full">
+  {filtersData && filtersData.length > 0 ? (
+    filtersData.map((filter) => (
+      <AccordionItem value={filter.name} key={filter.name} className="">
+        <AccordionTrigger className="text-md font-normal capitalize px-4">
+          {filter.name}
+        </AccordionTrigger>
+        <AccordionContent className="flex flex-col gap-2">
+          {filter.values.map((value, index) => (
+            <div key={index} className="flex flex-col gap-4 px-4">
+              <div
+                key={value.value}
+                className="flex items-center justify-between w-full"
+              >
+                <label htmlFor={`${filter.name}-${value.id}`} className="">
+                  {value.value}
+                </label>
+                <Checkbox
+                  id={`${filter.name}-${value.id}`}
+                  checked={selectedFilters.includes(value.id)}
+                  onCheckedChange={() => handleFilterChange(value.id)}
+                />
+              </div>
+            </div>
+          ))}
+        </AccordionContent>
+      </AccordionItem>
+    ))
+  ) : (
+    <div className="px-4 py-2">
+      <p className="text-md font-normal">No filters available</p>
+    </div>
+  )}
+</Accordion>
+
               </div>
             </div>
             <div className="w-full lg:col-span-3 flex flex-col gap-4">

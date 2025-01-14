@@ -41,7 +41,7 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
     const navigationMenuRef = useRef<HTMLDivElement>(null);
 
   const { itemCount } = useCart();
-
+  const [isClient, setIsClient] = useState(false); // This is new state
   // Function to toggle the cart drawer's open state
   const toggleDrawer = () => {
     setCartDrawerOpen(!cartDrawerOpen);
@@ -72,6 +72,7 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
 
     // Effect to handle clicks outside of the menu, this close the menu
     useEffect(() => {
+      setIsClient(true) // set isClient to true after mounting
         const handleClickOutside = (event: MouseEvent) => {
             if (navigationMenuRef.current && !navigationMenuRef.current.contains(event.target as Node)) {
                setOpenMenu(null);
@@ -102,7 +103,8 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
           </Link>
           <div className='flex gap-4 items-center w-3/4'>
             <SearchBar/>
-            {
+             {/* Show placeholders or no content initially */}
+                {isClient ? (
               (token === null || token === undefined) ? (
                 <Button
                 onClick={() => router.push('/login')}
@@ -114,7 +116,8 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
               (
               <DropDownUser/>
               )
-            }
+           ) : null}
+           
             <button onClick={toggleDrawer} type="button" id="header-bag-icon" className="relative">
               <svg 
               width="24px" 
@@ -359,16 +362,19 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
             </span>
           </button>
           <CartDrawer isOpen={isDrawerOpen} onClose={toggleDrawer} />
-          {token === null || token === undefined ? (
-            <Button
-              onClick={() => router.push("/login")}
-              className="w-32 py-[10px] px-4 bg-primary text-background rounded-md font-semibold hover:bg-secondary"
-            >
-              Sign in
-            </Button>
-          ) : (
-            <DropDownUser />
-          )}
+           {/* Show placeholders or no content initially */}
+              {isClient ? (
+                (token === null || token === undefined) ? (
+                  <Button
+                    onClick={() => router.push("/login")}
+                    className="w-32 py-[10px] px-4 bg-primary text-background rounded-md font-semibold hover:bg-secondary"
+                  >
+                    Sign in
+                  </Button>
+                ) : (
+                  <DropDownUser />
+                )
+                ) : null }
         </div>
       </div>
 
