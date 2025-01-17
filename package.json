@@ -40,6 +40,7 @@
     "embla-carousel-react": "^7.1.0",
     "lucide-react": "^0.408.0",
     "next": "14.2.4",
+    "next-share": "^0.27.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
