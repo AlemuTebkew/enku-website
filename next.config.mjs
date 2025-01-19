@@ -6,18 +6,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images-static.nykaa.com",
+        hostname: "api.enkubeauty.com",
         pathname: "/**",
       },
-       {
-      
-        protocol: 'http',
-        hostname: '196.188.249.25',
-        port: '5000',
-        pathname: '/**',
-       }
     ],
-   // domains: ["196.188.249.25"],
   },
 };
 
