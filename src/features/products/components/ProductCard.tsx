@@ -28,7 +28,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <Link href={`/products/${product.id}`}>
           <div className="relative flex flex-col items-center w-full gap-4">
             <img
-              src={`http://16.171.239.43:5000/files/${product.imageUrl}`}
+              src={`https://api.enkubeauty.com/files/${product.imageUrl}`}
               width={200}
               height={200} // Adjusted height for better display
               alt={product.name} // Added alt text for better accessibility
