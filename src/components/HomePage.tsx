@@ -84,7 +84,7 @@ const Home = async () => {
                 className="relative group"
               >
                 <img
-                  src={`http://16.171.239.43:5000/files/${card.imageUrl}`}
+                  src={`https://api.enkubeauty.com/files/${card.imageUrl}`}
                   alt="AI Beauty Assistant"
                   className="w-full h-auto object-cover rounded-lg transition-transform transform"
                 />
@@ -102,7 +102,7 @@ const Home = async () => {
             className="relative w-full rounded-lg border-2 mb-4"
           >
             <img
-              src={`http://16.171.239.43:5000/files/${discounts[0].image}`}
+              src={`https://api.enkubeauty.com/files/${discounts[0].image}`}
               alt=""
               className="w-full rounded-lg transition-transform transform"
               style={{ maxHeight: "20px" }}
