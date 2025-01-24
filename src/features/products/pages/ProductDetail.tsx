@@ -44,14 +44,15 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
   };
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
-  const title = product?.variations[selectedVariant].title;
+  const title = product?.name;
 
 
   useEffect(() => {
+    document.title = product?.name || "Product Detail";
       if (isSaveCartSuccess) {
           Notify("success", "Product added to Cart");
       }
-  }, [isSaveCartSuccess]);
+  }, [isSaveCartSuccess, product?.name]);
 
   // Function to open share modal
   const openShareModal = () => {
