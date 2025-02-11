@@ -1,10 +1,15 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react'
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel"
-import { Button } from './ui/button'
-import { ChevronLeft, ChevronRight } from 'lucide-react' // Arrow icons
-import { fetchTips } from '@/utils/fetchData'
+import { useEffect, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { Button } from "./ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react"; // Arrow icons
+import { fetchTips } from "@/utils/fetchData";
 
 interface Tip {
   id: number;
@@ -22,51 +27,47 @@ interface CustomCarouselProps {
   tips: Tip[]; //
 }
 
-const CustomCarousel: React.FC<CustomCarouselProps> = ({ visibleItems,tips }) => {
-  const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
-
-
+const CustomCarousel: React.FC<CustomCarouselProps> = ({
+  visibleItems,
+  tips,
+}) => {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (!api) return
-    
-    setCurrent(api.selectedScrollSnap())
+    if (!api) return;
+
+    setCurrent(api.selectedScrollSnap());
 
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap())
-    })
-   
-    
-  }, [api])
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   // Calculate item width based on how many items you want to show fully.
-  const itemWidth = 100 / visibleItems // percentage width based on visible items
-
-
+  const itemWidth = 100 / visibleItems; // percentage width based on visible items
 
   return (
     <div className="relative w-full mx-auto overflow-hidden">
       <Carousel setApi={setApi} opts={{ loop: true }} className="w-full">
-      <CarouselContent className="flex justify-start">
-  {Array.from({ length: visibleItems }).map((_, index) => (
-    <CarouselItem
-      key={index}
-      className={`flex-shrink-0 w-full md:max-w-[30%] transition-transform transform`}
-    >
-      <div className="group">
-        <img
-          src={`http://16.171.239.43:5000/files/${tips[index].content}`}
-          alt={`Banner ${index + 1}`}
-          className="w-full h-auto object-cover rounded-lg"
-        />
-      </div>
-    </CarouselItem>
-  ))}
-</CarouselContent>
-
+        <CarouselContent className="flex justify-start">
+          {Array.from({ length: visibleItems }).map((_, index) => (
+            <CarouselItem
+              key={index}
+              className={`flex-shrink-0 w-full md:max-w-[30%] transition-transform transform`}
+            >
+              <div className="group">
+                <img
+                  src={`https://api.enkubeauty.com/files/${tips[index].content}`}
+                  alt={`Banner ${index + 1}`}
+                  className="w-full h-auto object-cover rounded-lg"
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
       </Carousel>
-      
+
       {/* Previous Button */}
       <Button
         onClick={() => api?.scrollTo(current - 1)}
@@ -83,7 +84,7 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({ visibleItems,tips }) =>
         <ChevronRight />
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default CustomCarousel
+export default CustomCarousel;

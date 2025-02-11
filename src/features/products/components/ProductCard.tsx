@@ -7,10 +7,20 @@ import Link from "next/link";
 import useCart from "@/features/cart/hooks/useCart";
 import CustomButton from "@/components/Button";
 import { useRouter } from "next/navigation";
-
+import { Notify } from "@/lib/Notification/notify";
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const router = useRouter();
-  const { addToCart, isSaveCartLoading } = useCart();
+  const { addToCart, isSaveCartLoading , isSaveCartError , isSaveCartSuccess } = useCart();
+  
+
+  if (isSaveCartSuccess) {
+    Notify("success", "Product added to Cart");
+  }
+
+  if (isSaveCartError) {
+    console.log(isSaveCartError)
+    Notify( "error", "Failed to add product to cart. Please try again.");
+  }
   const [clickedButton, setClickedButton] = useState<string | null>(null)
 
   const buyNow = async (p: Product) => {
@@ -63,7 +73,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
           variant="primary"
           onClick={() => {
             setClickedButton("Add")
-            addToCart({ productId: product.id, variationId: "1", quantity: 1 });
+            addToCart({ productId: product.id, variationId: product.variations.length > 0 ? product.variations[0].id : "", quantity: 1 });
           }}
           isLoading={isSaveCartLoading && clickedButton === "Add"}
           className="w-full flex items-center"

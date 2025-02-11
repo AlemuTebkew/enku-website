@@ -23,44 +23,46 @@ import {
   WhatsappIcon,
   TelegramShareButton,
   TelegramIcon,
-} from 'next-share';
+} from "next-share";
 
-import { FaShare } from 'react-icons/fa';
+import { FaShare } from "react-icons/fa";
 
 const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
   const router = useRouter();
 
   const { addToCart, isSaveCartLoading, isSaveCartSuccess, isSaveCartError } =
-      useCart();
+    useCart();
   const [selectedImage, setSelectedImage] = useState<number>(0);
   const [value, setValue] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState<number>(0);
-  const [clickedButton, setClickedButton] = useState<string | null>(null)
+  const [clickedButton, setClickedButton] = useState<string | null>(null);
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-      setValue(newValue);
+    setValue(newValue);
   };
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const shareUrl = typeof window !== "undefined" ? window.location.href : "";
   const title = product?.name;
-
 
   useEffect(() => {
     document.title = product?.name || "Product Detail";
-      if (isSaveCartSuccess) {
-          Notify("success", "Product added to Cart");
-      }
+    if (isSaveCartSuccess) {
+      console.log("added");
+      Notify("success", "Product added to Cart");
+    } else {
+      console.log(isSaveCartError, "no");
+    }
   }, [isSaveCartSuccess, product?.name]);
 
   // Function to open share modal
   const openShareModal = () => {
-      setIsShareModalOpen(true);
+    setIsShareModalOpen(true);
   };
   // Function to close share modal
   const closeShareModal = () => {
-      setIsShareModalOpen(false);
+    setIsShareModalOpen(false);
   };
 
   return (
@@ -144,13 +146,16 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                 {/* product variant section */}
                 <div className="col-span-3 relative my-0 lg:mt-0 lg:mb-0">
                   <div className="mx-4 flex flex-col gap-2 lg:ml-8">
-                  <div className="flex justify-between">
+                    <div className="flex justify-between">
                       <p className="text-lg font-medium lg:text-xl lg:font-medium lg:leading-relaxed">
-                            {product?.variations[selectedVariant].title}
+                        {product?.variations[selectedVariant].title}
                       </p>
-                        <button onClick={openShareModal} className="cursor-pointer">
-                          <FaShare  />
-                        </button>
+                      <button
+                        onClick={openShareModal}
+                        className="cursor-pointer"
+                      >
+                        <FaShare />
+                      </button>
                     </div>
                     <p className="text-2xl font-semibold lg:text-xl lg:font-medium">{`ETB ${product?.variations[selectedVariant].price}`}</p>
                     <p className="hidden lg:block mt-2">Size</p>
@@ -301,7 +306,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                         variant={"outline"}
                         className=""
                         onClick={() => {
-                          setClickedButton("Buy")
+                          setClickedButton("Buy");
                           addToCart({
                             productId: product.id,
                             variationId: product.variations[selectedVariant].id,
@@ -318,12 +323,12 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                       <CustomButton
                         variant="primary"
                         onClick={() => {
-                          setClickedButton("Add")
+                          setClickedButton("Add");
                           addToCart({
                             productId: product.id,
                             variationId: product.variations[selectedVariant].id,
                             quantity: 1,
-                          })
+                          });
                         }}
                         isLoading={isSaveCartLoading && clickedButton === "Add"}
                         className="w-min my-4 lg:flex"
@@ -435,7 +440,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                   <div className="relative w-full h-64 mx-10 px-10">
                     {product?.variations[selectedVariant].images.length > 0 && (
                       <img
-                        src={`http://16.171.239.43:5000/files/${product.variations[selectedVariant].images[0].url}`}
+                        src={`https://api.enkubeauty.com/files/${product.variations[selectedVariant].images[0].url}`}
                         alt={product.name}
                       />
                     )}
@@ -447,13 +452,13 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                   <CustomButton
                     variant="primary"
                     onClick={() => {
-                      setClickedButton("Add")
+                      setClickedButton("Add");
                       addToCart({
                         productId: product.id,
                         variationId: product.variations[selectedVariant].id,
                         quantity: 1,
-                      })
-                    }} 
+                      });
+                    }}
                     isLoading={isSaveCartLoading && clickedButton === "Add"}
                     className="w-min"
                   >
@@ -487,7 +492,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                 isLoading={isSaveCartLoading && clickedButton === "Buy"}
                 className="flex-1 h-auto"
                 onClick={() => {
-                  setClickedButton("Buy")
+                  setClickedButton("Buy");
                   addToCart({
                     productId: product.id,
                     variationId: product.variations[selectedVariant].id,
@@ -502,13 +507,13 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
               </CustomButton>
               <CustomButton
                 variant="primary"
-                onClick={() =>{
-                  setClickedButton("Add")
+                onClick={() => {
+                  setClickedButton("Add");
                   addToCart({
                     productId: product.id,
                     variationId: product.variations[selectedVariant].id,
                     quantity: 1,
-                  })
+                  });
                 }}
                 isLoading={isSaveCartLoading && clickedButton === "Add"}
                 className="flex-1 h-auto"
@@ -536,27 +541,32 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
           </div>
           {/* Share Modal */}
           {isShareModalOpen && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                            <div className="bg-white p-8 rounded-lg flex flex-col items-center gap-4">
-                                <p className="font-semibold text-lg">Share this product</p>
-                                <div className="flex gap-4">
-                                    <FacebookShareButton url={shareUrl} quote={title}>
-                                        <FacebookIcon size={40} round />
-                                    </FacebookShareButton>
-                                    <TwitterShareButton url={shareUrl} title={title}>
-                                        <TwitterIcon size={40} round />
-                                    </TwitterShareButton>
-                                    <WhatsappShareButton url={shareUrl} title={title}>
-                                        <WhatsappIcon size={40} round />
-                                    </WhatsappShareButton>
-                                    <TelegramShareButton url={shareUrl} title={title}>
-                                        <TelegramIcon size={40} round />
-                                    </TelegramShareButton>
-                                </div>
-                            <button className="mt-4 bg-gray-200 px-4 py-2 rounded"  onClick={closeShareModal}>Close</button>
-                    </div>
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+              <div className="bg-white p-8 rounded-lg flex flex-col items-center gap-4">
+                <p className="font-semibold text-lg">Share this product</p>
+                <div className="flex gap-4">
+                  <FacebookShareButton url={shareUrl} quote={title}>
+                    <FacebookIcon size={40} round />
+                  </FacebookShareButton>
+                  <TwitterShareButton url={shareUrl} title={title}>
+                    <TwitterIcon size={40} round />
+                  </TwitterShareButton>
+                  <WhatsappShareButton url={shareUrl} title={title}>
+                    <WhatsappIcon size={40} round />
+                  </WhatsappShareButton>
+                  <TelegramShareButton url={shareUrl} title={title}>
+                    <TelegramIcon size={40} round />
+                  </TelegramShareButton>
                 </div>
-            )}
+                <button
+                  className="mt-4 bg-gray-200 px-4 py-2 rounded"
+                  onClick={closeShareModal}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </Suspense>
