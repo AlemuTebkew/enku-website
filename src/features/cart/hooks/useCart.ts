@@ -19,7 +19,16 @@ export const useCart = () => {
   const [updateQuantity, {isLoading: isUpdateQuantityLoading, isError: isUpdateQuantityError, isSuccess: isUpdateQuantitySuccess}] = useUpdateQuantityMutation()
 
   const addToCart = async (item: AddCartItemModel) => {
-    await saveCart({ sessionId, userId:token?? null, cart: item });
+    try {
+      const response = await saveCart({ sessionId, userId: token ?? null, cart: item });
+      if ('data' in response) {
+        console.log('Item added to cart successfully!');
+      } else if ('error' in response) {
+        console.log(response , 'Failed to add item to cart.');
+      }
+    } catch (error) {
+      console.log(error , 'An error occurred while adding the item to the cart.');
+    }
   };
 
   const deleteCart = (itemId: string) => {

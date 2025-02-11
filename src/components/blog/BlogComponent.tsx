@@ -17,17 +17,19 @@ interface SingleBlogProps {
 
 const SingleBlog: React.FC<SingleBlogProps> = ({ post }) => {
   return (
-    <div className="bg-white shadow-md rounded-md overflow-hidden">
+    <div className="bg-white shadow-md rounded-md overflow-hidden" >
+      <div className="cursor-pointer" onClick={() => window.location.href = `/blogs/${post.id}`}>
       {post.type === "video" ? (
-        <VideoRenderer content={post.content} title={post.title} width={500} height={200} />
+      <VideoRenderer content={post.content} title={post.title} width={500} height={200} />
       ) : (
-        <ImageRenderer content={post.content} title={post.title} width={500} height={200}/>
+      <ImageRenderer content={post.content} title={post.title} width={500} height={200}/>
       )}
+      </div>
       <div className="p-4">
-        <h2 className="text-xl font-bold mb-2">{post.title}</h2>
-        <Link href={`/blogs/${post.id}`} className="text-blue-500 hover:underline">
-          Read more
-        </Link>
+      <h2 className="text-xl font-bold mb-2">{post.title}</h2>
+      <Link href={`/blogs/${post.id}`} className="text-blue-500 hover:underline">
+        Read more
+      </Link>
       </div>
     </div>
   );
