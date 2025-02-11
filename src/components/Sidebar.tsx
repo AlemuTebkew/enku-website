@@ -60,8 +60,8 @@ const Sidebar = ({ isOpen, setIsOpen,categories }: SidebarProps) => {
              />
           </Tabs>
         </Box>
-        <div className='h-screen overflow-y-auto pr-2' style={{ maxHeight: 'calc(100vh - 120px)'}}>
-            <Accordion type="multiple" className='px-4'>
+        <div className='h-screen overflow-y-auto pr-2 px-4' style={{ maxHeight: 'calc(100vh - 120px)'}}>
+            <Accordion type="multiple" >
               {categories.map((category) => (
               <AccordionItem key={category.id} value={category.id}>
                   <AccordionTrigger><Link onClick={() => setIsOpen(false)} className='hover:text-primaryT' href={`/products?category=${category.name}&&categoryId=${category.id}`}><p>{category.name}</p></Link></AccordionTrigger>
@@ -88,6 +88,9 @@ const Sidebar = ({ isOpen, setIsOpen,categories }: SidebarProps) => {
                 </AccordionItem>
               ))}
             </Accordion>
+            <Link className="hover:text-primaryT" href={`/blogs`}>
+                <h4 className="">Blog</h4>
+              </Link>
         </div>
       </Box>
       </nav>
