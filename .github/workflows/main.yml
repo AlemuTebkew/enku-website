@@ -20,7 +20,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: SSH into Hulu AWS Server
+      - name: SSH into Pixel AWS Server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.PIXEL_ADDIS_AWS_HOST }}
