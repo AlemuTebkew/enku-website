@@ -33,7 +33,7 @@ const OrderItem: React.FC<CartItemProps> = ({
   return (
     <div className="flex items-center p-4 bg-white rounded-lg shadow-md mb-4">
       <img
-        src={`https://api.enkubeauty.com/files/${item.variation.images[0].url}`}
+        src={`http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/files/${item.variation.images[0].url}`}
         alt={item.variation.title}
         className="w-24 h-24 object-cover rounded-md"
       />
