@@ -91,7 +91,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                               onClick={() => setSelectedImage(index)}
                             >
                               <img
-                                src={`https://api.enkubeauty.com/files/${image.url}`}
+                                src={`http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/files/${image.url}`}
                                 className="h-[50px] w-auto"
                                 alt=""
                               />
@@ -105,7 +105,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                         {product?.variations[selectedVariant].images.length >
                           0 && (
                           <img
-                            src={`https://api.enkubeauty.com/files/${product?.variations[selectedVariant].images[selectedImage].url}`}
+                            src={`http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/files/${product?.variations[selectedVariant].images[selectedImage].url}`}
                             className="w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-125"
                             alt=""
                           />
@@ -126,7 +126,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                             (image, index) => (
                               <div key={index} className="mb-14 mx-10">
                                 <img
-                                  src={`https://api.enkubeauty.com/files/${image.url}`}
+                                  src={`http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/files/${image.url}`}
                                   className="w-full h-auto object-cover"
                                   alt=""
                                 />
@@ -440,7 +440,7 @@ const ProductDetail: React.FC<{ product: Product }> = ({ product }) => {
                   <div className="relative w-full h-64 mx-10 px-10">
                     {product?.variations[selectedVariant].images.length > 0 && (
                       <img
-                        src={`https://api.enkubeauty.com/files/${product.variations[selectedVariant].images[0].url}`}
+                        src={`http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/files/${product.variations[selectedVariant].images[0].url}`}
                         alt={product.name}
                       />
                     )}
