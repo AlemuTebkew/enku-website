@@ -54,7 +54,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
         <div className="relative w-20 h-20">
           {item.variation && item.variation.images.length > 0 ? (
             <img
-              src={`https://api.enkubeauty.com/files/${item.variation.images[0].url}`}
+              src={`http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/files/${item.variation.images[0].url}`}
               alt={item.variation.title}
             />
           ) : (
