@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/r
 import { RootState } from './app-store';
 
 // Define a base query function
-const baseQuery: BaseQueryFn = fetchBaseQuery({ baseUrl: 'https://api.enkubeauty.com/user'});
+const baseQuery: BaseQueryFn = fetchBaseQuery({ baseUrl: 'http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/user'});
 
 // Define a function to create an API with dynamic endpoints
 const createAppApi = () => {
