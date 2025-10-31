@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { buildApiUrl } from "@/utils/apiBase";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
@@ -29,7 +30,7 @@ const ProfilePage = () => {
     const fetchCustomerData = async () => {
       try {
         const response = await axios.get(
-          "http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/user/auth/me/" + userId
+          buildApiUrl("/user/auth/me/" + userId)
         );
 
         // Adjust the endpoint as necessary
@@ -57,7 +58,7 @@ const ProfilePage = () => {
 
     try {
       const response = await axios.put(
-        "http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/user/auth/me/" + userId,
+        buildApiUrl("/user/auth/me/" + userId),
         { ...customer }
       );
       if (response.status === 200) {

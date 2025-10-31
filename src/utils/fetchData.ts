@@ -1,13 +1,12 @@
 // utils/apiUtils.ts
-// const BASE_URL = 'http://localhost:5000';
-const BASE_URL = "http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000";
+import { buildApiUrl } from './apiBase';
 
 async function fetchData(
   url: string,
   options: RequestInit = { cache: "no-store" }
 ) {
   try {
-    const res = await fetch(`${BASE_URL}${url}`, options);
+    const res = await fetch(`${buildApiUrl(url)}`, options);
     if (!res.ok) {
       throw new Error(`Failed to fetch data from ${url}`);
     }
@@ -23,7 +22,7 @@ async function fetchPaginatedData(
   options: RequestInit = { cache: "no-store" }
 ) {
   try {
-    const res = await fetch(`${BASE_URL}${url}`, options);
+    const res = await fetch(`${buildApiUrl(url)}`, options);
     if (!res.ok) {
       throw new Error(`Failed to fetch data from ${url}`);
     }

@@ -8,6 +8,7 @@ import useCart from "@/features/cart/hooks/useCart";
 import CustomButton from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { Notify } from "@/lib/Notification/notify";
+import { buildFileUrl } from "@/utils/apiBase";
 const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const router = useRouter();
   const { addToCart, isSaveCartLoading , isSaveCartError , isSaveCartSuccess } = useCart();
@@ -38,7 +39,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
         <Link href={`/products/${product.id}`}>
           <div className="relative flex flex-col items-center w-full gap-4">
             <img
-              src={`http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/files/${product.imageUrl}`}
+              src={buildFileUrl(product.imageUrl)}
               width={200}
               height={200} // Adjusted height for better display
               alt={product.name} // Added alt text for better accessibility

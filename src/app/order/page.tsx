@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { buildApiUrl } from "@/utils/apiBase";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/features/auth/hooks/useAuth";
@@ -49,7 +50,7 @@ const OrderHistory: React.FC = () => {
       try {
         const token = localStorage.getItem("token"); // Retrieve the token from local storage
         const response = await axios.get(
-          "http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/user/orders",
+          buildApiUrl("/user/orders"),
           {
             headers: {
               Authorization: `Bearer ${token}`, // Add the Bearer token to the headers

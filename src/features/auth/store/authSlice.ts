@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authApi, AuthResponse, LoginRequest } from "../api/authApi";
 import axios from "axios";
+import { buildApiUrl } from "@/utils/apiBase";
 import {
   generateSessionId,
   getCurrentToken,
@@ -91,7 +92,7 @@ export function logIn(request: LoginRequest) {
       console.log("Phone number:", request.loginInfo?.phoneNumber);
       console.log("Session ID:", request.sessionId);
       const response = await axios.post(
-        "http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/user/auth/login",
+        buildApiUrl("/user/auth/login"),
         { phoneNumber: request.loginInfo.phoneNumber },
         {
           headers: {

@@ -1,5 +1,6 @@
 // components/ImageRenderer.tsx
 import Image from "next/image";
+import { buildFileUrl } from "@/utils/apiBase";
 
 interface ImageRendererProps {
   content: string;
@@ -25,7 +26,7 @@ const ImageRenderer: React.FC<ImageRendererProps> = ({
     // />
 
     <img
-      src={`http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/files/${content}`}
+      src={buildFileUrl(content)}
       alt={title}
       width={width} // Use the width prop
       height={height} // Use the height prop

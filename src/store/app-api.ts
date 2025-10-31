@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 import { RootState } from './app-store';
+import { API_BASE_URL } from '@/utils/apiBase';
 
 // Define a base query function
-const baseQuery: BaseQueryFn = fetchBaseQuery({ baseUrl: 'http://ec2-13-60-253-93.eu-north-1.compute.amazonaws.com:5000/user'});
+const baseQuery: BaseQueryFn = fetchBaseQuery({ baseUrl: API_BASE_URL });
 
 // Define a function to create an API with dynamic endpoints
 const createAppApi = () => {
