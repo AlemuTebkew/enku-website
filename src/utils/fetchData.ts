@@ -104,6 +104,19 @@ export async function fetchProductDetail(id: string) {
   return fetchData(`/user/products/${id}`);
 }
 
+export async function fetchBestSellingProducts(limit: number = 10) {
+  // Fetch products - you may want to add a specific endpoint for best selling
+  // For now, we'll fetch all products and the backend/you can filter
+  const result = await fetchData(`/user/products?limit=${limit}&sort=popular`);
+  return result || [];
+}
+
+export async function fetchMostViewedProducts(limit: number = 10) {
+  // Fetch most viewed products
+  const result = await fetchData(`/user/products?limit=${limit}&sort=views`);
+  return result || [];
+}
+
 export async function search(searchString: string) {
   return fetchData(
     `/user/products/search?keyword=${encodeURIComponent(searchString)}`

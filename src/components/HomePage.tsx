@@ -19,10 +19,14 @@ import {
   fetchDiscounts,
   fetchTips,
   fetchVideos,
+  fetchBestSellingProducts,
+  fetchMostViewedProducts,
 } from "@/utils/fetchData";
 import YouTubeThumbnailCarousel from "./YouTubeThumbnailCarousel";
+import ProductCarousel from "./ProductCarousel";
 import { useEffect, useState } from "react";
 import { buildFileUrl } from "@/utils/apiBase";
+import { Product } from "@/models/product";
 
 type Card = {
   id: number;
@@ -45,25 +49,31 @@ interface Tip {
   updatedAt: string; // ISO date string
 }
 
-const Home = async () => {
+const Home = () => {
   const router = useRouter();
   const [cards, setCards] = useState<Card[]>([]);
   const [tips, setTips] = useState<Tip[]>([]);
   const [videos, setVideos] = useState<Tip[]>([]);
   const [discounts, setDiscounts] = useState<any[]>([]);
+  const [bestSellingProducts, setBestSellingProducts] = useState<Product[]>([]);
+  const [mostViewedProducts, setMostViewedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const [allCards, allTips, allVideos, allDiscounts] = await Promise.all([
+      const [allCards, allTips, allVideos, allDiscounts, bestSelling, mostViewed] = await Promise.all([
         fetchCards(),
         fetchTips(),
         fetchVideos(),
         fetchDiscounts(),
+        fetchBestSellingProducts(10),
+        fetchMostViewedProducts(10),
       ]);
       setCards(allCards || []);
       setTips(allTips || []);
       setVideos(allVideos || []);
       setDiscounts(allDiscounts || []);
+      setBestSellingProducts(bestSelling || []);
+      setMostViewedProducts(mostViewed || []);
     };
 
     fetchData();
@@ -111,6 +121,22 @@ const Home = async () => {
           </div>
         )}
       </section>
+
+      {/* Best Selling Products Section */}
+      {bestSellingProducts.length > 0 && (
+        <ProductCarousel 
+          products={bestSellingProducts} 
+          title="Best Selling Products"
+        />
+      )}
+
+      {/* Most Viewed Products Section */}
+      {mostViewedProducts.length > 0 && (
+        <ProductCarousel 
+          products={mostViewedProducts} 
+          title="Most Viewed"
+        />
+      )}
 
       <section className="py-10 bg-[#F3F4F6]">
         <div className="mx-auto container flex flex-col gap-8">
