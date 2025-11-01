@@ -6,14 +6,19 @@ async function fetchData(
   options: RequestInit = { cache: "no-store" }
 ) {
   try {
-    const res = await fetch(`${buildApiUrl(url)}`, options);
+    const fullUrl = buildApiUrl(url);
+    console.log('[fetchData] Making request to:', fullUrl);
+    const res = await fetch(fullUrl, options);
+    console.log('[fetchData] Response status:', res.status, res.statusText);
     if (!res.ok) {
       throw new Error(`Failed to fetch data from ${url}`);
     }
     const data = await res.json();
+    console.log('[fetchData] Response data:', data);
+    console.log('[fetchData] Returning data.data:', data.data);
     return data.data;
   } catch (error) {
-    console.error(`Error fetching data from ${url}:`, error);
+    console.error(`[fetchData] Error fetching data from ${url}:`, error);
     return null;
   }
 }
@@ -50,19 +55,49 @@ export async function fetchCategoriesAndBrands() {
 
 // utils/fetchProducts.ts
 export async function fetchProducts(searchParams: {
-  [key: string]: string | string[];
+  [key: string]: string | string[] | undefined;
 }) {
   const query = new URLSearchParams();
 
+  // Prioritize categoryId - it's the most reliable identifier
+  // Only include valid, non-empty parameters
   Object.entries(searchParams).forEach(([key, value]) => {
+    // Skip undefined, null, or empty values
+    if (!value) return;
+    
+    // Skip the 'category' parameter if we have categoryId (backend might prefer categoryId)
+    // But still include it if categoryId is not present
+    if (key === 'category' && searchParams.categoryId) {
+      return; // Skip category name if we have categoryId
+    }
+    
+    // Handle arrays
     if (Array.isArray(value)) {
-      value.forEach((v) => query.append(key, v));
-    } else {
-      query.append(key, value);
+      value.forEach((v) => {
+        if (v && typeof v === 'string' && v.trim()) {
+          // Clean up malformed values (remove trailing && or =)
+          const cleanValue = v.trim().replace(/[&=]+$/, '').replace(/\&\&/g, '&');
+          if (cleanValue) {
+            query.append(key, cleanValue);
+          }
+        }
+      });
+    } else if (typeof value === 'string' && value.trim()) {
+      // Clean up the value - remove extra &&, trailing =, and whitespace
+      const cleanValue = value.trim().replace(/[&=]+$/, '').replace(/\&\&/g, '&');
+      if (cleanValue) {
+        query.append(key, cleanValue);
+      }
     }
   });
 
-  return fetchData(`/user/products?${query.toString()}`);
+  const url = `/user/products?${query.toString()}`;
+  console.log('[fetchProducts] Fetching products from:', url);
+  console.log('[fetchProducts] Query params:', Object.fromEntries(query));
+  const result = await fetchData(url);
+  console.log('[fetchProducts] Products fetched:', result);
+  console.log('[fetchProducts] Products count:', result?.length);
+  return result || [];
 }
 
 export async function fetchProductDetail(id: string) {

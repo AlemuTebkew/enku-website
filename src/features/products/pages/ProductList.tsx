@@ -45,6 +45,10 @@ const ClientSideNavigateNextIcon = dynamic(
 
 // Define the main ProductList component
 const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
+  // DEBUG: Log products prop
+  console.log('[ProductList] Products prop received:', products);
+  console.log('[ProductList] Products count:', products?.length);
+  
   // State to track if the component has mounted on client
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
@@ -101,7 +105,15 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
   >(null);
   // Memoize the filtered products to prevent unnecessary re-renders
   const filteredProducts = useMemo(() => {
-    return isFilterApplied ? filteredProductsState || [] : products;
+    const result = isFilterApplied ? filteredProductsState || [] : products;
+    console.log('[ProductList] filteredProducts computed:', {
+      isFilterApplied,
+      filteredProductsStateLength: filteredProductsState?.length,
+      productsLength: products?.length,
+      resultLength: result?.length,
+      result
+    });
+    return result;
   }, [products, isFilterApplied, filteredProductsState, forceUpdate]);
 
   // Fetch filters when categoryId changes or at initial load
@@ -295,6 +307,13 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                 className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8"
                 key={forceUpdate}
               >
+                {/* DEBUG: Log rendering conditions */}
+                {console.log('[ProductList] Rendering conditions:', {
+                  isGetProductLoading,
+                  isFilterApplied,
+                  filteredProductsLength: filteredProducts?.length,
+                  hasProducts: filteredProducts && filteredProducts.length > 0
+                })}
                 {/* Show skeleton loader when products are loading */}
                 {isGetProductLoading && <SkeletonLoader />}
                 {/* Display products when no filter are applied */}
@@ -303,7 +322,7 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                   filteredProducts &&
                   filteredProducts.length > 0 &&
                   filteredProducts.map((product, index) => (
-                    <ProductCard key={index} product={product} />
+                    <ProductCard key={product.id || index} product={product} />
                   ))}
                 {/* Display the products when the filter is applied */}
                 {!isGetProductLoading &&
@@ -311,7 +330,7 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                   filteredProducts &&
                   filteredProducts.length > 0 &&
                   filteredProducts.map((product, index) => (
-                    <ProductCard key={index} product={product} />
+                    <ProductCard key={product.id || index} product={product} />
                   ))}
                 {/* Display no products found component when no product available  */}
               </div>

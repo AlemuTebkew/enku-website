@@ -30,7 +30,7 @@ export const productApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
         getFilterByCategoryId: builder.query<FilterModel[], string>({
             query: (params) => ({
-                url: params,
+                url: params.startsWith('/') ? params : `/${params}`, // Ensure path starts with /
                 method: 'GET',
             }),
             transformResponse: (response: FetchFilterResponse) => response.data,
