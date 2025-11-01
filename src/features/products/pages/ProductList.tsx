@@ -307,13 +307,6 @@ const ProductList: React.FC<{ products: Product[] }> = ({ products }) => {
                 className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8"
                 key={forceUpdate}
               >
-                {/* DEBUG: Log rendering conditions */}
-                {console.log('[ProductList] Rendering conditions:', {
-                  isGetProductLoading,
-                  isFilterApplied,
-                  filteredProductsLength: filteredProducts?.length,
-                  hasProducts: filteredProducts && filteredProducts.length > 0
-                })}
                 {/* Show skeleton loader when products are loading */}
                 {isGetProductLoading && <SkeletonLoader />}
                 {/* Display products when no filter are applied */}
