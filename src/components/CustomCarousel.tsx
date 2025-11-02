@@ -10,6 +10,7 @@ import {
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Arrow icons
 import { fetchTips } from "@/utils/fetchData";
+import { buildFileUrl } from "@/utils/apiBase";
 
 interface Tip {
   id: number;
@@ -44,24 +45,35 @@ const CustomCarousel: React.FC<CustomCarouselProps> = ({
     });
   }, [api]);
 
-  // Calculate item width based on how many items you want to show fully.
-  const itemWidth = 100 / visibleItems; // percentage width based on visible items
+  // Don't render if no tips
+  if (!tips || tips.length === 0) {
+    return null;
+  }
+
+  // Use actual tips array length, not visibleItems
+  const tipsToShow = tips.slice(0, Math.min(visibleItems, tips.length));
 
   return (
     <div className="relative w-full mx-auto overflow-hidden">
       <Carousel setApi={setApi} opts={{ loop: true }} className="w-full">
         <CarouselContent className="flex justify-start">
-          {Array.from({ length: visibleItems }).map((_, index) => (
+          {tipsToShow.map((tip, index) => (
             <CarouselItem
-              key={index}
+              key={tip.id || index}
               className={`flex-shrink-0 w-full md:max-w-[30%] transition-transform transform`}
             >
               <div className="group">
-                <img
-                  src={`https://api.enkubeauty.com/files/${tips[index].content}`}
-                  alt={`Banner ${index + 1}`}
-                  className="w-full h-auto object-cover rounded-lg"
-                />
+                {tip.content ? (
+                  <img
+                    src={buildFileUrl(tip.content)}
+                    alt={tip.title || `Tip ${index + 1}`}
+                    className="w-full h-auto object-cover rounded-lg"
+                  />
+                ) : (
+                  <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <p className="text-gray-500">No image</p>
+                  </div>
+                )}
               </div>
             </CarouselItem>
           ))}
