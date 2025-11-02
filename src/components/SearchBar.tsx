@@ -56,7 +56,7 @@ export default function SearchBar(): JSX.Element {
             </IconButton>
             <InputBase
               className="w-full ml-1 flexGrow-1"
-              placeholder="Search on Enku"
+              placeholder="Search Products"
               onFocus={() => setIsFocused(true)} // Show dropdown when focused
               onBlur={handleBlur} // Hide dropdown when focus is lost
               onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>) => {

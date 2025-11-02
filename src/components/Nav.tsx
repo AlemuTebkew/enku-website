@@ -92,7 +92,7 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
             <div className='flex items-center gap-10 relative z-50'>
               <div className='w-16'>
               <Image 
-                  src='/logo/logo_primary.png' 
+                  src='/logo/pixel-logo.png' 
                   alt='Logo'
                   width={64} // specify width
                   height={64} // specify height
@@ -292,7 +292,7 @@ const Nav: React.FC<NavProps> = ({ categories }) => {
           <Link className='z-50' href={"/"}>
             <div className='w-[72px]'>
             <Image 
-                src='/logo/logo_primary.png'  // Use absolute path
+                src='/logo/pixel-logo.png'  // Use absolute path
                 alt='Logo'
                 width={72} // specify width
                 height={72} // specify height

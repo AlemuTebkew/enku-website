@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: "Your trusted online marketplace for quality products. Discover electronics, accessories, and more with excellent customer service and fast delivery. Shop conveniently from home.",
     images: [
       {
-        url: "/logo/logo_primary.png",
+        url: "/logo/pixel-logo.png",
         width: 800,
         height: 600,
         alt: "Pixel Ecommerce",

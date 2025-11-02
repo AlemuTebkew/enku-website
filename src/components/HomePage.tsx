@@ -142,7 +142,7 @@ const Home = () => {
         <div className="mx-auto container flex flex-col gap-8">
           <div className="flex flex-col gap-4">
             <div>
-              <h3 className="text-2xl font-semibold">Beauty Tips:</h3>
+              <h3 className="text-2xl font-semibold">Featured Tips:</h3>
               <p>Today&apos;s featured tips</p>
             </div>
             <Separator className="bg-black/10 font-bold" />
@@ -156,9 +156,9 @@ const Home = () => {
       <section className="container mx-auto py-10 flex flex-col gap-2">
         {/* Section Title */}
         <div className="mb-8">
-          <h2 className="text-2xl font-semibold">Discover Beauty Hacks</h2>
+          <h2 className="text-2xl font-semibold">Discover Tips & Tutorials</h2>
           <p className="mt-2">
-            Explore beauty hacks and tutorials from our YouTube channel.
+            Explore helpful tips and tutorials from our YouTube channel.
           </p>
         </div>
         <YouTubeThumbnailCarousel
@@ -168,7 +168,7 @@ const Home = () => {
         {/* Call to Action */}
         <div className="text-center w-min self-center mt-4">
           <Link href="/blogs">
-            <Button className="">Watch More Beauty Hacks</Button>
+            <Button className="">Watch More Videos</Button>
           </Link>
         </div>
       </section>
@@ -176,10 +176,10 @@ const Home = () => {
       <section className="bg-gray-100 py-10">
         <div className="container mx-auto text-center">
           {/* Section Title */}
-          <h2 className="text-3xl font-bold mb-6">Join Our Beauty Community</h2>
+          <h2 className="text-3xl font-bold mb-6">Join Our Community</h2>
           <p className="text-gray-600 mb-8">
-            Follow us on social media to stay updated with the latest beauty
-            tips, tutorials, and more.
+            Follow us on social media to stay updated with the latest products,
+            deals, and updates.
           </p>
 
           {/* Social Media Icons */}
@@ -254,7 +254,7 @@ const Home = () => {
             <h3 className="text-lg font-bold mb-4">Join Our Community</h3>
             <p className="text-white text-sm mb-4">
               Connect with us on social media to stay updated with the latest
-              beauty tips and trends.
+              products, deals, and trends.
             </p>
             <div className="flex space-x-4">
               <a
@@ -303,11 +303,11 @@ const Home = () => {
           {/* Join Telegram Section */}
           <div>
             <h3 className="text-lg font-bold mb-4">
-              Get Exclusive Beauty Updates
+              Get Exclusive Updates
             </h3>
             <p className="text-white text-sm mb-4">
-              Join our Telegram community for the latest beauty hacks, tips, and
-              product updates.
+              Join our Telegram community for the latest product launches, deals, and
+              updates.
             </p>
             <a
               href="https://t.me/enku_beauty"
