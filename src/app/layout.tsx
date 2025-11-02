@@ -21,6 +21,14 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Pixel Ecommerce",
   description: "Your trusted online marketplace for quality products. Discover electronics, accessories, and more with excellent customer service and fast delivery. Shop conveniently from home.",
+  icons: {
+    icon: [
+      { url: "/logo/pixel-logo.png", type: "image/png" },
+      { url: "/favicon.ico", type: "image/x-icon" },
+    ],
+    shortcut: "/logo/pixel-logo.png",
+    apple: "/logo/pixel-logo.png",
+  },
   openGraph: {
     title: "Pixel Ecommerce",
     description: "Your trusted online marketplace for quality products. Discover electronics, accessories, and more with excellent customer service and fast delivery. Shop conveniently from home.",
@@ -42,8 +50,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let categories = [];
-  let brands = [];
+  let categories: any[] = [];
+  let brands: any[] = [];
   try {
     const result = await fetchCategoriesAndBrands();
     
