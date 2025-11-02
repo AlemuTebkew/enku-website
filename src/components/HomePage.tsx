@@ -245,10 +245,9 @@ const Home = () => {
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* About Section */}
           <div>
-            <h3 className="text-lg font-bold mb-4">About Enku Beauty</h3>
+            <h3 className="text-lg font-bold mb-4">About Pixel Ecommerce</h3>
             <p className="text-white text-sm">
-              Enku Beauty is your ultimate destination for beauty education and
-              AI-powered services. Explore tips, tutorials, and more.
+              Pixel Ecommerce is your trusted online marketplace offering a wide range of quality products including electronics, accessories, and more. Shop with confidence and enjoy excellent service.
             </p>
           </div>
           <div>
@@ -325,7 +324,7 @@ const Home = () => {
 
         {/* Footer Bottom */}
         <div className="mt-10 border-t border-white pt-6 text-center text-white text-sm">
-          © {new Date().getFullYear()} Enku Beauty. All rights reserved.
+          © {new Date().getFullYear()} Pixel Ecommerce. All rights reserved.
         </div>
       </footer>
     </main>

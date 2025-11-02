@@ -10,7 +10,7 @@
     --card-foreground: #333333; /* Dark gray for card text */
     --popover: #FFFFFF; /* White popover background */
     --popover-foreground: #333333; /* Dark gray for popover text */
-    --primary: #EA0A8C; /* Enku Beauty primary pink */
+    --primary: #EA0A8C; /* Pixel Ecommerce primary pink */
     /* --primary: #a2307281; */
     --primary-foreground: #FFFFFF; /* White text on primary color */
     --secondary: #512E87; /* Light pink as secondary background */
@@ -47,11 +47,11 @@
 
 .carousel .control-dots .dot.selected,
 .carousel .control-dots .dot:hover {
-  background-color: #FC2779; /* Enku Beauty primary color */
+  background-color: #FC2779; /* Pixel Ecommerce primary color */
 }
 
 .carousel .carousel-status {
-  color: #FC2779; /* Enku Beauty primary color for status text */
+  color: #FC2779; /* Pixel Ecommerce primary color for status text */
 }
 
 .carousel .control-arrow {

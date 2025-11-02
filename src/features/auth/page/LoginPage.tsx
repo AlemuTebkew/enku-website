@@ -73,7 +73,7 @@ const LoginPage = () => {
         <div className="bg-white shadow-md rounded-lg w-full max-w-md p-8">
             
             <h2 className="text-2xl font-bold text-pink-600 text-center mb-6">Login / Create Account</h2>
-            <p className="text-center text-gray-600 mb-4">Register now and get <b>1000 Enku Beauty reward points instantly!</b></p>
+            <p className="text-center text-gray-600 mb-4">Register now and get <b>1000 Pixel Ecommerce reward points instantly!</b></p>
             
             <Form {...form}>
               <form

@@ -8,9 +8,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
           {/* Company info */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Enku Beauty</h3>
+            <h3 className="text-xl font-semibold mb-4">Pixel Ecommerce</h3>
             <p className="mb-4">
-              Empowering beauty through innovative products and personalized recommendations. Enku Beauty celebrates diversity and beauty for all.
+              Your trusted online marketplace for quality products. Discover a wide range of electronics, accessories, and more with excellent customer service and fast delivery.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ const Footer = () => {
 
         {/* Footer bottom */}
         <div className="mt-10 text-center border-t border-pink-400 pt-6">
-          <p className="text-sm">&copy; 2024 Enku Beauty. All rights reserved.</p>
+          <p className="text-sm">&copy; 2024 Pixel Ecommerce. All rights reserved.</p>
         </div>
       </div>
     </footer>

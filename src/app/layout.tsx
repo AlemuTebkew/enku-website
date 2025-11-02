@@ -19,17 +19,17 @@ import SkeletonFilterProductList from "@/features/products/components/SkeletonPr
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Enku Beauty",
-  description: "Discover premium beauty products from the USA and Europe, now available in Ethiopia! Our carefully curated collection caters to your skincare, haircare, and cosmetic needs, bringing you the best the world has to offer. Shop conveniently from home and have",
+  title: "Pixel Ecommerce",
+  description: "Your trusted online marketplace for quality products. Discover electronics, accessories, and more with excellent customer service and fast delivery. Shop conveniently from home.",
   openGraph: {
-    title: "Enku Beauty",
-    description: "Discover premium beauty products from the USA and Europe, now available in Ethiopia! Our carefully curated collection caters to your skincare, haircare, and cosmetic needs, bringing you the best the world has to offer. Shop conveniently from home and have",
+    title: "Pixel Ecommerce",
+    description: "Your trusted online marketplace for quality products. Discover electronics, accessories, and more with excellent customer service and fast delivery. Shop conveniently from home.",
     images: [
       {
         url: "/logo/logo_primary.png",
         width: 800,
         height: 600,
-        alt: "Enku Beauty",
+        alt: "Pixel Ecommerce",
       },
     ],
   },
